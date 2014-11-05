@@ -4,6 +4,6 @@
 public class Menue {
     public static void main(String[] args) {
         System.out.println("Test der Git Verbindung");
-
+	System.out.println("push-test");
     }
 }
