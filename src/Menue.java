@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class Menue extends JFrame {
 
     private JButton spielStarten;
-    private JButton spielLaden;
     private JButton hilfe;
     private JButton beenden;
     private JPanel panelButton;
@@ -28,7 +27,6 @@ public class Menue extends JFrame {
 
         // Buttons erzeugen
         spielStarten = new JButton("Spiel starten");
-        spielLaden = new JButton("Spiel laden");
         hilfe = new JButton("Hilfe");
         beenden = new JButton("Beenden");
 
@@ -37,7 +35,6 @@ public class Menue extends JFrame {
 
         // Buttons auf panel packen
         panelButton.add(spielStarten);
-        panelButton.add(spielLaden);
         panelButton.add(hilfe);
         panelButton.add(beenden);
 
