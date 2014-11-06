@@ -1,7 +1,3 @@
-/**
- * Created by Dennis on 30.10.2014.
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
