@@ -1,3 +1,4 @@
+/*
 
 public class Spielfeld {
 	public int[10][10] spielfeld;
@@ -33,17 +34,19 @@ public class Spielfeld {
 	
 	public void spielfeldSpeichern() {
 		// Noch uberlegen wie wir das speichern
-		/*	
+		*/
+/*
 		 * [3][3] - so ungefaehr vielleicht? 
 		 * typ:team typ:team null
 		 *  null typ:team null
 		 *  typ:team null typ:team
 		 * 
-		 */
+		 *//*
+
 	}
 	
 	public void spielfeldLaden(File datei) {
 		// haengt von Speicherung ab
 	}
       
-}
+}*/
