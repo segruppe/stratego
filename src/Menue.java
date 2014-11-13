@@ -68,6 +68,13 @@ public class Menue extends JFrame {
                     new HilfeAnzeigen();
                 }
             });
+        } else if(b.getName().equals("spielStartenButton")) {
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new Spielfeld();
+                }
+            });
         }
     }
 

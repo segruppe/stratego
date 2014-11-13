@@ -1,29 +1,144 @@
-/*
+import javax.swing.*;
 
-public class Spielfeld {
-	public int[10][10] spielfeld;
+import java.awt.*;
+import java.io.File;
+import java.util.HashMap;
+
+public class Spielfeld extends JFrame {
+    /**
+	 * Achtung, das stimmt so noch nicht, laesst sich aber ausfuehren und zeigt bei mir auch Bilder an 
+	 * (wenn das bei euch nicht der Fall ist, liegts an den Pfaden zu den Bildern :/)
+	 * 
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel panelButton;
+    private JButton spielfeld[][];
+    private ImageIcon grass;
+    private ImageIcon water;
+    private HashMap<String, String> pictures;
+
+    public Spielfeld() {
+        super("Stratego - Spiel");
+        // Groesse des Fensters
+        setSize(600, 600);
+        // Position des Fensters
+        setLocation(400, 100);
+        // Programm beim Schliessen des Fensters beenden
+        // kann nachher weg, ist aber sinnvoll zum testen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        getContentPane().setLayout(new BorderLayout(5, 5));
+
+        // Bilder setzen
+        try {
+        	// Die Pfade koennten abweichen :/
+			grass = new ImageIcon("grass.jpg");
+			water = new ImageIcon("water.jpg");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        Color green = new Color(0,153,0);
+        Color blue = new Color(0,154,205);
+        // Buttons/spielfeld erzeugen
+        spielfeld = new JButton[10][10];
+        int count = 0;
+        for(int i=0; i<spielfeld.length; i++) {
+        	for(int j=0; j<spielfeld[0].length; j++) {
+            	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
+            		// Alle grasspielfelder setzen
+            		spielfeld[i][j] = new JButton(grass);
+            		spielfeld[i][j].setBackground(green);
+            	} else {
+            		// Wasserspielfelder
+            		spielfeld[i][j] = new JButton(water);
+            		spielfeld[i][j].setBackground(blue);
+            	}
+            	spielfeld[i][j].setName(String.valueOf(count));
+            	count++;
+        	}
+        }
+
+        // Panels auf GridLayout erzeugen
+        panelButton = new JPanel(new GridLayout(10, 10));
+
+        // Buttons auf panel packen
+        for(int i=0; i<spielfeld.length; i++) {
+        	for(int j=0; j<spielfeld[0].length; j++) {
+        		panelButton.add(spielfeld[i][j]);
+        	}
+        }
+
+        // Listener fuer Buttons
+//        addButtonListener(beendenButton );
+
+        //Panels auf Frame packen (das panelButton hat ein GridLayout, dass jetzt in den WestBereich des BorderLayouts kommt)
+        getContentPane().add(BorderLayout.CENTER, panelButton);
+        // sichtbar machen
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        @SuppressWarnings("unused")
+		Spielfeld spielfeld = new Spielfeld();
+    }
+    
+    public void fillHashMap() {
+    	// Dateinamen fuer die Figuren setzen und in einer Liste sammeln
+    	pictures.put("bomb", "bomb.jpg");
+    	pictures.put("spielfeldmarschall", "spielfeldmarschall.jpg");
+    	pictures.put("general", "general.jpg");
+    	pictures.put("oberst", "oberst.jpg");
+    	pictures.put("major", "major.jpg");
+    	pictures.put("hauptmann", "hauptmann.jpg");
+    	pictures.put("leutnant", "leutnant.jpg");
+    	pictures.put("unteroffizier", "unteroffizier.jpg");
+    	pictures.put("mineur", "mineur.jpg");
+    	pictures.put("aufklaerer", "aufklaerer.jpg");
+    	pictures.put("spion", "spion.jpg");
+    	pictures.put("fahne", "fahne.jpg");
+    }
+	
+    public void figurSetzen(Position pos, String figur) {
+    	spielfeld[pos.getX()][pos.getY()] = new JButton(pictures.get(figur));
+    }
+    
+    public void figurLoeschen(Figur fig) {
+    	int i = fig.getPosition().getX();
+    	int j = fig.getPosition().getY();
+    	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
+    		// Grasspielfeld setzen
+    		spielfeld[i][j] = new JButton(grass);
+    	} else {
+    		// Wasserspielfeld setzen
+    		spielfeld[i][j] = new JButton(water);
+    	}
+    	// Figur auf 'ungueltig' setzen
+    	fig.setId(-1);
+    }
 	
 	
-	public void figurSetzen(Figur a, int x, int y) {
+    public void figurSetzen(Figur a, int x, int y) {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
 		// Neue Position setzen
-		spielfeld[x][y] = a;
+//		spielfeld[x][y] = a;
 	}
 	
 	public void figurSetzen(Figur a, Position pos) {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
 		// Neue Position setzen
-		spielfeld[pos.getX()][pos.getY()] = a;
+//		spielfeld[pos.getX()][pos.getY()] = a;
 	}
 	
-	public boolean spielfeldVergleichen(Spielfeld feld2) {
-		int length = this.spielfeld.lenth;
+	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
+		int length = this.spielfeld.length;
 		for(int i=0; i<length; i++){
 			for(int j=0; j<length; j++){
-				// Wenn ein Feld unterschiedlich ist, gebe false zurueck
-				if(this.spielfeld[i][j] != feld2[i][j])
+				// Wenn ein spielfeld unterschiedlich ist, gebe false zurueck
+				if(this.spielfeld[i][j] != spielfeld2.spielfeld[i][j])
 					return false;
 			}
 				
@@ -34,19 +149,20 @@ public class Spielfeld {
 	
 	public void spielfeldSpeichern() {
 		// Noch uberlegen wie wir das speichern
-		*/
-/*
+		/*
+
 		 * [3][3] - so ungefaehr vielleicht? 
 		 * typ:team typ:team null
 		 *  null typ:team null
 		 *  typ:team null typ:team
 		 * 
-		 *//*
+		 **/
 
 	}
 	
 	public void spielfeldLaden(File datei) {
 		// haengt von Speicherung ab
 	}
-      
-}*/
+	
+	
+}
