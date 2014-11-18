@@ -33,8 +33,8 @@ public class Spielfeld extends JFrame {
         // Bilder setzen
         try {
         	// Die Pfade koennten abweichen :/
-			grass = new ImageIcon("grass.jpg");
-			water = new ImageIcon("water.jpg");
+			grass = new ImageIcon("/src/Bilder/grass.jpg");
+			water = new ImageIcon("../Bilder/bombe.jpg"); //Test da kein water.jpg vorhanden
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
