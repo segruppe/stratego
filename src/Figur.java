@@ -8,7 +8,7 @@ public abstract class Figur {
 	private boolean istBewegbar; // Fahnen und Bomben nicht bewegbar
 
     /* Stärken der Figuren
-        12: Bombe
+        12: Bombe  (wingdings M)
         11: Feldmarschall
         10: General
         9: Oberst
@@ -19,7 +19,7 @@ public abstract class Figur {
         4: Mineur
         3: Aufklaerer (Mehr als ein Feld bewegbar)
         2: Ninja
-        1: Fahne
+        1: Fahne (wingdings O)
 	*/
 
 	// Setter und Getter
