@@ -13,7 +13,7 @@ public class Spielfeld extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel panelButton;
-    private JButton spielfeld[][];
+    private ButtonFigurVerkn spielfeld[][];
     private ImageIcon grass;
     private ImageIcon water;
 
@@ -29,33 +29,19 @@ public class Spielfeld extends JFrame {
 
         getContentPane().setLayout(new BorderLayout(5, 5));
 
-        // Bilder setzen
-        try {
-        	// Die Pfade koennten abweichen :/
-			grass = new ImageIcon("Bilder/grass.jpg");
-			water = new ImageIcon("Bilder/bombe.jpg"); //Test da kein water.jpg vorhanden
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-        Color green = new Color(0,153,0);
-        Color blue = new Color(0,154,205);
-        // Buttons/spielfeld erzeugen
-        spielfeld = new JButton[10][10];
-        int count = 0;
+        //spielfeld erzeugen
+        spielfeld = new ButtonFigurVerkn[10][10];
+
+		// Feld initalisieren
         for(int i=0; i<spielfeld.length; i++) {
         	for(int j=0; j<spielfeld[0].length; j++) {
             	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
             		// Alle grasspielfelder setzen
-            		spielfeld[i][j] = new JButton(grass);
-            		spielfeld[i][j].setBackground(green);
+            		spielfeld[i][j] = new ButtonFigurVerkn("grün");
             	} else {
             		// Wasserspielfelder
-            		spielfeld[i][j] = new JButton(water);
-            		spielfeld[i][j].setBackground(blue);
-            	}
-            	spielfeld[i][j].setName(String.valueOf(count));
-            	count++;
+            		spielfeld[i][j] = new ButtonFigurVerkn("blau");
+				}
         	}
         }
 
@@ -65,7 +51,7 @@ public class Spielfeld extends JFrame {
         // Buttons auf panel packen
         for(int i=0; i<spielfeld.length; i++) {
         	for(int j=0; j<spielfeld[0].length; j++) {
-        		panelButton.add(spielfeld[i][j]);
+        		panelButton.add(spielfeld[i][j].getButton());
         	}
         }
 
@@ -85,7 +71,7 @@ public class Spielfeld extends JFrame {
 
     // TODO: Neue Klasse aufrufen
     public void figurSetzen(Position pos, Figur figur) {
-    	spielfeld[pos.getX()][pos.getY()] = new JButton(figur.getBild());
+    	spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(figur);
     }
     
     public void figurLoeschen(Figur fig) {
@@ -93,16 +79,17 @@ public class Spielfeld extends JFrame {
     	int j = fig.getPosition().getY();
     	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
     		// Grasspielfeld setzen
-    		spielfeld[i][j] = new JButton(grass);
+    		spielfeld[i][j] = new ButtonFigurVerkn("grün");
     	} else {
     		// Wasserspielfeld setzen
-    		spielfeld[i][j] = new JButton(water);
+    		spielfeld[i][j] = new ButtonFigurVerkn("blau");
     	}
     	// Figur auf 'ungueltig' setzen
     	fig.setId(-1);
     }
 	
-	
+
+	// x und y sind Koordinaten der neuen Position
     public void figurSetzen(Figur a, int x, int y) {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
@@ -114,14 +101,14 @@ public class Spielfeld extends JFrame {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
 		// Neue Position setzen
-//		spielfeld[pos.getX()][pos.getY()] = a;
+		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);
 	}
 	
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
 		int length = this.spielfeld.length;
 		for(int i=0; i<length; i++){
 			for(int j=0; j<length; j++){
-				// Wenn ein spielfeld unterschiedlich ist, gebe false zurueck
+				// Wenn ein Element des Spielfeldes unterschiedlich ist, gebe false zurueck
 				if(this.spielfeld[i][j] != spielfeld2.spielfeld[i][j])
 					return false;
 			}

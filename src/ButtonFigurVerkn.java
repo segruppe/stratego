@@ -21,12 +21,19 @@ public class ButtonFigurVerkn {
     // Konstruktor für Grass oder Wasser
     public ButtonFigurVerkn(String farbe) {
         if(farbe.contains("blau") || farbe.contains("blue")){
+            this.button = new JButton();
             this.button.setBackground(green);
             this.figur = null;
         } else if(farbe.contains("grün") || farbe.contains("green")) {
+            this.button = new JButton();
             this.button.setBackground(blue);
             this.figur = null;
         }
+    }
+
+    // Getter für den Button
+    public JButton getButton() {
+        return this.button;
     }
 
 }
