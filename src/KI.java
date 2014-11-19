@@ -6,12 +6,6 @@ import java.awt.*;
   * @author: merten
   */
 public class KI{
-  
-  
-  
-  public static void main(String[] args) {
-    System.out.println("Klappt ein Pull auch?");
 
 
-  }
 }
