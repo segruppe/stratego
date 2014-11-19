@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class Menue extends JFrame {
 
-
     private JButton spielStartenButton;
     private JButton hilfeButton;
     private JButton beendenButton;

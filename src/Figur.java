@@ -5,8 +5,23 @@ public abstract class Figur {
 	private int team;
 	private int staerke;
 	private String bild;
-	
-	
+	private boolean istBewegbar; // Fahnen und Bomben nicht bewegbar
+
+    /* Stärken der Figuren
+        12: Bombe
+        11: Feldmarschall
+        10: General
+        9: Oberst
+        8: Major
+        7: Hauptmann
+        6: Leutnant
+        5: Unteroffizier
+        4: Mineur
+        3: Aufklaerer (Mehr als ein Feld bewegbar)
+        2: Ninja
+        1: Fahne
+	*/
+
 	// Setter und Getter
 	public int getId() {
 		return id;
@@ -38,5 +53,7 @@ public abstract class Figur {
 	public void setBild(String bild) {
 		this.bild = bild;
 	}
+    public boolean getIstBewegbar() { return istBewegbar; }
+    public void setIstBewegbar(boolean bewegbar) { this.istBewegbar = bewegbar; }
 }
 

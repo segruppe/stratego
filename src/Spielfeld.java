@@ -16,7 +16,6 @@ public class Spielfeld extends JFrame {
     private JButton spielfeld[][];
     private ImageIcon grass;
     private ImageIcon water;
-    private HashMap<String, String> pictures;
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -33,8 +32,8 @@ public class Spielfeld extends JFrame {
         // Bilder setzen
         try {
         	// Die Pfade koennten abweichen :/
-			grass = new ImageIcon("/src/Bilder/grass.jpg");
-			water = new ImageIcon("../Bilder/bombe.jpg"); //Test da kein water.jpg vorhanden
+			grass = new ImageIcon("Bilder/grass.jpg");
+			water = new ImageIcon("Bilder/bombe.jpg"); //Test da kein water.jpg vorhanden
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,25 +82,10 @@ public class Spielfeld extends JFrame {
         @SuppressWarnings("unused")
 		Spielfeld spielfeld = new Spielfeld();
     }
-    
-    public void fillHashMap() {
-    	// Dateinamen fuer die Figuren setzen und in einer Liste sammeln
-    	pictures.put("bomb", "bomb.jpg");
-    	pictures.put("spielfeldmarschall", "spielfeldmarschall.jpg");
-    	pictures.put("general", "general.jpg");
-    	pictures.put("oberst", "oberst.jpg");
-    	pictures.put("major", "major.jpg");
-    	pictures.put("hauptmann", "hauptmann.jpg");
-    	pictures.put("leutnant", "leutnant.jpg");
-    	pictures.put("unteroffizier", "unteroffizier.jpg");
-    	pictures.put("mineur", "mineur.jpg");
-    	pictures.put("aufklaerer", "aufklaerer.jpg");
-    	pictures.put("spion", "spion.jpg");
-    	pictures.put("fahne", "fahne.jpg");
-    }
-	
-    public void figurSetzen(Position pos, String figur) {
-    	spielfeld[pos.getX()][pos.getY()] = new JButton(pictures.get(figur));
+
+    // TODO: Neue Klasse aufrufen
+    public void figurSetzen(Position pos, Figur figur) {
+    	spielfeld[pos.getX()][pos.getY()] = new JButton(figur.getBild());
     }
     
     public void figurLoeschen(Figur fig) {
