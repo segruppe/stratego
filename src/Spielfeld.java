@@ -47,7 +47,8 @@ public class Spielfeld extends JFrame {
 
         // Panels auf GridLayout erzeugen
         panelButton = new JPanel(new GridLayout(10, 10));
-
+		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
+		panelButton.setBackground(new Color(207, 4, 0));
         // Buttons auf panel packen
         for(int i=0; i<spielfeld.length; i++) {
         	for(int j=0; j<spielfeld[0].length; j++) {

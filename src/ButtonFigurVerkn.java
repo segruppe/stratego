@@ -15,18 +15,19 @@ public class ButtonFigurVerkn {
     public ButtonFigurVerkn(Figur figur){
         this.button = new JButton(new ImageIcon(figur.getBild()));
         this.figur = figur;
-
     }
 
     // Konstruktor für Grass oder Wasser
     public ButtonFigurVerkn(String farbe) {
         if(farbe.contains("blau") || farbe.contains("blue")){
             this.button = new JButton();
-            this.button.setBackground(green);
+            this.button.setBackground(blue);
+            // Test Felder für den User unsichtbar zu machen
+//            this.button.setVisible(false);
             this.figur = null;
         } else if(farbe.contains("grün") || farbe.contains("green")) {
             this.button = new JButton();
-            this.button.setBackground(blue);
+            this.button.setBackground(green);
             this.figur = null;
         }
     }
