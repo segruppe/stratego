@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Spielfeld extends JFrame {
     /**
@@ -14,8 +15,6 @@ public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelButton;
     private ButtonFigurVerkn spielfeld[][];
-    private ImageIcon grass;
-    private ImageIcon water;
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -50,11 +49,45 @@ public class Spielfeld extends JFrame {
 		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
 		panelButton.setBackground(new Color(207, 4, 0));
         // Buttons auf panel packen
-        for(int i=0; i<spielfeld.length; i++) {
-        	for(int j=0; j<spielfeld[0].length; j++) {
-        		panelButton.add(spielfeld[i][j].getButton());
-        	}
-        }
+
+
+		/*
+		Setzt Figuren auf das Spielfeld (Test für leichte KI)
+		 */
+		int flagge = 5;
+		int count=0;
+		// Wenn es noch nicht gesetzt wurde, weitermachen
+		loop: while (flagge > 0) {
+			System.out.println(count);
+
+			// Zeilen durchlaufen
+			for (int i = 0; i < 3; i++) {
+				// Spalten durchlaufen
+				for (int j = 0; j < 10; j++) {
+					// Setzt noch eine Fahne drauf, deswegen manchmal weniger als 5
+					if(spielfeld[i][j] == new ButtonFigurVerkn(new Fahne())) {
+						continue;
+					}
+
+					if (flagge == 0) break loop;
+					else if(flagge >0) {
+
+						// Wahrscheinlichkeit
+						Random rn = new Random();
+						int number = rn.nextInt(250);
+						if (number > 0) continue;
+						else {
+							// Figur setzen
+							Figur temp = new Fahne();
+							figurInit(temp, i, j);
+							flagge--;
+						}
+					}
+				}
+			}
+			// Einfacher Zaehler
+			count++;
+		}
 
         // Listener fuer Buttons
 //        addButtonListener(beendenButton );
@@ -63,12 +96,22 @@ public class Spielfeld extends JFrame {
         getContentPane().add(BorderLayout.CENTER, panelButton);
         // sichtbar machen
         setVisible(true);
+		panelAktualisieren();
     }
 
     public static void main(String[] args) {
         @SuppressWarnings("unused")
 		Spielfeld spielfeld = new Spielfeld();
     }
+
+	// Aktualisiert das gesamte Panel (die Buttons)
+	public void panelAktualisieren() {
+		for(int i=0; i<spielfeld.length; i++) {
+			for(int j=0; j<spielfeld[0].length; j++) {
+				panelButton.add(spielfeld[i][j].getButton());
+			}
+		}
+	}
 
     // TODO: Neue Klasse aufrufen
     public void figurSetzen(Position pos, Figur figur) {
@@ -95,7 +138,7 @@ public class Spielfeld extends JFrame {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
 		// Neue Position setzen
-//		spielfeld[x][y] = a;
+		spielfeld[x][y] = new ButtonFigurVerkn(a);
 	}
 	
 	public void figurSetzen(Figur a, Position pos) {
@@ -103,6 +146,11 @@ public class Spielfeld extends JFrame {
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
 		// Neue Position setzen
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);
+	}
+
+	// Methode zum initialisieren eines Feldes mit einer Figur
+	public void figurInit(Figur a, int x, int y) {
+		spielfeld[x][y] = new ButtonFigurVerkn(a);
 	}
 	
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {

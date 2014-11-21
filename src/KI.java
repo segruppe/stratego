@@ -6,6 +6,9 @@ import java.awt.*;
   * @author: merten
   */
 public class KI{
+  // Grenzen für das Gebiet der KI
+  private int grenzeX = 10;
+  private int grenzeY = 3;
 
 
 }
