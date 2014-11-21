@@ -1,11 +1,13 @@
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Random;
+import java.awt.event.ActionEvent;
 
-public class Spielfeld extends JFrame {
+public class Spielfeld extends JFrame implements ActionListener {
     /**
 	 * Achtung, das stimmt so noch nicht, laesst sich aber ausfuehren und zeigt bei mir auch Bilder an 
 	 * (wenn das bei euch nicht der Fall ist, liegts an den Pfaden zu den Bildern :/)
@@ -15,6 +17,9 @@ public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelButton;
     private ButtonFigurVerkn spielfeld[][];
+	private static ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
+	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
+	private static Position firstClickPosition; //temporaerer Speicher fuer die zuerst angeklickte Position
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -58,14 +63,14 @@ public class Spielfeld extends JFrame {
 		int count=0;
 		// Wenn es noch nicht gesetzt wurde, weitermachen
 		loop: while (flagge > 0) {
-			System.out.println(count);
+			//System.out.println(count);
 
 			// Zeilen durchlaufen
 			for (int i = 0; i < 3; i++) {
 				// Spalten durchlaufen
 				for (int j = 0; j < 10; j++) {
-					// Setzt noch eine Fahne drauf, deswegen manchmal weniger als 5
-					if(spielfeld[i][j] == new ButtonFigurVerkn(new Fahne())) {
+					// Überspringe bereits besetzte Felder
+					if(!(spielfeld[i][j].getFigur() == null)) {
 						continue;
 					}
 
@@ -75,8 +80,7 @@ public class Spielfeld extends JFrame {
 						// Wahrscheinlichkeit
 						Random rn = new Random();
 						int number = rn.nextInt(250);
-						if (number > 0) continue;
-						else {
+						if (number <= 0) {
 							// Figur setzen
 							Figur temp = new Fahne();
 							figurInit(temp, i, j);
@@ -90,7 +94,13 @@ public class Spielfeld extends JFrame {
 		}
 
         // Listener fuer Buttons
-//        addButtonListener(beendenButton );
+		for(ButtonFigurVerkn[] i:spielfeld) {
+			for(ButtonFigurVerkn j: i){
+				j.getButton().addActionListener(this);
+			}
+		}
+
+
 
         //Panels auf Frame packen (das panelButton hat ein GridLayout, dass jetzt in den WestBereich des BorderLayouts kommt)
         getContentPane().add(BorderLayout.CENTER, panelButton);
@@ -99,16 +109,61 @@ public class Spielfeld extends JFrame {
 		panelAktualisieren();
     }
 
+
+
+	/*
+	Setzt Spielfiguren um, reagiert auf Mausklick
+	 */
+	public void actionPerformed(ActionEvent e) {
+
+		int number = Integer.parseInt(e.getActionCommand());
+
+		if(wasser.contains(number)) {
+			System.out.println("das ist wasser");
+		} else {
+			if(firstClickPerformed) {
+				if(number/10 == firstClickPosition.getX() && number%10 == firstClickPosition.getY() ) {
+					// Gleichen Button gedrückt
+					// Wieder Farbe zuruecksetzen
+					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0,153,0));
+				} else {
+					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0, 153, 0));
+					spielfeld[number/10][number%10].setFigur(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
+					System.out.println(number/10+" und "+number%10);
+					//spielfeld[number/10][number%10] = new ButtonFigurVerkn(new Fahne()); // bekommt noch nullPointer, kp warum
+
+
+					// Alte Stelle auf Grün setzen - Die ist immer grün
+					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].setFigur(null);
+				}
+				firstClickPerformed = false;
+			} else {
+				firstClickPosition = new Position(number/10, number%10);
+				System.out.println(number);
+				if(!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null)) {
+					// Wenn das angeklickte Feld eine Figur hat
+					System.out.println(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
+					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(156, 255, 107));
+					firstClickPerformed = true;
+				}
+			}
+
+		}
+
+		panelAktualisieren();
+	}
+
+
     public static void main(String[] args) {
-        @SuppressWarnings("unused")
-		Spielfeld spielfeld = new Spielfeld();
+        //@SuppressWarnings("unused")
+		//Spielfeld spielfeld = new Spielfeld();
     }
 
 	// Aktualisiert das gesamte Panel (die Buttons)
 	public void panelAktualisieren() {
-		for(int i=0; i<spielfeld.length; i++) {
-			for(int j=0; j<spielfeld[0].length; j++) {
-				panelButton.add(spielfeld[i][j].getButton());
+		for(ButtonFigurVerkn[] i: spielfeld) {
+			for(ButtonFigurVerkn j : i) {
+				panelButton.add(j.getButton());
 			}
 		}
 	}
@@ -117,7 +172,7 @@ public class Spielfeld extends JFrame {
     public void figurSetzen(Position pos, Figur figur) {
     	spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(figur);
     }
-    
+
     public void figurLoeschen(Figur fig) {
     	int i = fig.getPosition().getX();
     	int j = fig.getPosition().getY();
@@ -150,7 +205,8 @@ public class Spielfeld extends JFrame {
 
 	// Methode zum initialisieren eines Feldes mit einer Figur
 	public void figurInit(Figur a, int x, int y) {
-		spielfeld[x][y] = new ButtonFigurVerkn(a);
+		// Setzt eine Figur und gibt ihr direkt die richtige Nummer
+		spielfeld[x][y] = new ButtonFigurVerkn(a, x*10+y);
 	}
 	
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
@@ -183,6 +239,6 @@ public class Spielfeld extends JFrame {
 	public void spielfeldLaden(File datei) {
 		// haengt von Speicherung ab
 	}
-	
+
 	
 }

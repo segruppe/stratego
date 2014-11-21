@@ -71,7 +71,7 @@ public class Menue extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new Spielfeld();
+                    new Spielablauf();
                 }
             });
         }
