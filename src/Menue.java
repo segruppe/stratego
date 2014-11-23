@@ -9,13 +9,18 @@ public class Menue extends JFrame {
     private JButton hilfeButton;
     private JButton beendenButton;
     private JPanel panelButton;
+// TODO: Idee, Erzeugung der Dialogfenster in eigener Klasse
+
+    // TODO: Fenster dürfen nicht verschoben werden duerfen (zur Not: Hinteres deaktivieren)
 
     public Menue() {
         super("Stratego");
         // Groesse des Fensters
         setSize(600, 600);
-        // Position des Fensters
-        setLocation(400, 100);
+        // Position des Fensters. Wird immer in die Mitte gesetzt
+        setLocationRelativeTo(null);
+        // Fenstergroesse darf nicht geaendert werden
+        setResizable(false);
         // Programm beim Schliessen des Fensters beenden
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

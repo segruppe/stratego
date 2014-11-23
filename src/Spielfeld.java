@@ -20,8 +20,11 @@ public class Spielfeld extends JFrame implements ActionListener {
         super("Stratego - Spiel");
         // Groesse des Fensters
         setSize(600, 600);
-        // Position des Fensters
-        setLocation(400, 100);
+        // Position des Fensters. Wird immer in die Mitte gesetzt
+        setLocationRelativeTo(null);
+        // Fenstergroesse darf nicht geaendert werden
+        setResizable(false);
+
         // Programm beim Schliessen des Fensters beenden
         // kann nachher weg, ist aber sinnvoll zum testen
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

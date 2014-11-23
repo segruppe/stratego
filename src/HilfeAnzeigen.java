@@ -15,8 +15,10 @@ public class HilfeAnzeigen extends JFrame {
         super("Stratego-Anleitung");
         // Groesse des Fensters
         setSize(600, 600);
-        // Position des Fensters
-        setLocation(400, 100);
+        // Position des Fensters. Wird immer in die Mitte gesetzt
+        setLocationRelativeTo(null);
+        // Fenstergroesse darf nicht geaendert werden
+        setResizable(false);
         // Programm beim Schliessen des Fensters beenden
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
