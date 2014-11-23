@@ -1,6 +1,9 @@
 
 public abstract class Figur {
-	private int id;
+	public static int zaehler1=0;
+    public static int zaehler2=40; // Damit die id insgesammt eindeutig ist
+
+    private int id;
 	private Position position;
 	private int team;
 	private int staerke;
@@ -17,7 +20,7 @@ public abstract class Figur {
         6: Leutnant
         5: Unteroffizier
         4: Mineur
-        3: Aufklaerer (Mehr als ein Feld bewegbar)
+        3: Aufklaerer (Mehr als ein Feld bewegbar) TODO: Bei Position setzen beachten
         2: Ninja
         1: Fahne (wingdings O)
 	*/

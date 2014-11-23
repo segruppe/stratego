@@ -3,11 +3,17 @@
  */
 public class Bombe extends Figur {
 
-    public Bombe(int id, int team){
-        this.setId(id);
-        this.setTeam(team);
-        this.setStaerke(12);
-        this.setBild("Bilder/bombe.jpg");
-        this.setIstBewegbar(false);
+    public Bombe(int team){
+        if (team==1) {
+            zaehler1++;
+            setId(zaehler1);
+        } else {
+            zaehler2++;
+            setId(zaehler2);
+        }
+        setIstBewegbar(false);
+        setStaerke(12);
+        setBild("Bilder/bombe.jpg");
+        setTeam(team);
     }
 }

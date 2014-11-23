@@ -8,12 +8,7 @@ import java.util.Random;
 import java.awt.event.ActionEvent;
 
 public class Spielfeld extends JFrame implements ActionListener {
-    /**
-	 * Achtung, das stimmt so noch nicht, laesst sich aber ausfuehren und zeigt bei mir auch Bilder an 
-	 * (wenn das bei euch nicht der Fall ist, liegts an den Pfaden zu den Bildern :/)
-	 * 
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanel panelButton;
     private ButtonFigurVerkn spielfeld[][];
@@ -82,7 +77,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 						int number = rn.nextInt(250);
 						if (number <= 0) {
 							// Figur setzen
-							Figur temp = new Fahne();
+							Figur temp = new Fahne(1);
 							figurInit(temp, i, j);
 							flagge--;
 						}
@@ -168,7 +163,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		}
 	}
 
-    // TODO: Neue Klasse aufrufen
     public void figurSetzen(Position pos, Figur figur) {
     	spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(figur);
     }
