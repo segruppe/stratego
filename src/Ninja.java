@@ -12,7 +12,7 @@ public class Ninja extends Figur{
         }
         setIstBewegbar(true);
         setStaerke(2);
-        setBild("Bilder/Wurfstern.png");
+        setBild("Bilder/Wurfstern.jpg");
         setTeam(team);
     }
 }

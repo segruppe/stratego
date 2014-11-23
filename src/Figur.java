@@ -22,7 +22,7 @@ public abstract class Figur {
         4: Mineur
         3: Aufklaerer (Mehr als ein Feld bewegbar) TODO: Bei Position setzen beachten
         2: Ninja
-        1: Fahne (wingdings O)
+        1: Fahne
 	*/
 
 	// Setter und Getter

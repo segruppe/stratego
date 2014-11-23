@@ -12,7 +12,7 @@ public class Mineur extends Figur {
         }
         setIstBewegbar(true);
         setStaerke(4);
-        setBild("Bilder/Schaufel.gif");
+        setBild("Bilder/Schaufel.jpg");
         setTeam(team);
     }
 }
