@@ -47,8 +47,10 @@ public class HilfeAnzeigen extends JFrame {
                 "  2: Ninja (Schlaegt Feldmarschall, wenn er selber angreift<br>" +
                 "  1: Fahne (Unbeweglich)</p></body></html>";
 
-        // Buttons erzeugen
+        // Textfeld erstellen und fuellen
         textFieldHilfeAusgabe = new JLabel(anleitung);
+
+        // Buttons erzeugen
         zurueckButton = new JButton();
         zurueckButton.setName("zurueckButton");
         zurueckButton.setText("Zurueck");
@@ -73,8 +75,11 @@ public class HilfeAnzeigen extends JFrame {
     private void addButtonListener(JButton b) {
         if (b.getName().equals("zurueckButton")) {
             b.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose();
+                    // Menue aufrufen
+                    new Menue();
                 }
             });
         }

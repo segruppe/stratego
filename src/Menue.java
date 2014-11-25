@@ -11,8 +11,6 @@ public class Menue extends JFrame {
     private JPanel panelButton;
 // TODO: Idee, Erzeugung der Dialogfenster in eigener Klasse
 
-    // TODO: Fenster dürfen nicht verschoben werden duerfen (zur Not: Hinteres deaktivieren)
-
     public Menue() {
         super("Stratego");
         // Groesse des Fensters
@@ -61,6 +59,7 @@ public class Menue extends JFrame {
         // Funktionalitaet des Beenden Buttons
         if (b.getName().equals("beendenButton")) {
             b.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     System.exit(0);
                 }
@@ -69,6 +68,8 @@ public class Menue extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Menue schliessen, wenn Hilfe aufgerufen wird
+                    setVisible(false);
                     new HilfeAnzeigen();
                 }
             });
@@ -76,7 +77,9 @@ public class Menue extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new Spielablauf();
+                    // Menue schliessen
+                    setVisible(false);
+                    new SpielStarten();
                 }
             });
         }
