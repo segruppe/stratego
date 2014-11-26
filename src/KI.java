@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class KI {
+/**
+ *
+ * Link: http://www.brettspiele-report.de/stratego/
+ *
+ */
     // Grenzen für das Gebiet der KI
     static int grenzeX = 4; // Anzahl Zeilen
     static int grenzeY = 10; // Anzahl Spalten

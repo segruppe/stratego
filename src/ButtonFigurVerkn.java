@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Merten on 19.11.2014.
- */
 public class ButtonFigurVerkn {
     private JButton button;
     private Figur figur;
@@ -15,9 +12,11 @@ public class ButtonFigurVerkn {
     // Standard Konstruktor für Figur auf dem Spielfeld
     public ButtonFigurVerkn(Figur figur){
         if(count > 99){
-           this.button = new JButton(Integer.toString(figur.getPosition().getX() * 10 + figur.getPosition().getY()), new ImageIcon(figur.getBild()));
+            this.button = new JButton(new ImageIcon(figur.getBild()));
+            this.button.setActionCommand(Integer.toString(figur.getPosition().getX() * 10 + figur.getPosition().getY()));
         } else {
-            this.button = new JButton(Integer.toString(count), new ImageIcon(figur.getBild()));
+            this.button = new JButton(new ImageIcon(figur.getBild()));
+            this.button.setActionCommand(Integer.toString(count));
         }
         this.figur = figur;
         count++;
@@ -43,7 +42,8 @@ public class ButtonFigurVerkn {
      */
     public ButtonFigurVerkn(Figur figur, int count) {
         // TODO: Zum Ende hin: Figuren der KI duerfen nicht sichtbar sein. Auf Team ueberpruefen
-        this.button = new JButton(Integer.toString(count), new ImageIcon(figur.getBild()));
+        this.button = new JButton(new ImageIcon(figur.getBild()));
+        this.button.setActionCommand(Integer.toString(count));
         this.figur = figur;
     }
 
@@ -56,7 +56,8 @@ public class ButtonFigurVerkn {
     public Figur getFigur() { return this.figur; }
     // Setter für die Figur
     public void setFigur(Figur figur) {
-        //this.button = new JButton(Integer.toString(figur.getPosition().getX() * 10 + figur.getPosition().getY()), new ImageIcon("Bilder/fahne.jpg")); //hier ist ne nullpointer
+        this.button = new JButton(new ImageIcon(figur.getBild()));
+        this.button.setActionCommand(Integer.toString(figur.getPosition().getX() * 10 + figur.getPosition().getY()));
         this.figur=figur;
     }
 }
