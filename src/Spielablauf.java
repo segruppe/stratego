@@ -14,8 +14,9 @@ public class Spielablauf {
     }
 
     public static void main(String schwierigkeit) {
+        gegner = new EinfacheKI();
         spielfeld = new Spielfeld();
-        gegner = new KI(schwierigkeit);
+        //gegner = new EinfacheKI();
 
     }
 

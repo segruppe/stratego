@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 public class SpielStarten extends JFrame {
     private JButton neuesSpiel;
     private JButton ladeSpiel;
+    private JButton zurueck;
     private JPanel panel;
 
     public SpielStarten() {
@@ -33,16 +34,22 @@ public class SpielStarten extends JFrame {
         ladeSpiel.setName("ladeSpiel");
         ladeSpiel.setText("Spiel laden");
 
+        zurueck = new JButton();
+        zurueck.setName("zurueck");
+        zurueck.setText("Zurueck");
+
         // Panels auf BorderLayout erzeugen
-        panel = new JPanel(new GridLayout(2,1));
+        panel = new JPanel(new GridLayout(3,1));
 
         // Button auf Panel packen
         panel.add(neuesSpiel);
         panel.add(ladeSpiel);
+        panel.add(zurueck);
 
         // Listener
         addButtonListener(neuesSpiel);
         addButtonListener(ladeSpiel);
+        addButtonListener(zurueck);
 
         // Panels auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panel);
@@ -68,6 +75,15 @@ public class SpielStarten extends JFrame {
                     dispose();
                     // Spiel laden
                     new SpielLaden();
+                }
+            });
+        } else if (b.getName().equals("zurueck")) {
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    // Menue aufrufen
+                    new Menue();
                 }
             });
         }

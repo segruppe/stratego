@@ -2,6 +2,8 @@
  * Created by Dennis on 19.11.2014.
  */
 public class Figurenkampf {
+
+    // TODO: Graphische Oberflaeche
     Figur figur1;
     Figur figur2;
 
@@ -15,6 +17,9 @@ public class Figurenkampf {
 
     // Figur 1 MUSS die angreifende Figur sein
     int vergleicheStaerke() {
+        if (figur2.getStaerke()==1) {
+            new SpielBeendet();
+        }
         if (figur1.getStaerke() == figur2.getStaerke()) {
             return 0;
         } else if (figur1.getStaerke() == 12 && figur2.getStaerke() == 4) {

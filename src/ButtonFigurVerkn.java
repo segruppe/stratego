@@ -42,6 +42,7 @@ public class ButtonFigurVerkn {
     Setzt eine Figur neu und gibt ihr die richtige Nummer (x*10+y)
      */
     public ButtonFigurVerkn(Figur figur, int count) {
+        // TODO: Zum Ende hin: Figuren der KI duerfen nicht sichtbar sein. Auf Team ueberpruefen
         this.button = new JButton(Integer.toString(count), new ImageIcon(figur.getBild()));
         this.figur = figur;
     }

@@ -59,6 +59,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		Setzt Figuren auf das Spielfeld (Test für leichte KI)
 		 */
 		int flagge = 5;
+		int count=0;
 		// Wenn es noch nicht gesetzt wurde, weitermachen
 		loop: while (flagge > 0) {
 			//System.out.println(count);
@@ -87,6 +88,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 					}
 				}
 			}
+			// Einfacher Zaehler
+			count++;
 		}
 
         // Listener fuer Buttons
