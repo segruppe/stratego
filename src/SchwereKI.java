@@ -1,10 +1,10 @@
 /**
  * Created by Dennis on 25.11.2014.
  */
-public class SchwereKI implements KI {
+public class SchwereKI extends KI {
 
     @Override
-    public void setzeStartSpielfeld() {
+    public void setzeStartAufstellung() {
 
     }
 

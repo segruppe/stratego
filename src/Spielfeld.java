@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 public class Spielfeld extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel panelButton;
+	public JPanel panelButton;
     private ButtonFigurVerkn spielfeld[][];
 	private static ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
@@ -55,42 +55,42 @@ public class Spielfeld extends JFrame implements ActionListener {
         // Buttons auf panel packen
 
 
-		/*
-		Setzt Figuren auf das Spielfeld (Test für leichte KI)
-		 */
-		int flagge = 5;
-		int count=0;
-		// Wenn es noch nicht gesetzt wurde, weitermachen
-		loop: while (flagge > 0) {
-			//System.out.println(count);
-
-			// Zeilen durchlaufen
-			for (int i = 0; i < 3; i++) {
-				// Spalten durchlaufen
-				for (int j = 0; j < 10; j++) {
-					// Überspringe bereits besetzte Felder
-					if(!(spielfeld[i][j].getFigur() == null)) {
-						continue;
-					}
-
-					if (flagge == 0) break loop;
-					else if(flagge >0) {
-
-						// Wahrscheinlichkeit
-						Random rn = new Random();
-						int number = rn.nextInt(250);
-						if (number <= 0) {
-							// Figur setzen
-							Figur temp = new Fahne(1);
-							figurInit(temp, i, j);
-							flagge--;
-						}
-					}
-				}
-			}
-			// Einfacher Zaehler
-			count++;
-		}
+//		/*
+//		Setzt Figuren auf das Spielfeld (Test für leichte KI)
+//		 */
+//		int flagge = 5;
+//		int count=0;
+//		// Wenn es noch nicht gesetzt wurde, weitermachen
+//		loop: while (flagge > 0) {
+//			//System.out.println(count);
+//
+//			// Zeilen durchlaufen
+//			for (int i = 0; i < 3; i++) {
+//				// Spalten durchlaufen
+//				for (int j = 0; j < 10; j++) {
+//					// Überspringe bereits besetzte Felder
+//					if(!(spielfeld[i][j].getFigur() == null)) {
+//						continue;
+//					}
+//
+//					if (flagge == 0) break loop;
+//					else if(flagge >0) {
+//
+//						// Wahrscheinlichkeit
+//						Random rn = new Random();
+//						int number = rn.nextInt(250);
+//						if (number <= 0) {
+//							// Figur setzen
+//							Figur temp = new Fahne(1);
+//							figurInit(temp, i, j);
+//							flagge--;
+//						}
+//					}
+//				}
+//			}
+//			// Einfacher Zaehler
+//			count++;
+//		}
 
         // Listener fuer Buttons
 		for(ButtonFigurVerkn[] i:spielfeld) {
@@ -161,6 +161,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 	// Aktualisiert das gesamte Panel (die Buttons)
 	public void panelAktualisieren() {
+        //panelButton.removeAll();
 		for(ButtonFigurVerkn[] i: spielfeld) {
 			for(ButtonFigurVerkn j : i) {
 				panelButton.add(j.getButton());

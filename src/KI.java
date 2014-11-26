@@ -3,17 +3,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public interface KI {
+public abstract class KI {
     // Grenzen für das Gebiet der KI
-    static int grenzeX = 10;
-    static int grenzeY = 3;
+    static int grenzeX = 4; // Anzahl Zeilen
+    static int grenzeY = 10; // Anzahl Spalten
+    Spielfeld spielfeld;
 
-    public abstract void setzeStartSpielfeld();
-    public abstract Figur waehleFigur();
+    public abstract void setzeStartAufstellung();
     public abstract Position macheZug();
 
     // Hinzufuegen aller Figuren in eine Liste
-     static ArrayList<Figur> figuren = new ArrayList<Figur>(){{
+     static ArrayList<Figur> figurenSatzKI = new ArrayList<Figur>(){{
         add(new Fahne(2));
         add(new Ninja(2));
         add(new Aufklaerer(2));
