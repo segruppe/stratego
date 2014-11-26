@@ -19,14 +19,5 @@ public class Spielablauf {
 
     }
 
-    // Figur auswaehlen
-    public void firstClickListener() {
-
-    }
-
-    // Figur setzen
-    public void secondClickListener() {
-
-    }
 
 }

@@ -15,6 +15,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	private static ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
 	private static Position firstClickPosition; //temporaerer Speicher fuer die zuerst angeklickte Position
+	private JButton button = new JButton("abbrechen");
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -48,7 +49,7 @@ public class Spielfeld extends JFrame implements ActionListener {
         }
 
         // Panels auf GridLayout erzeugen
-        panelButton = new JPanel(new GridLayout(10, 10));
+        panelButton = new JPanel(new GridLayout(11, 10));
 		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
 		panelButton.setBackground(new Color(207, 4, 0));
         // Buttons auf panel packen
@@ -58,7 +59,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		Setzt Figuren auf das Spielfeld (Test für leichte KI)
 		 */
 		int flagge = 5;
-		int count=0;
 		// Wenn es noch nicht gesetzt wurde, weitermachen
 		loop: while (flagge > 0) {
 			//System.out.println(count);
@@ -87,8 +87,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 					}
 				}
 			}
-			// Einfacher Zaehler
-			count++;
 		}
 
         // Listener fuer Buttons
@@ -125,21 +123,22 @@ public class Spielfeld extends JFrame implements ActionListener {
 					// Wieder Farbe zuruecksetzen
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0,153,0));
 				} else {
+					// Zug durchfuehren
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0, 153, 0));
 					spielfeld[number/10][number%10].setFigur(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
 					System.out.println(number/10+" und "+number%10);
 					//spielfeld[number/10][number%10] = new ButtonFigurVerkn(new Fahne()); // bekommt noch nullPointer, kp warum
 
 
-					// Alte Stelle auf Grün setzen - Die ist immer grün
+					// Alte Figur null setzen
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].setFigur(null);
 				}
 				firstClickPerformed = false;
 			} else {
 				firstClickPosition = new Position(number/10, number%10);
 				System.out.println(number);
+				// Wenn das angeklickte Feld eine Figur hat
 				if(!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null)) {
-					// Wenn das angeklickte Feld eine Figur hat
 					System.out.println(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(156, 255, 107));
 					firstClickPerformed = true;
@@ -164,6 +163,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 				panelButton.add(j.getButton());
 			}
 		}
+		panelButton.add(button, BorderLayout.PAGE_END);
 	}
 
     public void figurSetzen(Position pos, Figur figur) {
@@ -183,7 +183,7 @@ public class Spielfeld extends JFrame implements ActionListener {
     	// Figur auf 'ungueltig' setzen
     	fig.setId(-1);
     }
-	
+
 
 	// x und y sind Koordinaten der neuen Position
     public void figurSetzen(Figur a, int x, int y) {
@@ -192,7 +192,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		// Neue Position setzen
 		spielfeld[x][y] = new ButtonFigurVerkn(a);
 	}
-	
+
 	public void figurSetzen(Figur a, Position pos) {
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
@@ -205,7 +205,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		// Setzt eine Figur und gibt ihr direkt die richtige Nummer
 		spielfeld[x][y] = new ButtonFigurVerkn(a, x*10+y);
 	}
-	
+
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
 		int length = this.spielfeld.length;
 		for(int i=0; i<length; i++){
@@ -214,25 +214,25 @@ public class Spielfeld extends JFrame implements ActionListener {
 				if(this.spielfeld[i][j] != spielfeld2.spielfeld[i][j])
 					return false;
 			}
-				
+
 		}
 		// Ansonsten true
 		return true;
 	}
-	
+
 	public void spielfeldSpeichern() {
 		// Noch uberlegen wie wir das speichern
 		/*
 
-		 * [3][3] - so ungefaehr vielleicht? 
+		 * [3][3] - so ungefaehr vielleicht?
 		 * typ:team typ:team null
 		 *  null typ:team null
 		 *  typ:team null typ:team
-		 * 
+		 *
 		 **/
 
 	}
-	
+
 	public void spielfeldLaden(File datei) {
 		// haengt von Speicherung ab
 	}
