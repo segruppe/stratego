@@ -22,6 +22,8 @@ public class Spielablauf {
         } else if (schwierigkeit.equals("schwer")) {
             gegner = new SchwereKI(spielfeld);
         }
+
+        new Figurenkampf(new Major(1),new Ninja(2));
     }
 
 

@@ -1,16 +1,91 @@
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Created by Dennis on 19.11.2014.
  */
-public class Figurenkampf {
+public class Figurenkampf extends JFrame{
 
     // TODO: Graphische Oberflaeche
     Figur figur1;
     Figur figur2;
+    private JButton okButton;
+    private JLabel ausgabeFigur;
+    private JPanel panel;
+    private JLabel bild1;
+    private JLabel bild2;
 
     public Figurenkampf(Figur figurA, Figur figurB) {
+        super("Figurenkampf");
         figur1 = figurA;
         figur2 = figurB;
+        // Groesse des Fensters
+        setSize(300, 300);
+        // Position des Fensters. Wird immer in die Mitte gesetzt
+        setLocationRelativeTo(null);
+        // Fenstergroesse darf nicht geaendert werden
+        setResizable(false);
+
+        getContentPane().setLayout(new BorderLayout(1,1));
+
+        // Bilder erzeugen
+        bild1= new JLabel(new ImageIcon(figur1.getBild()));
+        bild2=new JLabel(new ImageIcon(figur2.getBild()));
+
+        //Text festlegen
+        int ergebnis=this.vergleicheStaerke();
+        String ausgabe;
+        if(ergebnis==0){
+            ausgabe="<html>Unentschieden. <br> Beide Figuren werden entfernt!</html>";
+        } else if(ergebnis==1){
+            ausgabe="<html> Figur 1 hat gewonnen. </html>";
+            bild1.setBorder(new LineBorder(Color.red));
+        } else {
+            ausgabe="<html> Figur 2 hat gewonnen. </html>";
+            bild2.setBorder(new LineBorder(Color.red));
+        }
+
+        //Textfeld erzeugen
+        ausgabeFigur=new JLabel(ausgabe);
+
+
+        //Button erzeugen
+        okButton = new JButton();
+        okButton.setName("okay");
+        okButton.setText("OK, weiter");
+        okButton.setPreferredSize(new Dimension(75,50));
+
+        addButtonListener(okButton);
+
+
+
+        // Panel erzeugen und Elemente hinzufuegen
+        panel=new JPanel(new BorderLayout(5,1));
+        panel.add(ausgabeFigur, BorderLayout.CENTER);
+        panel.add(okButton, BorderLayout.SOUTH);
+        panel.add(bild1, BorderLayout.EAST);
+        panel.add(bild2, BorderLayout.WEST);
+
+        getContentPane().add(panel, BorderLayout.CENTER);
+        setVisible(true);
+
+
     }
+
+    private void addButtonListener(JButton b) {
+        if(b.getName().equals("okay")){
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setVisible(false);
+                }
+            });
+        }
+    }
+
 
     // Vergleicht die Staerken der beiden Figuren
     // 0: Unentschieden, 1: Figur1 gewinnt, 2: Figur2 gewinnt
