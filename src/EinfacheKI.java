@@ -8,8 +8,10 @@ public class EinfacheKI extends KI {
     //ArrayList<Figur> tmp = new ArrayList<Figur>(figurenSatzKI);
     Figur figur;
     Spielfeld spielfeld;
+    ArrayList<Figur> listTmp;
 
     public EinfacheKI(Spielfeld spielfeld) {
+        listTmp  = new ArrayList<Figur>(figurenSatzKI);
         this.spielfeld=spielfeld;
         setzeStartAufstellung();
     }
@@ -35,9 +37,9 @@ public class EinfacheKI extends KI {
 //            figur = tmp.remove(zahl);
 //        }
         //while (figurenSatzKI.size()>0) {
-            int zahl = (int) (Math.random()*figurenSatzKI.size());
-            figur = figurenSatzKI.get(zahl);
-            figurenSatzKI.remove(zahl);
+            int zahl = (int) (Math.random()*listTmp.size());
+            figur = listTmp.get(zahl);
+            listTmp.remove(zahl);
       //  }
         return figur;
     }

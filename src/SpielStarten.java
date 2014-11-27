@@ -64,8 +64,8 @@ public class SpielStarten extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose();
-                    // neues Spiel starten
-                    new Spielablauf();
+                    // Schwierigkeit auswaehlen lassen
+                    new SchwierigkeitWaehlen();
                 }
             });
         } else if (b.getName().equals("spielLaden")) {

@@ -1,14 +1,34 @@
+import java.util.ArrayList;
+
 /**
  * Created by Dennis on 25.11.2014.
  */
 public class SchwereKI extends KI {
 
-    @Override
-    public void setzeStartAufstellung() {
+    Figur figur;
+    Spielfeld spielfeld;
+    ArrayList<Figur> listTmp;
 
+    public SchwereKI(Spielfeld spielfeld) {
+        listTmp = new ArrayList<Figur>(figurenSatzKI);
+        this.spielfeld=spielfeld;
+        setzeStartAufstellung();
     }
 
-    public Figur waehleFigur(){
+    @Override
+    public void setzeStartAufstellung() {
+        int index=2;
+        spielfeld.panelButton.removeAll();
+        for (int i=0; i<grenzeX; i++) {
+            for (int j=0; j<grenzeY; j++) {
+                figur = listTmp.get(index);
+                spielfeld.figurInit(figur,i,j);
+            }
+        }
+        spielfeld.panelAktualisieren();
+    }
+
+    public Figur holeFigur(){
         return null;
     }
 

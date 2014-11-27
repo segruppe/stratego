@@ -7,15 +7,21 @@ public class Spielablauf {
     public static Spielfeld spielfeld;
     private static boolean kiGezogen = true;
 
-    public Spielablauf() {
-        main("einfach");
-    }
+//    public Spielablauf() {
+//        main("einfach");
+//    }
 
-    public static void main(String schwierigkeit) {
-        //gegner = new EinfacheKI();
+    public Spielablauf (String schwierigkeit) {
         spielfeld = new Spielfeld();
-        gegner = new EinfacheKI(spielfeld);
 
+        // Erzeugen der KI, je nach ausgewaehlter Schwierigkeit
+        if (schwierigkeit.equals("einfach")) {
+            gegner = new EinfacheKI(spielfeld);
+        } else if (schwierigkeit.equals("mittel")) {
+            gegner = new MittlereKI(spielfeld);
+        } else if (schwierigkeit.equals("schwer")) {
+            gegner = new SchwereKI(spielfeld);
+        }
     }
 
 
