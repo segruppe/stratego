@@ -81,7 +81,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 						int number = rn.nextInt(250);
 						if (number <= 0) {
 							// Figur setzen
-							Figur temp = new Fahne(1);
+							Figur temp = new Major(1);
 							figurInit(temp, i, j);
 							flagge--;
 						}
@@ -116,7 +116,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
-		if(e.getActionCommand() == "abbrechen") {
+		if(e.getActionCommand().equals("abbrechen")) {
+			// Damit count wieder auf 0 gesetzt wird
+			ButtonFigurVerkn test = new ButtonFigurVerkn();
 			dispose();
 			new Menue();
 		} else {

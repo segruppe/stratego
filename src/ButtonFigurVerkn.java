@@ -9,6 +9,11 @@ public class ButtonFigurVerkn {
     protected Color blue = new Color(0,154,205);
     protected Color green = new Color(0,153,0);
 
+    // Noetig, damit bei erneutem Spielstart innerhalb einer Session die Felder wieder ab 0 nummeriert werden
+    public ButtonFigurVerkn(){
+        count=0;
+    };
+
     // Standard Konstruktor für Figur auf dem Spielfeld
     public ButtonFigurVerkn(Figur figur){
         if(count > 99){
