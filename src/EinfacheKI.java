@@ -19,10 +19,22 @@ public class EinfacheKI extends KI {
     @Override
     public void setzeStartAufstellung() {
         spielfeld.panelButton.removeAll();
+        // Fahne soll in einer der beiden vorderen Reihen stehen
+        int fahneX=(int) Math.floor(Math.random() * (3 - 2 + 1)) + 2;
+        int fahneY=(int) (Math.random()*10);
+        System.out.println("x:"+fahneX+" y:" + fahneY);
+        figur = listTmp.get(0);
+        listTmp.remove(0);
+        spielfeld.figurInit(figur, fahneX,fahneY);
+
         for (int i=0; i<grenzeX ; i++) {
             for (int j=0; j<grenzeY; j++) {
-                figur = holeFigur();
-                spielfeld.figurInit(figur,i,j);
+                if (i==fahneX && j==fahneY) {
+                    continue;
+                } else {
+                    figur = holeFigur();
+                    spielfeld.figurInit(figur, i, j);
+                }
             }
         }
         spielfeld.panelAktualisieren();
