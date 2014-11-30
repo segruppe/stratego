@@ -26,8 +26,12 @@ public class SchwierigkeitWaehlen extends JFrame {
 
         getContentPane().setLayout(new BorderLayout(4, 1));
 
-        String anweisungText;
-        anweisungText = "Waehle die Schwierigkeit der KI aus";
+        String anweisungText="";
+        // Damit Text in Mitte steht
+        for (int i=0; i<65; i++) {
+            anweisungText += " ";
+        }
+        anweisungText += "Waehle die Schwierigkeit der KI aus";
 
         // Textfeld erstellen und fuellen
         anweisung = new JLabel(anweisungText);
