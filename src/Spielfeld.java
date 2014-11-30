@@ -11,11 +11,63 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	public JPanel panelButton;
+	public JPanel panelBottom;
+	JTextPane infoMessage = new JTextPane();
     private ButtonFigurVerkn spielfeld[][];
 	private static ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
+	private JButton button = new JButton("abbrechen");
+
+	// Variablen fuer das setzen von Figuren
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
 	private static Position firstClickPosition; //temporaerer Speicher fuer die zuerst angeklickte Position
-	private JButton button = new JButton("abbrechen");
+	private static boolean spielstart = true;
+	private static boolean warteAufSetzen = false;
+	private static Figur wartendeFigur = null;
+
+	// Hinzufuegen aller Figuren in eine Liste // Team 1
+	static ArrayList<Figur> figurenSatzSpieler = new ArrayList<Figur>(){{
+		add(new Fahne(1));
+		add(new Ninja(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Aufklaerer(1));
+		add(new Mineur(1));
+		add(new Mineur(1));
+		add(new Mineur(1));
+		add(new Mineur(1));
+		add(new Mineur(1));
+		add(new Unteroffizier(1));
+		add(new Unteroffizier(1));
+		add(new Unteroffizier(1));
+		add(new Unteroffizier(1));
+		add(new Leutnant(1));
+		add(new Leutnant(1));
+		add(new Leutnant(1));
+		add(new Leutnant(1));
+		add(new Hauptmann(1));
+		add(new Hauptmann(1));
+		add(new Hauptmann(1));
+		add(new Hauptmann(1));
+		add(new Major(1));
+		add(new Major(1));
+		add(new Major(1));
+		add(new Oberst(1));
+		add(new Oberst(1));
+		add(new General(1));
+		add(new Feldmarschall(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+	}};
+
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -49,7 +101,15 @@ public class Spielfeld extends JFrame implements ActionListener {
         }
 
         // Panels auf GridLayout erzeugen
-        panelButton = new JPanel(new GridLayout(11, 10));
+        panelButton = new JPanel(new GridLayout(10, 10));
+		panelBottom = new JPanel(new GridLayout(2,1));
+
+
+		// Textfeld dem BottomPanel hinzufuegen, beschriften und uneditable machen
+		panelBottom.add(infoMessage);
+		infoMessage.setText("Beliebigen Button druecken um zu starten");
+		infoMessage.setEditable(false);
+
 		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
 		panelButton.setBackground(new Color(207, 4, 0));
         // Buttons auf panel packen
@@ -57,9 +117,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 		/*
 		Setzt Figuren auf das Spielfeld (Test für leichte KI)
-		 */
+
 		int flagge = 5;
-		int count=0;
 		// Wenn es noch nicht gesetzt wurde, weitermachen
 		loop: while (flagge > 0) {
 			//System.out.println(count);
@@ -88,11 +147,10 @@ public class Spielfeld extends JFrame implements ActionListener {
 					}
 				}
 			}
-			// Einfacher Zaehler
-			count++;
 		}
+		*/
 
-        // Listener fuer Buttons
+		// Listener fuer Buttons
 		for(ButtonFigurVerkn[] i:spielfeld) {
 			for(ButtonFigurVerkn j: i){
 				j.getButton().addActionListener(this);
@@ -104,6 +162,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
         //Panels auf Frame packen (das panelButton hat ein GridLayout, dass jetzt in den WestBereich des BorderLayouts kommt)
         getContentPane().add(BorderLayout.CENTER, panelButton);
+		getContentPane().add(BorderLayout.PAGE_END, panelBottom);
         // sichtbar machen
         setVisible(true);
 		panelAktualisieren();
@@ -122,6 +181,42 @@ public class Spielfeld extends JFrame implements ActionListener {
 			dispose();
 			new Menue();
 		} else {
+			System.out.println(e.getActionCommand());
+
+			// Figuren setzen des Spielers
+		if(spielstart && !warteAufSetzen) {
+			// Sind noch Figuren im pool?
+			if(figurenSatzSpieler.size() > 0) {
+				wartendeFigur = figurenSatzSpieler.remove(0);
+				warteAufSetzen = true;
+				infoMessage.setText(wartendeFigur.toString()+ " wird als erstes gesetzt. Bitte das gewuenschte Feld anklicken");
+			} else {
+				infoMessage.setText("Alle Figuren gesetzt. Spielstart!");
+				spielstart = false;
+				warteAufSetzen = false;
+			}
+		} else if(spielstart && warteAufSetzen) {
+			int number = Integer.parseInt(e.getActionCommand());
+			if(number/10 < 6 || spielfeld[number/10][number%10].getFigur() != null) {
+				// Wenn ein falsches Feld angeklickt wurde
+				infoMessage.setText(wartendeFigur.getClass().toString()+ " bitte auf eins Ihrer Felder das noch nicht belegt ist setzen");
+			} else {
+				// Figur wird gesetzt
+				figurInit(wartendeFigur, number/10, number%10);
+				warteAufSetzen = false;
+				infoMessage.setText(wartendeFigur.getClass().toString()+ " wurde auf "+number/10+"/"+number%10+" gesetzt");
+
+				if(figurenSatzSpieler.size() > 0) {
+					wartendeFigur = figurenSatzSpieler.remove(0);
+					warteAufSetzen = true;
+					infoMessage.setText(wartendeFigur.toString()+ " wird als naechstes gesetzt. Bitte das gewuenschte Feld anklicken");
+				} else {
+					infoMessage.setText("Alle Figuren gesetzt. Spielstart!");
+					spielstart = false;
+					warteAufSetzen = false;
+				}
+			}
+		} else {
 
 			int number = Integer.parseInt(e.getActionCommand());
 
@@ -129,33 +224,43 @@ public class Spielfeld extends JFrame implements ActionListener {
 				System.out.println("das ist wasser");
 			} else {
 				if (firstClickPerformed) {
-					if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY()) || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
+					if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY()) || spielfeld[number / 10][number % 10].getFigur() != null) {
 						// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
-						// Zug durchfuehren
-						//spielfeld[number / 10][number % 10].setFigur(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
-						figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number/10, number%10);
-						System.out.println(number / 10 + " und " + number % 10);
+						if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
+							// Zug durchfuehren
+							//spielfeld[number / 10][number % 10].setFigur(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
+							System.out.println(firstClickPosition.getX() + " beim setzen mit " + firstClickPosition.getY());
+							figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+							System.out.println(number / 10 + " und " + number % 10);
 
-						// Alte Figur null setzen
-						spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].setFigur(null);
+							// Alte Figur null setzen
+							//spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].setFigur(null);
+						} else {
+							infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
+						}
 					}
+					System.out.println(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()]);
+					//TODO: hier ist ein nullpointer weil der Button angeblich nicht existiert
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0, 153, 0));
 					firstClickPerformed = false;
+					infoMessage.setText("Sie sind am Zug, bitte eine eigene Figur auswaehlen");
 				} else {
 					firstClickPosition = new Position(number / 10, number % 10);
-					System.out.println(number);
+					//System.out.println(number);
 					// Wenn das angeklickte Feld eine Figur hat
 					if (!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null) && spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getTeam() == 1) {
 						// Nur wenn eine Figur auf dem Feld liegt und diese auch eine eigene ist
-						System.out.println(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
+						infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
 						spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(156, 255, 107));
 						firstClickPerformed = true;
+						System.out.println("Existiert?" +spielfeld[firstClickPosition.getX()][firstClickPosition.getY()]);
 					}
 				}
 
 			}
+		}
 
-			panelAktualisieren();
+			//panelAktualisieren();
 		}// ende Else vom abbrechen Button
 	}
 
@@ -174,7 +279,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 				panelButton.add(j.getButton());
 			}
 		}
-		panelButton.add(button, BorderLayout.PAGE_END);
+		panelBottom.add(infoMessage);
+		panelBottom.add(button, BorderLayout.PAGE_END);
 	}
 
     public void figurSetzen(Position pos, Figur figur) {
