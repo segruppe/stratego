@@ -23,7 +23,7 @@ public class Spielablauf {
             gegner = new SchwereKI(spielfeld);
         }
 
-        new Figurenkampf(new Major(1),new Ninja(2));
+       // new Figurenkampf(new Major(1),new Ninja(2));
     }
 
 
