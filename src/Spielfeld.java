@@ -13,7 +13,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	public JPanel panelButton;
 	public JPanel panelBottom;
 	JTextPane infoMessage = new JTextPane();
-    private ButtonFigurVerkn spielfeld[][];
+    protected ButtonFigurVerkn spielfeld[][];
 	public ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private JButton button = new JButton("abbrechen");
 
@@ -140,7 +140,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	Setzt Spielfiguren um, reagiert auf Mausklick
 	 */
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
+
 		if(e.getActionCommand().equals("abbrechen")) {
 			// Damit count wieder auf 0 gesetzt wird
 			ButtonFigurVerkn test = new ButtonFigurVerkn();
@@ -153,7 +153,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			// Menue wieder aufrufen
 			new Menue();
 		} else {
-			System.out.println(e.getActionCommand());
 
 			// Figuren setzen des Spielers
 		if(spielstart && !warteAufSetzen) {
@@ -210,21 +209,18 @@ public class Spielfeld extends JFrame implements ActionListener {
 							infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 						}
 					}
-					System.out.println(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()]);
-					//TODO: hier ist ein nullpointer weil der Button angeblich nicht existiert
+
 					spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0, 153, 0));
 					firstClickPerformed = false;
 					infoMessage.setText("Sie sind am Zug, bitte eine eigene Figur auswaehlen");
 				} else {
 					firstClickPosition = new Position(number / 10, number % 10);
-					//System.out.println(number);
 					// Wenn das angeklickte Feld eine Figur hat
 					if (!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null) && spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getTeam() == 1) {
 						// Nur wenn eine Figur auf dem Feld liegt und diese auch eine eigene ist
 						infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
 						spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(156, 255, 107));
 						firstClickPerformed = true;
-						System.out.println("Existiert?" +spielfeld[firstClickPosition.getX()][firstClickPosition.getY()]);
 					}
 				}
 
@@ -280,31 +276,62 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 	// x und y sind Koordinaten der neuen Position
     public void figurSetzen(Figur a, int x, int y) {
+		ButtonFigurVerkn tmp = spielfeld[a.getPosition().getX()][a.getPosition().getY()];
+
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
+		a.setPosition(new Position(x, y));
+
+		if(a.getTeam() == 2) {
+			spielfeld[x][y] = new ButtonFigurVerkn(a, "red");
+		} else {
+			spielfeld[x][y] = tmp;
+		}
+		/*
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
 		// Neue Position setzen
 		a.setPosition(new Position(x, y));
 		spielfeld[x][y] = new ButtonFigurVerkn(a);
+
+		*/
 		panelAktualisieren();
 	}
 
 	public void figurSetzen(Figur a, Position pos) {
+		ButtonFigurVerkn tmp = spielfeld[a.getPosition().getX()][a.getPosition().getY()];
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
+		a.setPosition(pos);
+
+		if(a.getTeam() == 2) {
+			spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a, "red");
+		} else {
+			spielfeld[pos.getX()][pos.getY()] = tmp;
+		}
+		/*
 		// Alte Position auf null setzen
 		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
 		// Neue Position setzen
 		a.setPosition(pos);
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);
+
+		 */
         panelAktualisieren();
     }
 
 	// Methode zum initialisieren eines Feldes mit einer Figur
 	public void figurInit(Figur a, int x, int y) {
-		// Setzt eine Figur und gibt ihr direkt die richtige Nummer
-		// Setzt die Position der Figur
 		a.setPosition(new Position(x, y));
-		spielfeld[x][y] = new ButtonFigurVerkn(a, x*10+y);
+		// Setzt eine Figur und gibt ihr direkt die richtige Nummer
+		if(a.getTeam() == 2) {
+			spielfeld[x][y] = new ButtonFigurVerkn(a, "red");
+		} else {
+			spielfeld[x][y] = new ButtonFigurVerkn(a, x * 10 + y);
+		}
+		// Setzt die Position der Figur
 		panelAktualisieren();
 	}
+
+
 
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
 		int length = this.spielfeld.length;

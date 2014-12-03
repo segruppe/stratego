@@ -8,6 +8,7 @@ public class ButtonFigurVerkn {
     private static int count = 0;
     protected Color blue = new Color(0,154,205);
     protected Color green = new Color(0,153,0);
+    protected Color red = new Color(207, 4, 0);
 
     // Noetig, damit bei erneutem Spielstart innerhalb einer Session die Felder wieder ab 0 nummeriert werden
     public ButtonFigurVerkn(){
@@ -37,13 +38,27 @@ public class ButtonFigurVerkn {
 
         if (farbe.contains("blau") || farbe.contains("blue")) {
             this.button.setBackground(blue);
-            // Test Felder für den User unsichtbar zu machen
-            //            this.button.setVisible(false);
         } else if (farbe.contains("grün") || farbe.contains("green")) {
             this.button.setBackground(green);
         }
         this.figur = null;
         count++;
+    }
+
+    public ButtonFigurVerkn(Figur a, String farbe) {
+        System.out.println(a);
+        this.button = new JButton(Integer.toString(a.getPosition().getX()*10+a.getPosition().getY()));
+
+        if (farbe.contains("blau") || farbe.contains("blue")) {
+            this.button.setBackground(blue);
+            // Test Felder für den User unsichtbar zu machen
+            //            this.button.setVisible(false);
+        } else if (farbe.contains("grün") || farbe.contains("green")) {
+            this.button.setBackground(green);
+        } else if (farbe.contains("red") || farbe.contains("rot")) {
+            this.button.setBackground(red);
+        }
+        this.figur = a;
     }
 
     /*
