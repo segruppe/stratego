@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SpielBeendet extends JFrame{
-    Figur sieger;
+    int sieger;
     private JLabel ausgabeSieger;
     private JButton beenden;
     private JPanel panel;
 
-    public SpielBeendet(Figur sieger){
+    public SpielBeendet(int sieger){
         super("Spiel Beendet");
         this.sieger = sieger;
         // Groesse des Fensters
@@ -24,7 +24,7 @@ public class SpielBeendet extends JFrame{
         getContentPane().setLayout(new BorderLayout(4, 1));
 
         String ausgabe;
-        if (sieger.getTeam()==1) {
+        if (sieger==1) {
             ausgabe = "<html><h1>Glückwunsch du hast gewonnen</h1></html>";
         } else {
             ausgabe = "<html><h1>Schade! Du hast leider verloren</h1></html>";

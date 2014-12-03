@@ -33,8 +33,6 @@ public class MittlereKI extends KI {
     }
 
     @Override
-    public Position macheZug() {
-        return null;
-    }
+    public void macheZug() {}
 
 }

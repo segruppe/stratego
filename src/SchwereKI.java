@@ -42,9 +42,7 @@ public class SchwereKI extends KI {
     }
 
     @Override
-    public Position macheZug() {
-        return null;
-    }
+    public void macheZug() {}
 
     private Position setzeFahne(){
         int r=(int)(Math.random()*4);

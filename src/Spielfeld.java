@@ -14,7 +14,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	public JPanel panelBottom;
 	JTextPane infoMessage = new JTextPane();
     private ButtonFigurVerkn spielfeld[][];
-	private static ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
+	public ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private JButton button = new JButton("abbrechen");
 
 	// Variablen fuer das setzen von Figuren
@@ -160,7 +160,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		button.addActionListener(this);
 
 
-        //Panels auf Frame packen (das panelButton hat ein GridLayout, dass jetzt in den WestBereich des BorderLayouts kommt)
+        //Panels auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panelButton);
 		getContentPane().add(BorderLayout.PAGE_END, panelBottom);
         // sichtbar machen
@@ -273,11 +273,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 	// Aktualisiert das gesamte Panel (die Buttons)
 	public void panelAktualisieren() {
 
-
+          // Durchlaueft alle Zeilen(i) des Spielfelds -> Reihe von Buttons
 		for(ButtonFigurVerkn[] i: spielfeld) {
+            // Durchlauft jede Spalte von i -> Jeweils 1 einziger Button
 			for(ButtonFigurVerkn j : i) {
 				panelButton.add(j.getButton());
-			}
+            }
 		}
 		panelBottom.add(infoMessage);
 		panelBottom.add(button, BorderLayout.PAGE_END);
@@ -317,7 +318,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 		// Neue Position setzen
 		a.setPosition(pos);
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);
-	}
+        System.out.println("Habe gesetzt");
+    }
 
 	// Methode zum initialisieren eines Feldes mit einer Figur
 	public void figurInit(Figur a, int x, int y) {
@@ -340,6 +342,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 		// Ansonsten true
 		return true;
 	}
+
+
+    // Gibt Figur auf der Position zurueck
+    // wenn Position auf Spielfeld, sonst null
+    public Figur getFigur(int x, int y) {
+            return spielfeld[x][y].getFigur();
+    }
 
 	public void spielfeldSpeichern() {
 		// Noch uberlegen wie wir das speichern

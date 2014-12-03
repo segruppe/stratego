@@ -22,7 +22,8 @@ public class Spielablauf {
         } else if (schwierigkeit.equals("schwer")) {
             gegner = new SchwereKI(spielfeld);
         }
-
+        System.out.println("Gegner macht Zug");
+        gegner.macheZug();
        // new Figurenkampf(new Major(1),new Ninja(2));
     }
 

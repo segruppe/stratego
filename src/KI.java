@@ -15,7 +15,7 @@ public abstract class KI {
     Spielfeld spielfeld;
 
     public abstract void setzeStartAufstellung();
-    public abstract Position macheZug();
+    public abstract void macheZug();
 
     // Hinzufuegen aller Figuren in eine Liste
      static ArrayList<Figur> figurenSatzKI = new ArrayList<Figur>(){{

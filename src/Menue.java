@@ -70,8 +70,7 @@ public class Menue extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     // Menue schliessen, wenn Hilfe aufgerufen wird
                     setVisible(false);
-                    //new HilfeAnzeigen();
-                    new SpielBeendet(new Fahne(2)); // TODO: Nur zu Testzwecken! Wieder Zurück ändern!!!
+                    new HilfeAnzeigen();
                 }
             });
         } else if(b.getName().equals("spielStartenButton")) {
