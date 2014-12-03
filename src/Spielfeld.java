@@ -178,7 +178,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 		if(e.getActionCommand().equals("abbrechen")) {
 			// Damit count wieder auf 0 gesetzt wird
 			ButtonFigurVerkn test = new ButtonFigurVerkn();
+			// Spielstart zuruecksetzen
+			spielstart = true;
+			warteAufSetzen = false;
+			// Fenster schliessen
 			dispose();
+			// Menue wieder aufrufen
 			new Menue();
 		} else {
 			System.out.println(e.getActionCommand());
@@ -272,6 +277,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 	// Aktualisiert das gesamte Panel (die Buttons)
 	public void panelAktualisieren() {
+		panelButton.removeAll();
+		panelBottom.removeAll();
 
           // Durchlaueft alle Zeilen(i) des Spielfelds -> Reihe von Buttons
 		for(ButtonFigurVerkn[] i: spielfeld) {
@@ -306,19 +313,20 @@ public class Spielfeld extends JFrame implements ActionListener {
 	// x und y sind Koordinaten der neuen Position
     public void figurSetzen(Figur a, int x, int y) {
 		// Alte Position auf null setzen
-		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green");
 		// Neue Position setzen
 		a.setPosition(new Position(x, y));
 		spielfeld[x][y] = new ButtonFigurVerkn(a);
+		panelAktualisieren();
 	}
 
 	public void figurSetzen(Figur a, Position pos) {
 		// Alte Position auf null setzen
-		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = null;
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green");
 		// Neue Position setzen
 		a.setPosition(pos);
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);
-        System.out.println("Habe gesetzt");
+        panelAktualisieren();
     }
 
 	// Methode zum initialisieren eines Feldes mit einer Figur
@@ -327,6 +335,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		// Setzt die Position der Figur
 		a.setPosition(new Position(x, y));
 		spielfeld[x][y] = new ButtonFigurVerkn(a, x*10+y);
+		panelAktualisieren();
 	}
 
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
