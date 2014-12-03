@@ -160,10 +160,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 					wartendeFigur = figurenSatzSpieler.remove(0);
 					warteAufSetzen = true;
 					infoMessage.setText(wartendeFigur.toString()+ " wird als erstes gesetzt. Bitte das gewuenschte Feld anklicken");
-				} else {
-					infoMessage.setText("Alle Figuren gesetzt. Spielstart!");
-					spielstart = false;
-					warteAufSetzen = false;
 				}
 			} else if(spielstart && warteAufSetzen) {
 				int number = Integer.parseInt(e.getActionCommand());
@@ -194,33 +190,27 @@ public class Spielfeld extends JFrame implements ActionListener {
 				} else {
 					// TODO: Reichweite der Figuren oder uberhaupt bewegbar
 					if (firstClickPerformed) {
-						if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY()) || spielfeld[number / 10][number % 10].getFigur() != null) {
+						if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY())) {
 							// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
 							if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
 								// Zug durchfuehren
-								//spielfeld[number / 10][number % 10].setFigur(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur());
-								System.out.println(firstClickPosition.getX() + " beim setzen mit " + firstClickPosition.getY());
 								figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-								System.out.println(number / 10 + " und " + number % 10);
-
-								// Alte Figur null setzen
-								//spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].setFigur(null);
 							} else {
 								infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 							}
 						}
-
-						spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(0, 153, 0));
 						firstClickPerformed = false;
 						infoMessage.setText("Sie sind am Zug, bitte eine eigene Figur auswaehlen");
 					} else {
 						firstClickPosition = new Position(number / 10, number % 10);
-						// Wenn das angeklickte Feld eine Figur hat
+						// Wenn auf dem angeklickten Feld eine eigene Figur steht
 						if (!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null) && spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getTeam() == 1) {
-							// Nur wenn eine Figur auf dem Feld liegt und diese auch eine eigene ist
-							infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
-							spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getButton().setBackground(new Color(156, 255, 107));
-							firstClickPerformed = true;
+							if(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getIstBewegbar()){
+								infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
+								firstClickPerformed = true;
+							} else {
+								infoMessage.setText("Diese Figur kann sich nicht bewegen");
+							}
 						}
 					}
 
@@ -283,8 +273,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		int sieger = -1;
 		if(a.getTeam() == 2) {
 			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 1) {
-
-				setVisible(false);
+				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(a, spielfeld[x][y].getFigur(), this);
 				sieger = fk.vergleicheStaerke();
 			} else if(spielfeld[x][y].getFigur() == null) {
@@ -300,7 +289,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		} else {
 			// Spieler greift an
 			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 2) {
-				setVisible(false);
+				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(a, spielfeld[x][y].getFigur(), this);
 				sieger = fk.vergleicheStaerke();
 			} else if(spielfeld[x][y].getFigur() == null) {

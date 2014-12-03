@@ -82,7 +82,7 @@ public class Figurenkampf extends JFrame{
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    spielfeld.setVisible(true);
+                    spielfeld.setEnabled(true);
                     dispose();
                 }
             });
