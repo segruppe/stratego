@@ -93,19 +93,15 @@ public class EinfacheKI extends KI {
                     // nach oben setzen
                     if (i>=1 && !spielfeld.wasser.contains(10*(i-1)+j) && (spielfeld.getFigur(i-1,j)==null || spielfeld.getFigur(i-1,j).getTeam()==1)) {
                         zugMoeglich.add(spielfeld.getFigur(i,j));
-                        System.out.println(i + "   " + j);
                     // nach unten setzen
                     } else if (i<9 && !spielfeld.wasser.contains(10*(i+1)+j) && (spielfeld.getFigur(i+1,j)==null || spielfeld.getFigur(i+1,j).getTeam()==1)) {
                         zugMoeglich.add(spielfeld.getFigur(i,j));
-                        System.out.println(i + "   " + j);
                     // nach links setzen
                     } else if (j>=1 && !spielfeld.wasser.contains(10*i+(j-1)) && (spielfeld.getFigur(i,j-1)==null || spielfeld.getFigur(i,j-1).getTeam()==1)) {
                         zugMoeglich.add(spielfeld.getFigur(i,j));
-                        System.out.println(i + "   " + j);
                     // nach rechts setzen
                     } else if (j<9 && !spielfeld.wasser.contains(10*i+(j+1)) && (spielfeld.getFigur(i,j+1)==null || spielfeld.getFigur(i,j+1).getTeam()==1)) {
                         zugMoeglich.add(spielfeld.getFigur(i,j));
-                        System.out.println(i + "   " + j);
                     }
                 }
             }

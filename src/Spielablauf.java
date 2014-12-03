@@ -28,6 +28,4 @@ public class Spielablauf {
         gegner.macheZug();
        // new Figurenkampf(new Major(1),new Ninja(2));
     }
-
-
 }

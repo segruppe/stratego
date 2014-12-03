@@ -96,6 +96,7 @@ public class Figurenkampf extends JFrame{
     // Figur 1 MUSS die angreifende Figur sein
     int vergleicheStaerke() {
         if (figur2.getStaerke()==1) {
+            dispose();
             new SpielBeendet(figur1.getTeam()); // Spieler von Figur1 hat gewonnen
         }
         if (figur1.getStaerke() == figur2.getStaerke()) {
