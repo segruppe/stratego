@@ -60,21 +60,26 @@ public class EinfacheKI extends KI {
         int t = (int) (Math.random() * zugMoeglich.size());
         Figur figur = zugMoeglich.get(t);
 
-        // Versuch im Uhrzeigersinn von 12 Uhr an zu ziehen (nach oben-rechts-unten-links)
-        // TODO: Wasser ueberpruefen
-        if (figur.getPosition().getY() - 1>=0 && (spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() - 1) == null || spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() - 1).getTeam() == 1)) {
+        int y = figur.getPosition().getY();
+        int x = figur.getPosition().getX();
+        // Neue Position muss auf Feld liegen, Kein Wasser sein, Feld leer, Feld von Gegner besetzt
+        // nach links
+        if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y- 1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(figur.getPosition().getX(), figur.getPosition().getY() - 1));
-        } else if (figur.getPosition().getX()+1<=9 && (spielfeld.getFigur(figur.getPosition().getX() + 1, figur.getPosition().getY()) == null || spielfeld.getFigur(figur.getPosition().getX() + 1, figur.getPosition().getY()).getTeam() == 1)) {
+            spielfeld.figurSetzen(figur, new Position(x, y-1));
+        // nach unten
+        } else if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(figur.getPosition().getX() + 1, figur.getPosition().getY()));
-        } else if (figur.getPosition().getY()+1<=9 && (spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() + 1) == null || spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() + 1).getTeam() == 1)) {
+            spielfeld.figurSetzen(figur, new Position(x+1, y));
+        // nach rechts
+        } else if (y+1<=9 && !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x, y+1) == null || spielfeld.getFigur(x, y+1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(figur.getPosition().getX(), figur.getPosition().getY() + 1));
+            spielfeld.figurSetzen(figur, new Position(x, y+1));
+        // nach oben
         } else {
-            if (figur.getPosition().getX()-1>=0) {
+            if (x-1>=0 && !spielfeld.wasser.contains(10*(x-1)+y) ) {
                 // Figur auf dem Spielfeld auf neue Position setzen
-                spielfeld.figurSetzen(figur, new Position(figur.getPosition().getX() - 1, figur.getPosition().getY()));
+                spielfeld.figurSetzen(figur, new Position(x-1, y));
             }
         }
         // Liste wieder leeren
