@@ -17,11 +17,13 @@ public class Figurenkampf extends JFrame{
     private JPanel panel;
     private JLabel bild1;
     private JLabel bild2;
+    private Spielfeld spielfeld;
 
-    public Figurenkampf(Figur figurA, Figur figurB) {
+    public Figurenkampf(Figur figurA, Figur figurB, Spielfeld spielfeld) {
         super("Figurenkampf");
         figur1 = figurA;
         figur2 = figurB;
+        this.spielfeld = spielfeld;
         // Groesse des Fensters
         setSize(300, 300);
         // Position des Fensters. Wird immer in die Mitte gesetzt
@@ -80,7 +82,8 @@ public class Figurenkampf extends JFrame{
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    setVisible(false);
+                    spielfeld.setVisible(true);
+                    dispose();
                 }
             });
         }
