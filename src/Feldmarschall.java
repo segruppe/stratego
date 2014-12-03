@@ -15,4 +15,8 @@ public class Feldmarschall extends Figur {
         setBild("Bilder/Feldmarschall.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Feldmarschall";
+    }
 }

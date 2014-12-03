@@ -15,4 +15,8 @@ public class Oberst extends Figur {
         setBild("Bilder/Oberst.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Oberst";
+    }
 }

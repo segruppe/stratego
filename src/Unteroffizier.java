@@ -15,4 +15,8 @@ public class Unteroffizier extends Figur {
         setBild("Bilder/Unteroffizier.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Unteroffizier";
+    }
 }

@@ -15,4 +15,8 @@ public class Hauptmann extends Figur {
         setBild("Bilder/Hauptmann.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Hauptmann";
+    }
 }

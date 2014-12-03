@@ -27,6 +27,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 	// Hinzufuegen aller Figuren in eine Liste // Team 1
 	static ArrayList<Figur> figurenSatzSpieler = new ArrayList<Figur>(){{
 		add(new Fahne(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
+		add(new Bombe(1));
 		add(new Ninja(1));
 		add(new Aufklaerer(1));
 		add(new Aufklaerer(1));
@@ -60,14 +66,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 		add(new Oberst(1));
 		add(new General(1));
 		add(new Feldmarschall(1));
-		add(new Bombe(1));
-		add(new Bombe(1));
-		add(new Bombe(1));
-		add(new Bombe(1));
-		add(new Bombe(1));
-		add(new Bombe(1));
 	}};
 
+	static ArrayList<Figur> figurenSatzSpieler_clone = new ArrayList<Figur>(figurenSatzSpieler);
 
     public Spielfeld() {
         super("Stratego - Spiel");
@@ -92,10 +93,10 @@ public class Spielfeld extends JFrame implements ActionListener {
         	for(int j=0; j<spielfeld[0].length; j++) {
             	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
             		// Alle grasspielfelder setzen
-            		spielfeld[i][j] = new ButtonFigurVerkn("grün");
+            		spielfeld[i][j] = new ButtonFigurVerkn("grün", i*10+j);
             	} else {
             		// Wasserspielfelder
-            		spielfeld[i][j] = new ButtonFigurVerkn("blau");
+            		spielfeld[i][j] = new ButtonFigurVerkn("blau", i*10+j);
 				}
         	}
         }
@@ -114,41 +115,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		panelButton.setBackground(new Color(207, 4, 0));
         // Buttons auf panel packen
 
-
-		/*
-		Setzt Figuren auf das Spielfeld (Test für leichte KI)
-
-		int flagge = 5;
-		// Wenn es noch nicht gesetzt wurde, weitermachen
-		loop: while (flagge > 0) {
-			//System.out.println(count);
-
-			// Zeilen durchlaufen
-			for (int i = 0; i < 3; i++) {
-				// Spalten durchlaufen
-				for (int j = 0; j < 10; j++) {
-					// Überspringe bereits besetzte Felder
-					if(!(spielfeld[i][j].getFigur() == null)) {
-						continue;
-					}
-
-					if (flagge == 0) break loop;
-					else if(flagge >0) {
-
-						// Wahrscheinlichkeit
-						Random rn = new Random();
-						int number = rn.nextInt(250);
-						if (number <= 0) {
-							// Figur setzen
-							Figur temp = new Major(1);
-							figurInit(temp, i, j);
-							flagge--;
-						}
-					}
-				}
-			}
-		}
-		*/
 
 		// Listener fuer Buttons
 		for(ButtonFigurVerkn[] i:spielfeld) {
@@ -181,6 +147,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 			// Spielstart zuruecksetzen
 			spielstart = true;
 			warteAufSetzen = false;
+			figurenSatzSpieler = new ArrayList<Figur>(figurenSatzSpieler_clone);
 			// Fenster schliessen
 			dispose();
 			// Menue wieder aufrufen
@@ -204,12 +171,11 @@ public class Spielfeld extends JFrame implements ActionListener {
 			int number = Integer.parseInt(e.getActionCommand());
 			if(number/10 < 6 || spielfeld[number/10][number%10].getFigur() != null) {
 				// Wenn ein falsches Feld angeklickt wurde
-				infoMessage.setText(wartendeFigur.getClass().toString()+ " bitte auf eins Ihrer Felder das noch nicht belegt ist setzen");
+				infoMessage.setText(wartendeFigur.toString()+ " bitte auf eins Ihrer Felder, das noch nicht belegt ist setzen");
 			} else {
 				// Figur wird gesetzt
 				figurInit(wartendeFigur, number/10, number%10);
 				warteAufSetzen = false;
-				infoMessage.setText(wartendeFigur.getClass().toString()+ " wurde auf "+number/10+"/"+number%10+" gesetzt");
 
 				if(figurenSatzSpieler.size() > 0) {
 					wartendeFigur = figurenSatzSpieler.remove(0);
@@ -285,6 +251,7 @@ public class Spielfeld extends JFrame implements ActionListener {
             // Durchlauft jede Spalte von i -> Jeweils 1 einziger Button
 			for(ButtonFigurVerkn j : i) {
 				panelButton.add(j.getButton());
+				j.getButton().addActionListener(this);
             }
 		}
 		panelBottom.add(infoMessage);
@@ -293,6 +260,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
     public void figurSetzen(Position pos, Figur figur) {
     	spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(figur);
+		panelAktualisieren();
     }
 
     public void figurLoeschen(Figur fig) {
@@ -300,10 +268,10 @@ public class Spielfeld extends JFrame implements ActionListener {
     	int j = fig.getPosition().getY();
     	if(! ((i==4 || i==5) && (j==2 || j==3 || j==6 || j==7))) {
     		// Grasspielfeld setzen
-    		spielfeld[i][j] = new ButtonFigurVerkn("grün");
+    		spielfeld[i][j] = new ButtonFigurVerkn("grün", i*10+j);
     	} else {
     		// Wasserspielfeld setzen
-    		spielfeld[i][j] = new ButtonFigurVerkn("blau");
+    		spielfeld[i][j] = new ButtonFigurVerkn("blau", i*10+j);
     	}
     	// Figur auf 'ungueltig' setzen
     	fig.setId(-1);
@@ -313,7 +281,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	// x und y sind Koordinaten der neuen Position
     public void figurSetzen(Figur a, int x, int y) {
 		// Alte Position auf null setzen
-		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green");
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
 		// Neue Position setzen
 		a.setPosition(new Position(x, y));
 		spielfeld[x][y] = new ButtonFigurVerkn(a);
@@ -322,7 +290,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 	public void figurSetzen(Figur a, Position pos) {
 		// Alte Position auf null setzen
-		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green");
+		spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
 		// Neue Position setzen
 		a.setPosition(pos);
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(a);

@@ -28,14 +28,18 @@ public class ButtonFigurVerkn {
     }
 
     // Konstruktor für Grass oder Wasser
-    public ButtonFigurVerkn(String farbe) {
-        this.button = new JButton(Integer.toString(count));
+    public ButtonFigurVerkn(String farbe, int zahl) {
+        if(zahl == -1) {
+            this.button = new JButton(Integer.toString(count));
+        } else {
+            this.button = new JButton(Integer.toString(zahl));
+        }
 
-        if(farbe.contains("blau") || farbe.contains("blue")){
+        if (farbe.contains("blau") || farbe.contains("blue")) {
             this.button.setBackground(blue);
             // Test Felder für den User unsichtbar zu machen
-//            this.button.setVisible(false);
-        } else if(farbe.contains("grün") || farbe.contains("green")) {
+            //            this.button.setVisible(false);
+        } else if (farbe.contains("grün") || farbe.contains("green")) {
             this.button.setBackground(green);
         }
         this.figur = null;

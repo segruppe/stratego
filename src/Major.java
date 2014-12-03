@@ -15,4 +15,8 @@ public class Major extends Figur {
         setBild("Bilder/Major.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Major";
+    }
 }

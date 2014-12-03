@@ -15,4 +15,8 @@ public class General extends Figur {
         setBild("Bilder/General.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "General";
+    }
 }

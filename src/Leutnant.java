@@ -15,4 +15,8 @@ public class Leutnant extends Figur {
         setBild("Bilder/Leutnant.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Leutnant";
+    }
 }

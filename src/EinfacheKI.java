@@ -61,6 +61,7 @@ public class EinfacheKI extends KI {
         Figur figur = zugMoeglich.get(t);
 
         // Versuch im Uhrzeigersinn von 12 Uhr an zu ziehen (nach oben-rechts-unten-links)
+        // TODO: Wasser ueberpruefen
         if (figur.getPosition().getY() - 1>=0 && (spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() - 1) == null || spielfeld.getFigur(figur.getPosition().getX(), figur.getPosition().getY() - 1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             spielfeld.figurSetzen(figur, new Position(figur.getPosition().getX(), figur.getPosition().getY() - 1));

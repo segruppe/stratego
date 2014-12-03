@@ -15,4 +15,8 @@ public class Ninja extends Figur{
         setBild("Bilder/Wurfstern.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Ninja";
+    }
 }

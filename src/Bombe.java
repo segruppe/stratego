@@ -16,4 +16,8 @@ public class Bombe extends Figur {
         setBild("Bilder/bombe.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Bombe";
+    }
 }

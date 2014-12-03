@@ -20,6 +20,12 @@ public abstract class KI {
     // Hinzufuegen aller Figuren in eine Liste
      static ArrayList<Figur> figurenSatzKI = new ArrayList<Figur>(){{
         add(new Fahne(2));
+        add(new Bombe(2));
+        add(new Bombe(2));
+        add(new Bombe(2));
+        add(new Bombe(2));
+        add(new Bombe(2));
+        add(new Bombe(2));
         add(new Ninja(2));
         add(new Aufklaerer(2));
         add(new Aufklaerer(2));
@@ -53,12 +59,6 @@ public abstract class KI {
         add(new Oberst(2));
         add(new General(2));
         add(new Feldmarschall(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
     }};
 
 //

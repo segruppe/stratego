@@ -8,6 +8,7 @@ public abstract class Figur {
 	private int team;
 	private int staerke;
 	private String bild;
+	private String name;
 	private boolean istBewegbar; // Fahnen und Bomben nicht bewegbar
 
     /* Stärken der Figuren
@@ -58,5 +59,6 @@ public abstract class Figur {
 	}
     public boolean getIstBewegbar() { return istBewegbar; }
     public void setIstBewegbar(boolean bewegbar) { this.istBewegbar = bewegbar; }
+	public String toString() { return name; };
 }
 

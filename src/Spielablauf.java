@@ -24,6 +24,7 @@ public class Spielablauf {
         }
         System.out.println("Gegner macht Zug");
         gegner.macheZug();
+        gegner.macheZug();
        // new Figurenkampf(new Major(1),new Ninja(2));
     }
 

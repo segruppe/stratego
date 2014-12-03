@@ -15,4 +15,8 @@ public class Aufklaerer  extends Figur {
         setBild("Bilder/Fernglas.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Aufklaerer";
+    }
 }

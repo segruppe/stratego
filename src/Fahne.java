@@ -17,4 +17,7 @@ public class Fahne extends Figur{
         setTeam(team);
     }
 
+    public String toString() {
+        return "Fahne";
+    }
 }

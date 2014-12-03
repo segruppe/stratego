@@ -15,4 +15,8 @@ public class Mineur extends Figur {
         setBild("Bilder/Schaufel.jpg");
         setTeam(team);
     }
+
+    public String toString() {
+        return "Mineur";
+    }
 }
