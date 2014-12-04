@@ -183,6 +183,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 				}
 			} else {
 
+                // TODO: Hier muss ich iwie reinkommenm vom Spielablauf aus !??!!
+
 				int number = Integer.parseInt(e.getActionCommand());
 
 				if (wasser.contains(number)) {

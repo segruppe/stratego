@@ -43,10 +43,10 @@ public class Figurenkampf extends JFrame{
         if(ergebnis==0){
             ausgabe="<html>Unentschieden. <br> Beide Figuren werden entfernt!</html>";
         } else if(ergebnis==1){
-            ausgabe="<html> Figur 1 hat gewonnen. </html>";
+            ausgabe="<html> Deine Figur hat gewonnen </html>";
             bild1.setBorder(new LineBorder(Color.red));
         } else {
-            ausgabe="<html> Figur 2 hat gewonnen. </html>";
+            ausgabe="<html> Die Figur der KI war leider besser </html>";
             bild2.setBorder(new LineBorder(Color.red));
         }
 
@@ -62,19 +62,15 @@ public class Figurenkampf extends JFrame{
 
         addButtonListener(okButton);
 
-
-
         // Panel erzeugen und Elemente hinzufuegen
         panel=new JPanel(new BorderLayout(5,1));
         panel.add(ausgabeFigur, BorderLayout.CENTER);
         panel.add(okButton, BorderLayout.SOUTH);
-        panel.add(bild1, BorderLayout.EAST);
-        panel.add(bild2, BorderLayout.WEST);
+        panel.add(bild1, BorderLayout.WEST);
+        panel.add(bild2, BorderLayout.EAST);
 
         getContentPane().add(panel, BorderLayout.CENTER);
         setVisible(true);
-
-
     }
 
     private void addButtonListener(JButton b) {
