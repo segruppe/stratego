@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Spielablauf {
     private static ArrayList<Spielfeld> alteSpielfelder;
-    private static KI gegner;
+    protected static KI gegner;
     public static Spielfeld spielfeld;
     protected static boolean kiGezogen = true;
 
@@ -25,22 +25,5 @@ public class Spielablauf {
         } else if (schwierigkeit.equals("schwer")) {
             gegner = new SchwereKI(spielfeld);
         }
-        System.out.println("Spiel beginnt");
-
-        /*while (true) {
-            if (kiGezogen) {
-                // spieler muss ziehen
-                // TODO: Aufruf der Methode actionPerformed???
-
-
-                kiGezogen = false;
-            } else {
-                gegner.macheZug();
-                kiGezogen = true;
-            }
-        }*/
-
-
-        // new Figurenkampf(new Major(1),new Ninja(2));
     }
 }

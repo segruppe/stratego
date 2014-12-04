@@ -107,6 +107,7 @@ public class EinfacheKI extends KI {
         }
         // Liste wieder leeren
         zugMoeglich.clear();
+        Spielablauf.kiGezogen = true;
     }
 
     // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen

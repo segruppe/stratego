@@ -195,6 +195,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 							if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
 								// Zug durchfuehren
 								figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+                                Spielablauf.kiGezogen = false;
 							} else {
 								infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 							}
@@ -213,10 +214,10 @@ public class Spielfeld extends JFrame implements ActionListener {
 							}
 						}
 					}
-
 				}
-			}
-
+			} else if (!Spielablauf.kiGezogen) {
+                Spielablauf.gegner.macheZug();
+            }
 			//panelAktualisieren();
 		}// ende Else vom abbrechen Button
 	}

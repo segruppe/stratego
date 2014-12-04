@@ -33,21 +33,35 @@ public class Figurenkampf extends JFrame{
 
         getContentPane().setLayout(new BorderLayout(1,1));
 
-        // Bilder erzeugen
-        bild1= new JLabel(new ImageIcon(figur1.getBild()));
-        bild2=new JLabel(new ImageIcon(figur2.getBild()));
-
+        // Bilder erzeugen...Figur vom Spieler soll immer links stehen
+        if (figur1.getTeam()==1) {
+            bild1 = new JLabel(new ImageIcon(figur1.getBild()));
+            bild2 = new JLabel(new ImageIcon(figur2.getBild()));
+        } else {
+            bild1 = new JLabel(new ImageIcon(figur2.getBild()));
+            bild2 = new JLabel(new ImageIcon(figur1.getBild()));
+        }
         //Text festlegen
         int ergebnis=this.vergleicheStaerke();
         String ausgabe;
         if(ergebnis==0){
             ausgabe="<html>Unentschieden. <br> Beide Figuren werden entfernt!</html>";
-        } else if(ergebnis==1){
-            ausgabe="<html> Deine Figur hat gewonnen </html>";
-            bild1.setBorder(new LineBorder(Color.red));
-        } else {
-            ausgabe="<html> Die Figur der KI war leider besser </html>";
-            bild2.setBorder(new LineBorder(Color.red));
+        } else if(ergebnis==1){ // Figur1 gewint
+            if (figur1.getTeam()==1) {
+                ausgabe = "<html> Deine Figur hat gewonnen </html>";
+                bild1.setBorder(new LineBorder(Color.red));
+            } else {
+                ausgabe = "<html>Die Figur der KI war leider besser </html> ";
+                bild2.setBorder(new LineBorder(Color.red));
+            }
+        } else { // Figur2 gewinnt
+            if (figur2.getTeam()==2) {
+                ausgabe="<html> Die Figur der KI war leider besser </html>";
+                bild2.setBorder(new LineBorder(Color.red));
+            } else {
+                ausgabe = "<html> Deine Figur hat gewonnen </html>";
+                bild1.setBorder(new LineBorder(Color.red));
+            }
         }
 
         //Textfeld erzeugen

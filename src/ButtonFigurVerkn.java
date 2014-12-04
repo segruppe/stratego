@@ -46,7 +46,7 @@ public class ButtonFigurVerkn {
     }
 
     public ButtonFigurVerkn(Figur a, String farbe) {
-        System.out.println(a + "  Team: " +a.getTeam());
+        System.out.println(a + "  Position: " +a.getPosition().getX()+"   "+ a.getPosition().getY());
         this.button = new JButton(Integer.toString(a.getPosition().getX()*10+a.getPosition().getY()));
 
         if (farbe.contains("blau") || farbe.contains("blue")) {
