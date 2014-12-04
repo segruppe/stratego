@@ -15,6 +15,7 @@ public class EinfacheKI extends KI {
     }
 
     @Override
+    // Setzen einer zufaelligen Startaufstellung
     public void setzeStartAufstellung() {
         spielfeld.panelButton.removeAll();
 
@@ -37,6 +38,7 @@ public class EinfacheKI extends KI {
             }
         }
         spielfeld.panelAktualisieren();
+        System.out.println("Position Fahne: " + fahneX + " " +fahneY );
     }
 
     // Funktion gibt eine zufaellige Figur, die noch nicht gesetzt wurde, zurueck
@@ -49,9 +51,10 @@ public class EinfacheKI extends KI {
     }
 
     @Override
+    // Ki macht einen zufaelligen Zug
     public void macheZug() {
         figurenZugMoeglich();
-        System.out.println(zugMoeglich.size());
+        System.out.println("Anzahl möglicher Züge: " + zugMoeglich.size());
         // wenn kein Zug moeglich ist, Spieler hat gewonnen
         if (zugMoeglich.isEmpty()) {
             new SpielBeendet(1); // Spieler hat gewonnen
@@ -87,6 +90,7 @@ public class EinfacheKI extends KI {
         //spielfeld.panelAktualisieren();
     }
 
+    // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen
     public void figurenZugMoeglich() {
         // Zeilen
         for (int i = 0; i < 10; i++) {

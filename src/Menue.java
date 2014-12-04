@@ -11,6 +11,16 @@ public class Menue extends JFrame {
     private JPanel panelButton;
 // TODO: Idee, Erzeugung der Dialogfenster in eigener Klasse
 
+
+    /* TODO: Bugs, die ich momentan sehe:
+        - Wenn Button umgesetzt wurde, danach teilweise nicht mehr anklickbar
+        - Wenn umgesetzt kommt es zu Rücksprung, wenn danach ein leeres Feld(nur manchmal) oder die Figur nochmal geklickt wird
+        - Liegen die Bilder im Figurenkampf Fenster nicht falsch rum, wenn der Spieler angreift?
+        - Spielende öffnet sich doppelt, wenn die Fahne getroffen wird
+
+     */
+
+
     public Menue() {
         super("Stratego");
         // Groesse des Fensters

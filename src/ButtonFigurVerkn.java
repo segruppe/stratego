@@ -46,7 +46,7 @@ public class ButtonFigurVerkn {
     }
 
     public ButtonFigurVerkn(Figur a, String farbe) {
-        System.out.println(a);
+        System.out.println(a + "  Team: " +a.getTeam());
         this.button = new JButton(Integer.toString(a.getPosition().getX()*10+a.getPosition().getY()));
 
         if (farbe.contains("blau") || farbe.contains("blue")) {
@@ -65,7 +65,6 @@ public class ButtonFigurVerkn {
     Setzt eine Figur neu und gibt ihr die richtige Nummer (x*10+y)
      */
     public ButtonFigurVerkn(Figur figur, int count) {
-        // TODO: Zum Ende hin: Figuren der KI duerfen nicht sichtbar sein. Auf Team ueberpruefen
         this.button = new JButton(new ImageIcon(figur.getBild()));
         this.button.setActionCommand(Integer.toString(count));
         this.figur = figur;

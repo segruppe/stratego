@@ -244,11 +244,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 		panelBottom.add(button, BorderLayout.PAGE_END);
 	}
 
+    // TODO: Die kann raus ?!?
     public void figurSetzen(Position pos, Figur figur) {
     	spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn(figur);
 		panelAktualisieren();
     }
 
+    // TODO: Die kann raus ?!?
     public void figurLoeschen(Figur fig) {
     	int i = fig.getPosition().getX();
     	int j = fig.getPosition().getY();
