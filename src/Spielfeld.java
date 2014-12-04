@@ -187,21 +187,35 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 				if (wasser.contains(number)) {
 					System.out.println("das ist wasser");
+					if(firstClickPerformed) {
+						firstClickPerformed = false;
+						infoMessage.setText("Ihre Figuren koennen nicht schwimmen. Bitte eine Figur auswaehlen.");
+					}
 				} else {
 					// TODO: Reichweite der Figuren
 					if (firstClickPerformed) {
 						if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY())) {
-							// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
-							if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
-								// Zug durchfuehren
-								figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-                                Spielablauf.kiGezogen = false;
+							// Abstaende der Positionen darf nicht groesser als 1 sein und beim Aufklaerer muss es auf der gleichen Gerade sein
+							if( ((Math.abs(firstClickPosition.getX()-number/10) == 1 && firstClickPosition.getY() == number%10) || (Math.abs(firstClickPosition.getY()-number%10) == 1) && firstClickPosition.getX()==number/10) || /* Aufklaerer */ (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && (firstClickPosition.getX() == number/10 || firstClickPosition.getY() == number%10)) ) {
+								// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
+								if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
+
+									// Zug durchfuehren
+									figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+									//Spielablauf.kiGezogen = false;
+
+									// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
+									// hat man 2mal Figurenkampf offen..
+									Spielablauf.gegner.macheZug();
+									infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+								} else {
+									infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
+								}
 							} else {
-								infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
+								infoMessage.setText("So weit kann die Figur nicht laufen. Nur maximal 1 Feld.");
 							}
 						}
 						firstClickPerformed = false;
-						infoMessage.setText("Sie sind am Zug, bitte eine eigene Figur auswaehlen");
 					} else {
 						firstClickPosition = new Position(number / 10, number % 10);
 						// Wenn auf dem angeklickten Feld eine eigene Figur steht
@@ -216,17 +230,10 @@ public class Spielfeld extends JFrame implements ActionListener {
 					}
 				}
 			} else if (!Spielablauf.kiGezogen) {
-                Spielablauf.gegner.macheZug();
+                //Spielablauf.gegner.macheZug();
             }
-			//panelAktualisieren();
 		}// ende Else vom abbrechen Button
 	}
-
-
-    public static void main(String[] args) {
-        //@SuppressWarnings("unused")
-		//Spielfeld spielfeld = new Spielfeld();
-    }
 
 	// Aktualisiert das gesamte Panel (die Buttons)
 	public void panelAktualisieren() {
@@ -237,9 +244,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		for(ButtonFigurVerkn[] i: spielfeld) {
             // Durchlauft jede Spalte von i -> Jeweils 1 einziger Button
 			for(ButtonFigurVerkn j : i) {
-				//j.getButton().removeActionListener(this);
 				panelButton.add(j.getButton());
-				//j.getButton().addActionListener(this);
 			}
 		}
 		panelBottom.add(infoMessage);
