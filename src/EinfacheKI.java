@@ -37,6 +37,12 @@ public class EinfacheKI extends KI {
                 }
             }
         }
+        /*
+        spielfeld.figurInit(new Aufklaerer(2),6,5);
+        spielfeld.figurInit(new Aufklaerer(2),7,5);
+        spielfeld.figurInit(new Aufklaerer(2),8,5);
+        spielfeld.figurInit(new Aufklaerer(2),9,5);
+        */
         spielfeld.panelAktualisieren();
         System.out.println("Position Fahne: " + fahneX + " " +fahneY );
     }
@@ -65,29 +71,42 @@ public class EinfacheKI extends KI {
 
         int y = figur.getPosition().getY();
         int x = figur.getPosition().getX();
+        int i=1;
+
         // Neue Position muss auf Feld liegen, Kein Wasser sein, Feld leer, Feld von Gegner besetzt
-        // nach links
-        if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y- 1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1)) {
-            // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(x, y-1));
         // nach unten
-        } else if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1)) {
+        if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(x+1, y));
+            if (figur.getStaerke()==3) {
+                i = felderMoeglichAufklaerer(x, y, "unten");
+            }
+            spielfeld.figurSetzen(figur, new Position(x+i, y));
+        // nach links
+        } else if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y-1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1)) {
+            // Figur auf dem Spielfeld auf neue Position setzen
+            if (figur.getStaerke()==3) {
+                i = felderMoeglichAufklaerer(x, y, "links");
+            }
+            spielfeld.figurSetzen(figur, new Position(x, y-i));
         // nach rechts
         } else if (y+1<=9 && !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x, y+1) == null || spielfeld.getFigur(x, y+1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
-            spielfeld.figurSetzen(figur, new Position(x, y+1));
+            if (figur.getStaerke()==3) {
+                i = felderMoeglichAufklaerer(x, y, "rechts");
+            }
+            spielfeld.figurSetzen(figur, new Position(x, y+i));
         // nach oben
         } else {
             if (x-1>=0 && !spielfeld.wasser.contains(10*(x-1)+y) ) {
                 // Figur auf dem Spielfeld auf neue Position setzen
-                spielfeld.figurSetzen(figur, new Position(x-1, y));
+                if (figur.getStaerke()==3) {
+                    i = felderMoeglichAufklaerer(x, y, "oben");
+                }
+                spielfeld.figurSetzen(figur, new Position(x-i, y));
             }
         }
         // Liste wieder leeren
         zugMoeglich.clear();
-        //spielfeld.panelAktualisieren();
     }
 
     // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen
@@ -117,4 +136,38 @@ public class EinfacheKI extends KI {
         }
     }
 
+    public int felderMoeglichAufklaerer(int x, int y, String richtung) {
+        int wieVieleZiehen;
+        int felder =1;
+        if (richtung.equals("unten")) {
+            while(x+felder<=9 && !spielfeld.wasser.contains(10*(x+felder)+y) && spielfeld.getFigur(x+felder,y)==null) {
+                felder++;
+            }
+            // Zufallszahl zwischen >=1 und <=felder
+            wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
+            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach UNTEN");
+        } else if (richtung.equals("links")) {
+            while(y-felder>=0 && !spielfeld.wasser.contains(10*x+(y-felder)) && spielfeld.getFigur(x,y-felder)==null) {
+                felder++;
+            }
+            // Zufallszahl zwischen >=1 und <=felder
+            wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
+            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach LINKS");
+        } else if (richtung.equals("rechts")) {
+            while(y+felder<=9 && !spielfeld.wasser.contains(10*x+(y+felder)) && spielfeld.getFigur(x,y+felder)==null) {
+                felder++;
+            }
+            // Zufallszahl zwischen >=1 und <=felder
+            wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
+            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach RECHTS");
+        } else { // oben
+            while (x-felder>=0 && !spielfeld.wasser.contains(10 * (x - felder) + y) && spielfeld.getFigur(x - felder, y) == null) {
+                felder++;
+            }
+            // Zufallszahl zwischen >=1 und <=felder
+            wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
+            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach OBEN");
+        }
+        return wieVieleZiehen;
+    }
 }

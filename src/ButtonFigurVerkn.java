@@ -57,6 +57,7 @@ public class ButtonFigurVerkn {
             this.button.setBackground(green);
         } else if (farbe.contains("red") || farbe.contains("rot")) {
             this.button.setBackground(red);
+            //this.button = new JButton(new ImageIcon(a.getBild()));
         }
         this.figur = a;
     }
