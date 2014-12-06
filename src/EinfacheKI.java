@@ -142,28 +142,48 @@ public class EinfacheKI extends KI {
         int wieVieleZiehen;
         int felder =1;
         if (richtung.equals("unten")) {
+            // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while(x+felder<=9 && !spielfeld.wasser.contains(10*(x+felder)+y) && spielfeld.getFigur(x+felder,y)==null) {
+                felder++;
+            }
+            // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
+            if (spielfeld.getFigur(x+felder,y).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
             System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach UNTEN");
         } else if (richtung.equals("links")) {
+            // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while(y-felder>=0 && !spielfeld.wasser.contains(10*x+(y-felder)) && spielfeld.getFigur(x,y-felder)==null) {
+                felder++;
+            }
+            // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
+            if (spielfeld.getFigur(x,y-felder).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
             System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach LINKS");
         } else if (richtung.equals("rechts")) {
+            // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while(y+felder<=9 && !spielfeld.wasser.contains(10*x+(y+felder)) && spielfeld.getFigur(x,y+felder)==null) {
+                felder++;
+            }
+            // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
+            if (spielfeld.getFigur(x,y+felder).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
             System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach RECHTS");
         } else { // oben
+            // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while (x-felder>=0 && !spielfeld.wasser.contains(10 * (x - felder) + y) && spielfeld.getFigur(x - felder, y) == null) {
+                felder++;
+            }
+            // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
+            if (spielfeld.getFigur(x-felder,y).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
