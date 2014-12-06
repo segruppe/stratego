@@ -11,8 +11,9 @@ public class EinfacheKI extends KI {
         // Kopieren der statischen ArrayList
         listTmp = new ArrayList<Figur>(figurenSatzKI);
         this.spielfeld = spielfeld;
-        setzeStartAufstellung();
+        //setzeStartAufstellung();
     }
+
 
     @Override
     // Setzen einer zufaelligen Startaufstellung

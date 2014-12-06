@@ -46,18 +46,16 @@ public class ButtonFigurVerkn {
     }
 
     public ButtonFigurVerkn(Figur a, String farbe) {
-        System.out.println(a + "  Position: " +a.getPosition().getX()+"   "+ a.getPosition().getY());
+        //System.out.println(a + "  Position: " +a.getPosition().getX()+"   "+ a.getPosition().getY());
         this.button = new JButton(Integer.toString(a.getPosition().getX()*10+a.getPosition().getY()));
 
         if (farbe.contains("blau") || farbe.contains("blue")) {
             this.button.setBackground(blue);
-            // Test Felder für den User unsichtbar zu machen
-            //            this.button.setVisible(false);
         } else if (farbe.contains("grün") || farbe.contains("green")) {
             this.button.setBackground(green);
         } else if (farbe.contains("red") || farbe.contains("rot")) {
+            // Figuren vom Gegner fuer den Spieler als rot darstellen
             this.button.setBackground(red);
-            //this.button = new JButton(new ImageIcon(a.getBild()));
         }
         this.figur = a;
     }

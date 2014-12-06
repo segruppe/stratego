@@ -2,9 +2,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 import java.awt.event.ActionEvent;
 
 public class Spielfeld extends JFrame implements ActionListener {
@@ -16,13 +14,18 @@ public class Spielfeld extends JFrame implements ActionListener {
     protected ButtonFigurVerkn spielfeld[][];
 	public ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private JButton button = new JButton("abbrechen");
+	private SpeichernLaden save = new SpeichernLaden(this);
 
 	// Variablen fuer das setzen von Figuren
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
 	private static Position firstClickPosition; //temporaerer Speicher fuer die zuerst angeklickte Position
-	private static boolean spielstart = true;
+	private boolean spielstart = true;
 	private static boolean warteAufSetzen = false;
 	private static Figur wartendeFigur = null;
+
+	public void setSpielstart(boolean bool) {
+		this.spielstart = bool;
+	}
 
 	// Hinzufuegen aller Figuren in eine Liste // Team 1
 	static ArrayList<Figur> figurenSatzSpieler = new ArrayList<Figur>(){{
@@ -142,7 +145,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("abbrechen")) {
 			// Damit count wieder auf 0 gesetzt wird
-			ButtonFigurVerkn test = new ButtonFigurVerkn();
+			new ButtonFigurVerkn();
 			// Spielstart zuruecksetzen
 			spielstart = true;
 			warteAufSetzen = false;
@@ -161,7 +164,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 					warteAufSetzen = true;
 					infoMessage.setText(wartendeFigur.toString()+ " wird als erstes gesetzt. Bitte das gewuenschte Feld anklicken");
 				}
-			} else if(spielstart && warteAufSetzen) {
+			} else if(spielstart) {
 				int number = Integer.parseInt(e.getActionCommand());
 				if(number/10 < 6 || spielfeld[number/10][number%10].getFigur() != null) {
 					// Wenn ein falsches Feld angeklickt wurde
@@ -192,28 +195,34 @@ public class Spielfeld extends JFrame implements ActionListener {
 						infoMessage.setText("Ihre Figuren koennen nicht schwimmen. Bitte eine Figur auswaehlen.");
 					}
 				} else {
-					// TODO: Reichweite der Figuren
 					if (firstClickPerformed) {
 						if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY())) {
 							// Abstaende der Positionen darf nicht groesser als 1 sein und beim Aufklaerer muss es auf der gleichen Gerade sein
 							if( ((Math.abs(firstClickPosition.getX()-number/10) == 1 && firstClickPosition.getY() == number%10) || (Math.abs(firstClickPosition.getY()-number%10) == 1) && firstClickPosition.getX()==number/10) || /* Aufklaerer */ (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && (firstClickPosition.getX() == number/10 || firstClickPosition.getY() == number%10)) ) {
 								// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
 								if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
+									if(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && wegBelegt(firstClickPosition, new Position(number / 10, number % 10))) {
 
-									// Zug durchfuehren
-									figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-									//Spielablauf.kiGezogen = false;
+										infoMessage.setText("Der Aufklaerer kann nicht ueber Wasser oder andere Figuren ziehen. Bitte erneut Figur ausawehlen.");
+										firstClickPerformed = false;
+										return;
+									}
+										// Zug durchfuehren
+										figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+										//Spielablauf.kiGezogen = false;
 
-									// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
-									// hat man 2mal Figurenkampf offen..
-									Spielablauf.gegner.macheZug();
-									infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+										// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
+										// hat man 2mal Figurenkampf offen..
+										Spielablauf.gegner.macheZug();
+										infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
 								} else {
 									infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 								}
 							} else {
 								infoMessage.setText("So weit kann die Figur nicht laufen. Nur maximal 1 Feld.");
 							}
+						} else {
+							infoMessage.setText("Zurueckgesetzt. Bitte eine Figur auswaehlen.");
 						}
 						firstClickPerformed = false;
 					} else {
@@ -303,6 +312,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 			}
 		}
 
+		save.spielfeldSpeichern();
 		panelAktualisieren();
 	}
 
@@ -324,6 +334,76 @@ public class Spielfeld extends JFrame implements ActionListener {
 		panelAktualisieren();
 	}
 
+	/**
+	 * Bestimmt aus zwei Positionen die Laufrichtung
+	 * 1: Position ist die Startposition
+	 * 2: Position ist die Zielposition
+	 *
+	 * return (Uhrzeigersinn):
+	 * 0: nach oben
+	 * 1: nach rechts
+	 * 2: nach unten
+	 * 3: nach links
+	 * -1: -
+	 */
+	public int richtungBestimmen(Position von, Position nach) {
+		if(von.getX() > nach.getX()) {
+			System.out.println("Nach oben");
+			return 0;
+		} else if(von.getY() < nach.getY()) {
+			System.out.println("Nach rechts");
+			return 1;
+		} else if (von.getX() < nach.getX()) {
+			System.out.println("Nach unten");
+			return 2;
+		} else if(von.getY() > nach.getY()) {
+			System.out.println("Nach links");
+			return 3;
+		}
+		return -1;
+	}
+
+	/** Ueberprueft ob der Pfad zwischen zwei Positionen belegt ist
+	 *
+	 * @param von Position
+	 * @param nach Position
+	 * @return boolean true, wenn belegt
+	 * 					false, wenn frei
+	 */
+	public boolean wegBelegt(Position von, Position nach) {
+		int direction = richtungBestimmen(von, nach);
+		if(direction == 0) {
+			int it = von.getX();
+			while(it != nach.getX()) {
+				it--;
+				// Wenn auf dem Weg nach oben Wasser oder eine andere Figur im Weg ist, return true
+				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) return true;
+			}
+		} else if(direction == 1) {
+			int it = von.getY();
+			while(it != nach.getY()) {
+				it++;
+				// Wenn auf dem Weg nach rechts Wasser oder eine andere Figur im Weg ist, return true
+				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) return true;
+			}
+		} else if(direction == 2) {
+			int it = von.getX();
+			while(it != nach.getX()) {
+				it++;
+				// Wenn auf dem Weg nach unten Wasser oder eine andere Figur im Weg ist, return true
+				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) return true;
+			}
+		} else if(direction == 3) {
+			int it = von.getY();
+			while(it != nach.getY()) {
+				it--;
+				// Wenn auf dem Weg nach links Wasser oder eine andere Figur im Weg ist, return true
+				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) return true;
+			}
+		}
+
+		return false;
+	}
 
 
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
@@ -346,23 +426,6 @@ public class Spielfeld extends JFrame implements ActionListener {
     public Figur getFigur(int x, int y) {
             return spielfeld[x][y].getFigur();
     }
-
-	public void spielfeldSpeichern() {
-		// Noch uberlegen wie wir das speichern
-		/*
-
-		 * [3][3] - so ungefaehr vielleicht?
-		 * typ:team typ:team null
-		 *  null typ:team null
-		 *  typ:team null typ:team
-		 *
-		 **/
-
-	}
-
-	public void spielfeldLaden(File datei) {
-		// haengt von Speicherung ab
-	}
 
 
 }

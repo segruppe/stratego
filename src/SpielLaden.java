@@ -3,4 +3,9 @@
  */
 public class SpielLaden {
 
+    public SpielLaden() {
+        SpeichernLaden sl = new SpeichernLaden(new Spielfeld());
+        sl.spielfeldLaden();
+    }
+
 }

@@ -68,7 +68,7 @@ public class SpielStarten extends JFrame {
                     new SchwierigkeitWaehlen();
                 }
             });
-        } else if (b.getName().equals("spielLaden")) {
+        } else if (b.getName().equals("ladeSpiel")) {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
