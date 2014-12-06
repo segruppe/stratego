@@ -238,9 +238,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 						}
 					}
 				}
-			} else if (!Spielablauf.kiGezogen) {
+			} //else if (!Spielablauf.kiGezogen) {
                 //Spielablauf.gegner.macheZug();
-            }
+           // }
 		}// ende Else vom abbrechen Button
 	}
 
@@ -373,32 +373,44 @@ public class Spielfeld extends JFrame implements ActionListener {
 	public boolean wegBelegt(Position von, Position nach) {
 		int direction = richtungBestimmen(von, nach);
 		if(direction == 0) {
-			int it = von.getX();
+			int it = von.getX()-1;
 			while(it != nach.getX()) {
-				it--;
+		    //it--;
 				// Wenn auf dem Weg nach oben Wasser oder eine andere Figur im Weg ist, return true
-				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) return true;
+				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) {
+                    return true;
+                }
+                it--;
 			}
 		} else if(direction == 1) {
-			int it = von.getY();
+			int it = von.getY()+1;
 			while(it != nach.getY()) {
-				it++;
+				//it++;
 				// Wenn auf dem Weg nach rechts Wasser oder eine andere Figur im Weg ist, return true
-				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) return true;
+				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) {
+                    return true;
+                }
+                it++;
 			}
 		} else if(direction == 2) {
-			int it = von.getX();
+			int it = von.getX()+1;
 			while(it != nach.getX()) {
-				it++;
+				//it++;
 				// Wenn auf dem Weg nach unten Wasser oder eine andere Figur im Weg ist, return true
-				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) return true;
-			}
-		} else if(direction == 3) {
-			int it = von.getY();
+				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) {
+                    return true;
+                }
+                it++;
+            }
+        } else if(direction == 3) {
+			int it = von.getY()-1;
 			while(it != nach.getY()) {
-				it--;
+				//it--;
 				// Wenn auf dem Weg nach links Wasser oder eine andere Figur im Weg ist, return true
-				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) return true;
+				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) {
+                    return true;
+                }
+                it--;
 			}
 		}
 

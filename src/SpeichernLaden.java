@@ -70,7 +70,7 @@ public class SpeichernLaden {
                             spielfeld.figurInit(new Bombe(Integer.parseInt(figur[1])), i, j);
                         } else if (figur[0].equals("Fahne")) {
                             spielfeld.figurInit(new Fahne(Integer.parseInt(figur[1])), i, j);
-                            if(Integer.parseInt(figur[1]) == 0) {
+                            if(Integer.parseInt(figur[1]) == 1) {
                                 fahneTeam1 = true;
                             } else {
                                 fahneTeam2 = true;
