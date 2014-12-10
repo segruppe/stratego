@@ -1,22 +1,30 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
+/**
+ * GUI-Klasse fuer die einfache KI. Erbt von KI
+ */
 public class EinfacheKI extends KI {
-    Figur figur;
-    Spielfeld spielfeld;
-    ArrayList<Figur> listTmp;
-    ArrayList<Figur> zugMoeglich = new ArrayList<Figur>();
+    private Figur figur;
+    private Spielfeld spielfeld;
+    private ArrayList<Figur> listTmp;
+    private ArrayList<Figur> zugMoeglich = new ArrayList<Figur>();
 
+    /**
+     * Erzeugen der Einfachen KI
+     *
+     * @param spielfeld Spielfeld auf dem die Figuren gesetzt werden
+     */
     public EinfacheKI(Spielfeld spielfeld) {
         // Kopieren der statischen ArrayList
         listTmp = new ArrayList<Figur>(figurenSatzKI);
         this.spielfeld = spielfeld;
-        //setzeStartAufstellung();
     }
 
 
     @Override
-    // Setzen einer zufaelligen Startaufstellung
+    /**
+     * Setzen einer zufaelligen Startaufstellung
+     */
     public void setzeStartAufstellung() {
         spielfeld.panelButton.removeAll();
 
@@ -58,7 +66,9 @@ public class EinfacheKI extends KI {
     }
 
     @Override
-    // Ki macht einen zufaelligen Zug
+    /**
+     * KI macht einen zufaelligen Zug
+     */
     public void macheZug() {
         figurenZugMoeglich();
         System.out.println("Anzahl möglicher Züge: " + zugMoeglich.size());
@@ -79,21 +89,21 @@ public class EinfacheKI extends KI {
         if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
-                i = felderMoeglichAufklaerer(x, y, "unten");
+                i = felderZiehenAufklaerer(x, y, "unten");
             }
             spielfeld.figurSetzen(figur, new Position(x+i, y));
         // nach links
         } else if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y-1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
-                i = felderMoeglichAufklaerer(x, y, "links");
+                i = felderZiehenAufklaerer(x, y, "links");
             }
             spielfeld.figurSetzen(figur, new Position(x, y-i));
         // nach rechts
         } else if (y+1<=9 && !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x, y+1) == null || spielfeld.getFigur(x, y+1).getTeam() == 1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
-                i = felderMoeglichAufklaerer(x, y, "rechts");
+                i = felderZiehenAufklaerer(x, y, "rechts");
             }
             spielfeld.figurSetzen(figur, new Position(x, y+i));
         // nach oben
@@ -101,7 +111,7 @@ public class EinfacheKI extends KI {
             if (x-1>=0 && !spielfeld.wasser.contains(10*(x-1)+y) ) {
                 // Figur auf dem Spielfeld auf neue Position setzen
                 if (figur.getStaerke()==3) {
-                    i = felderMoeglichAufklaerer(x, y, "oben");
+                    i = felderZiehenAufklaerer(x, y, "oben");
                 }
                 spielfeld.figurSetzen(figur, new Position(x-i, y));
             }
@@ -112,7 +122,7 @@ public class EinfacheKI extends KI {
     }
 
     // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen
-    public void figurenZugMoeglich() {
+    private void figurenZugMoeglich() {
         // Zeilen
         for (int i = 0; i < 10; i++) {
             // Spalten
@@ -138,7 +148,8 @@ public class EinfacheKI extends KI {
         }
     }
 
-    public int felderMoeglichAufklaerer(int x, int y, String richtung) {
+    // Gibt zurueck, wie viele Felder der Aufklaerer ziehen kann
+    private int felderZiehenAufklaerer(int x, int y, String richtung) {
         int wieVieleZiehen;
         int felder =1;
         if (richtung.equals("unten")) {

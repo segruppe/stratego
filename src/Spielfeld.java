@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 public class Spielfeld extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel panelButton;
+	protected JPanel panelButton;
 	private JPanel panelBottom;
 	JTextPane infoMessage = new JTextPane();
     protected ButtonFigurVerkn spielfeld[][];

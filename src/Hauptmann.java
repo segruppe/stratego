@@ -1,7 +1,12 @@
 /**
- * Created by a.weger on 20.11.14.
+ * Klasse fuer den Hauptmann
  */
 public class Hauptmann extends Figur {
+    /**
+     * Erzeugen eines Hauptmanns
+     *
+     * @param team Bestimmt zu welchem Team die Figur gehoert
+     */
     public Hauptmann(int team) {
         if (team==1) {
             zaehler1++;
@@ -16,6 +21,11 @@ public class Hauptmann extends Figur {
         setTeam(team);
     }
 
+    /**
+     * Ueberschreiben der toString Methode
+     *
+     * @return Name der Figur
+     */
     public String toString() {
         return "Hauptmann";
     }

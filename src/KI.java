@@ -1,23 +1,24 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
+/**
+ * Abstrakte Klasse fuer alle KIs
+ */
 public abstract class KI {
 /**
  *
  * Link: http://www.brettspiele-report.de/stratego/
  *
  */
-    // Grenzen für das Gebiet der KI
-    static int grenzeX = 4; // Anzahl Zeilen
-    static int grenzeY = 10; // Anzahl Spalten
-    Spielfeld spielfeld;
-
+    /** Grenze fuer Anzahl der Zeilen */
+    static int grenzeX = 4;
+    /** Grenze fuer Anzahl der Spalten */
+    static int grenzeY = 10;
+    /** Abstrakte Methode zur setzen der Startaufstellung */
     public abstract void setzeStartAufstellung();
+    /** Abstrakte Methode um einen Zug zu taetigen */
     public abstract void macheZug();
 
-    // Hinzufuegen aller Figuren in eine Liste
+    /** Liste aller Figuren */
      static ArrayList<Figur> figurenSatzKI = new ArrayList<Figur>(){{
         add(new Fahne(2));
         add(new Bombe(2));
@@ -61,41 +62,4 @@ public abstract class KI {
         add(new General(2));
 
     }};
-
-//
-//    public KI(String schwierigkeit) {
-//        this.schwierigkeit = schwierigkeit;
-//    }
-//
-//    /*
-//    Vereinfacht das nutzen der KI
-//     */
-//    public Position macheZug() {
-//        if (this.schwierigkeit == "leicht") {
-//            return this.leichteKI();
-//        } else if (this.schwierigkeit == "mittel") {
-//            return this.mittlereKI();
-//        } else if (this.schwierigkeit == "schwer") {
-//            return this.schwereKI();
-//        } else {
-//            System.out.println("Keine KI ausgewaehlt!");
-//            return new Position(0, 0);
-//        }
-//    }
-//
-//    private Position leichteKI() {
-//        // ich mache den Zug einer leichten KI
-//        return new Position(0, 0);
-//    }
-//
-//    private Position mittlereKI() {
-//        // ich mache den Zug einer mittleren KI
-//        return new Position(0, 0);
-//    }
-//
-//    private Position schwereKI() {
-//        // ich mache den Zug einer schweren KI
-//        return new Position(0, 0);
-//    }
-
 }

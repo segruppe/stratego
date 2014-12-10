@@ -1,7 +1,12 @@
 /**
- * Created by a.weger on 20.11.14.
+ * Klasse fuer den Leutnant
  */
 public class Leutnant extends Figur {
+    /**
+     * Erzeugen eines Leutnants
+     *
+     * @param team Bestimmt zu welchem Team die Figur gehoert
+     */
     public Leutnant(int team) {
         if (team==1) {
             zaehler1++;
@@ -16,6 +21,11 @@ public class Leutnant extends Figur {
         setTeam(team);
     }
 
+    /**
+     * Ueberschreiben der toString Methode
+     *
+     * @return Name der Figur
+     */
     public String toString() {
         return "Leutnant";
     }

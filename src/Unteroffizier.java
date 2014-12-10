@@ -1,7 +1,12 @@
 /**
- * Created by a.weger on 20.11.14.
+ * Klasse fuer den Unteroffizier
  */
 public class Unteroffizier extends Figur {
+    /**
+     * Erzeugen eines Unteroffiziers
+     *
+     * @param team Bestimmt zu welchem Team die Figur gehoert
+     */
     public Unteroffizier(int team) {
         if (team==1) {
             zaehler1++;
@@ -16,6 +21,11 @@ public class Unteroffizier extends Figur {
         setTeam(team);
     }
 
+    /**
+     * Ueberschreiben der toString Methode
+     *
+     * @return Name der Figur
+     */
     public String toString() {
         return "Unteroffizier";
     }
