@@ -18,6 +18,11 @@ public class Figurenkampf extends JFrame{
     private JLabel bild1;
     private JLabel bild2;
     private Spielfeld spielfeld;
+    private int sieger;
+
+    public int getSieger() {
+        return sieger;
+    }
 
     public Figurenkampf(Figur figurA, Figur figurB, Spielfeld spielfeld) {
         super("Figurenkampf");
@@ -43,7 +48,8 @@ public class Figurenkampf extends JFrame{
             bild2 = new JLabel(new ImageIcon(figur1.getBild()));
         }
         //Text festlegen
-        int ergebnis=this.vergleicheStaerke();
+        this.vergleicheStaerke();
+        int ergebnis=this.sieger;
         String ausgabe;
         if(ergebnis==0){
             ausgabe="<html>Unentschieden. <br> Beide Figuren werden entfernt!</html>";
@@ -110,26 +116,27 @@ public class Figurenkampf extends JFrame{
     // 0: Unentschieden, 1: Figur1 gewinnt, 2: Figur2 gewinnt
 
     // Figur 1 MUSS die angreifende Figur sein
-    int vergleicheStaerke() {
+    private void vergleicheStaerke() {
         if (figur2.getStaerke()==1) {
             dispose();
+            spielfeld.dispose();
             new SpielBeendet(figur1.getTeam()); // Spieler von Figur1 hat gewonnen
         }
         if (figur1.getStaerke() == figur2.getStaerke()) {
-            return 0;
+            this.sieger=0;
         } else if (figur1.getStaerke() == 12 && figur2.getStaerke() == 4) {
             // Mineur schlaegt Bombe
-            return 2;
+            this.sieger=2;
         } else if(figur2.getStaerke() == 12 && figur1.getStaerke() == 4) {
             // Mineur schlaegt Bombe
-            return 1;
+            this.sieger=1;
         } else if (figur1.getStaerke() == 2 && figur2.getStaerke() == 11) {
             // Ninja schlaegt Feldmarschall, wenn er angreift
-            return 1;
+            this.sieger=1;
         } else if(figur1.getStaerke() > figur2.getStaerke()) {
-            return 1;
+            this.sieger=1;
         } else {
-            return 2;
+            this.sieger=2;
         }
     }
 }

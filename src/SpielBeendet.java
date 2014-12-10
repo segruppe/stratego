@@ -52,7 +52,7 @@ public class SpielBeendet extends JFrame{
         //Panel auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panel);
         // Fenster nicht verschiebbar
-        setUndecorated(true);
+        //setUndecorated(true);
         // sichtbar machen
         setVisible(true);
     }

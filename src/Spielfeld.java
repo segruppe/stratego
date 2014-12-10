@@ -284,7 +284,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 1) {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(a, spielfeld[x][y].getFigur(), this);
-				sieger = fk.vergleicheStaerke();
+				sieger = fk.getSieger();
 			} else if(spielfeld[x][y].getFigur() == null) {
 				spielfeld[x][y] = new ButtonFigurVerkn(a, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
@@ -303,7 +303,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 2) {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(a, spielfeld[x][y].getFigur(), this);
-				sieger = fk.vergleicheStaerke();
+				sieger = fk.getSieger();
 			} else if(spielfeld[x][y].getFigur() == null) {
 				spielfeld[x][y] = tmp;
 			}

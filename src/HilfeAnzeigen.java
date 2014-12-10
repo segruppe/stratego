@@ -34,18 +34,18 @@ public class HilfeAnzeigen extends JFrame {
                 "Beim zweiten Fall kommt es zum Kampf zwischen den beiden Figuren.<br>" +
                 "Die Figur mit der geringeren Staerke wird vom Feld genommen (Bei Unentschieden beide).<br><br>" +
                 "Die verschiedenen Figuren(hierachisch nach Staerke sortiert) sind:<br>" +
-                "  12: Bombe (Unbeweglich, schlaegt jeden Gegner außer Mineure)<br>" +
-                "  11: Feldmarschall (Nur durch Bomben und Spion schlagbar) <br>" +
-                "  10: General<br>" +
-                "  9: Oberst<br>" +
-                "  8: Major<br>" +
-                "  7: Hauptmann<br>" +
-                "  6: Leutnant<br>" +
-                "  5: Unteroffizier<br>" +
-                "  4: Mineur<br>" +
-                "  3: Aufklaerer (Koennen ueber mehrere Felder bewegt werden, jedoch nicht ueber andere Figuren oder Seen)<br>" +
-                "  2: Ninja (Schlaegt Feldmarschall, wenn er selber angreift<br>" +
-                "  1: Fahne (Unbeweglich)</p></body></html>";
+                "  12: 6x Bombe (Unbeweglich, schlaegt jeden Gegner außer Mineure)<br>" +
+                "  11: 1x Feldmarschall (Nur durch Bomben und Spion schlagbar) <br>" +
+                "  10: 1x General<br>" +
+                "  9: 2x Oberst<br>" +
+                "  8: 3x Major<br>" +
+                "  7: 4x Hauptmann<br>" +
+                "  6: 4x Leutnant<br>" +
+                "  5: 4x Unteroffizier<br>" +
+                "  4: 5x Mineur<br>" +
+                "  3: 8x Aufklaerer (Koennen ueber mehrere Felder bewegt werden, jedoch nicht ueber andere Figuren oder Seen)<br>" +
+                "  2: 1x Ninja (Schlaegt Feldmarschall, wenn er selber angreift<br>" +
+                "  1: 1x Fahne (Unbeweglich)</p></body></html>";
 
         // Textfeld erstellen und fuellen
         textFieldHilfeAusgabe = new JLabel(anleitung);
