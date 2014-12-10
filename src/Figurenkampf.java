@@ -21,6 +21,7 @@ public class Figurenkampf extends JFrame{
 
     public Figurenkampf(Figur figurA, Figur figurB, Spielfeld spielfeld) {
         super("Figurenkampf");
+        spielfeld.figurenkampfOffen = true;
         figur1 = figurA;
         figur2 = figurB;
         this.spielfeld = spielfeld;
@@ -94,6 +95,11 @@ public class Figurenkampf extends JFrame{
                 public void actionPerformed(ActionEvent actionEvent) {
                     spielfeld.setEnabled(true);
                     dispose();
+                    spielfeld.figurenkampfOffen = false;
+                    if(figur1.getTeam() == 1) {
+                        // KI zieht nachdem das Figurenkampf-Fenster geschlossen wurde wenn der Spieler angegriffen hat
+                        Spielablauf.gegner.macheZug();
+                    }
                 }
             });
         }

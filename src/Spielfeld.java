@@ -8,13 +8,14 @@ import java.awt.event.ActionEvent;
 public class Spielfeld extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	public JPanel panelButton;
-	public JPanel panelBottom;
+	private JPanel panelButton;
+	private JPanel panelBottom;
 	JTextPane infoMessage = new JTextPane();
     protected ButtonFigurVerkn spielfeld[][];
-	public ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
+	protected ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private JButton button = new JButton("abbrechen");
 	private SpeichernLaden save = new SpeichernLaden(this);
+	protected boolean figurenkampfOffen = false;
 
 	// Variablen fuer das setzen von Figuren
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
@@ -207,14 +208,18 @@ public class Spielfeld extends JFrame implements ActionListener {
 										firstClickPerformed = false;
 										return;
 									}
-										// Zug durchfuehren
-										figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-										//Spielablauf.kiGezogen = false;
 
-										// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
-										// hat man 2mal Figurenkampf offen..
+									// Zug durchfuehren
+									figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+									//Spielablauf.kiGezogen = false;
+
+									// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
+									// hat man 2mal Figurenkampf offen..
+									if(!figurenkampfOffen) {
 										Spielablauf.gegner.macheZug();
-										infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+									}
+
+									infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
 								} else {
 									infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 								}
@@ -245,7 +250,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	}
 
 	// Aktualisiert das gesamte Panel (die Buttons)
-	public void panelAktualisieren() {
+	private void panelAktualisieren() {
 		panelButton.removeAll();
 		panelBottom.removeAll();
 
@@ -261,7 +266,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	}
 
 	// Feld wieder zu einem gruenen Feld machen
-    public void feldZuruecksetzen(Position pos) {
+    private void feldZuruecksetzen(Position pos) {
 		spielfeld[pos.getX()][pos.getY()] = new ButtonFigurVerkn("green", pos.getX() * 10 + pos.getY());
 		spielfeld[pos.getX()][pos.getY()].getButton().addActionListener(this);
 	}
@@ -346,7 +351,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	 * 3: nach links
 	 * -1: -
 	 */
-	public int richtungBestimmen(Position von, Position nach) {
+	private int richtungBestimmen(Position von, Position nach) {
 		if(von.getX() > nach.getX()) {
 			System.out.println("Nach oben");
 			return 0;
@@ -370,7 +375,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	 * @return boolean true, wenn belegt
 	 * 					false, wenn frei
 	 */
-	public boolean wegBelegt(Position von, Position nach) {
+	private boolean wegBelegt(Position von, Position nach) {
 		int direction = richtungBestimmen(von, nach);
 		if(direction == 0) {
 			int it = von.getX()-1;
@@ -423,7 +428,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 		for(int i=0; i<length; i++){
 			for(int j=0; j<length; j++){
 				// Wenn ein Element des Spielfeldes unterschiedlich ist, gebe false zurueck
-				if(this.spielfeld[i][j] != spielfeld2.spielfeld[i][j])
+				if(this.spielfeld[i][j].getFigur().getId() != spielfeld2.spielfeld[i][j].getFigur().getId())
 					return false;
 			}
 

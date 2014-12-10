@@ -63,7 +63,7 @@ public class SchwereKI extends KI {
             System.out.println(figuren.get(k).toString() );
         }
 
-        spielfeld.panelAktualisieren();
+        //spielfeld.panelAktualisieren();
     }
 
     public Figur holeFigur(){

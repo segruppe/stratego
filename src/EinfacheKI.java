@@ -44,7 +44,7 @@ public class EinfacheKI extends KI {
         spielfeld.figurInit(new Aufklaerer(2),8,5);
         spielfeld.figurInit(new Aufklaerer(2),9,5);
         */
-        spielfeld.panelAktualisieren();
+        //spielfeld.panelAktualisieren();
         System.out.println("Position Fahne: " + fahneX + " " +fahneY );
     }
 
