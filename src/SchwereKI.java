@@ -22,20 +22,16 @@ public class SchwereKI extends KI {
         int r=(int)(Math.random()*4);
         switch (r){
             case 0:
-                spielfeld.figurInit(figuren.get(0),0,0);// linke Ecke
-                System.out.println( "Fahne 0 0" );
+                spielfeld.figurInit(figuren.get(0), 0, 0);// linke Ecke
                 break;
             case 1:
-                spielfeld.figurInit(figuren.get(0),0, 9); // rechte Ecke
-                System.out.println( "Fahne 0 9" );
+                spielfeld.figurInit(figuren.get(0), 0, 9); // rechte Ecke
                 break;
             case 2:
                 spielfeld.figurInit(figuren.get(0), 0, 4); // Mitte oberste Reihe
-                System.out.println( "Fahne 0 4" );
                 break;
             case 3:
                 spielfeld.figurInit(figuren.get(0), (int) (Math.random() * 2), (int) (Math.random() * 10)); // zufaellige Position
-                System.out.println( "Fahne zufaellig " );
                 break;
         }
         listTmp.remove(0);
@@ -51,19 +47,13 @@ public class SchwereKI extends KI {
                 int x=(int)(Math.random()*4);
                 int y=(int)(Math.random()*10);
                 if(spielfeld.spielfeld[x][y].getFigur()==null){
-                    spielfeld.figurInit(figuren.get(16+i),x,y);
+                    spielfeld.figurInit(figuren.get(16+i+1),x,y);
                     listTmp.remove(0);
                     figurGesetzt=true;
                 }
             }
             i++;
-
         }
-        for(int k=0; k<figuren.size();k++){
-            System.out.println(figuren.get(k).toString() );
-        }
-
-        //spielfeld.panelAktualisieren();
     }
 
     public Figur holeFigur(){
@@ -224,7 +214,7 @@ public class SchwereKI extends KI {
                 int y = (int) (Math.random() * 10);
                 // Test ob Feld belegt
                 if (spielfeld.spielfeld[x][y].getFigur() == null) {
-                    spielfeld.figurInit(figuren.get(0), x, y);
+                    spielfeld.figurInit(figuren.get(anzahlBomben+1), x, y);
                     listTmp.remove(0);
                     bombeGesetzt = true;
                 }
@@ -251,14 +241,20 @@ public class SchwereKI extends KI {
         // Position Feldmarschall
         int zufall=(int)(Math.random()*4);
         // Ninja steht auf keinem Randfeld
-        if(xNinja>0 && xNinja<3 && yNinja>0 && yNinja<9){
+        if(xNinja>0 && yNinja>0 && yNinja<9){
             switch (zufall){
-                case 0: spielfeld.figurInit(figuren.get(8),xNinja+1,yNinja);
-                        listTmp.remove(0);
-                        break;
-                case 1: spielfeld.figurInit(figuren.get(8),xNinja-1,yNinja);
-                        listTmp.remove(0);
-                        break;
+                case 0:
+                    if(spielfeld.spielfeld[xNinja+1][yNinja].getFigur()== null) {
+                         spielfeld.figurInit(figuren.get(8), xNinja + 1, yNinja);
+                     }
+                    listTmp.remove(0);
+                    break;
+                case 1:
+                    if(spielfeld.spielfeld[xNinja-1][yNinja].getFigur()== null) {
+                        spielfeld.figurInit(figuren.get(8), xNinja - 1, yNinja);
+                    }
+                    listTmp.remove(0);
+                    break;
                 case 2: spielfeld.figurInit(figuren.get(8),xNinja,yNinja+1);
                         listTmp.remove(0);
                         break;
@@ -266,11 +262,12 @@ public class SchwereKI extends KI {
                         listTmp.remove(0);
                         break;
             }
-        // falls Ninja auf Rand fehlt steht
-        } else if(xNinja>0) {
-            spielfeld.figurInit(figuren.get(8),xNinja-1,yNinja);
+        // falls Ninja auf Randfeld steht
+        // TODO: pruefen ob ausgewaehltes Feld frei ist
+        } else if(xNinja==0 && yNinja!=0 && yNinja!=9) {
+            spielfeld.figurInit(figuren.get(8),xNinja+1,yNinja);
             listTmp.remove(0);
-        } else if(xNinja<3) {
+        } else if(xNinja==3) {
             spielfeld.figurInit(figuren.get(8),xNinja+1,yNinja);
             listTmp.remove(0);
         } else if(yNinja>0){
@@ -288,33 +285,50 @@ public class SchwereKI extends KI {
         // mind. ein Aufklärer in jeder Zeile
         boolean yGefunden=false;
         int anzAufklaerer=0;
-        while(anzAufklaerer<8){
-            yGefunden=false;
+        while(anzAufklaerer<8) {
+            yGefunden = false;
             int x;
-            if(anzAufklaerer<4){
-                x=anzAufklaerer;
+            if (anzAufklaerer < 4) {
+                x = anzAufklaerer;
                 anzAufklaerer++;
             } else {
-                x=(int)(Math.random()*4);
+                x = (int) (Math.random() * 4);
+                if(reiheBelegt(x)){
+                    if(x<3) {
+                        x++;
+                    } else {
+                        x--;
+                    }
+                }
                 anzAufklaerer++;
             }
             // y-Koordinate bestimmen aus 0,1,4,5,8,9
-            while(!yGefunden) {
+            while (!yGefunden) {
                 int y = (int) (Math.random() * 6);
-                if(y==2 || y==3){
-                    y+=2;
-                } else if(y==4 || y==5){
-                    y+=4;
+                System.out.println(y);
+                if (y == 2 || y == 3) {
+                    y += 2;
+                } else if (y == 4 || y == 5) {
+                    y += 4;
                 }
                 if (spielfeld.spielfeld[x][y].getFigur() == null) {
-                    spielfeld.figurInit(figuren.get(8+anzAufklaerer), x, y);
+                    spielfeld.figurInit(figuren.get(8 + anzAufklaerer), x, y);
                     listTmp.remove(0);
                     yGefunden = true;
                 }
             }
         }
 
+    }
 
+    // prueft ob gesamte Reihe belegt
+    private boolean reiheBelegt(int x){
+        for(int i=0; i<10; i++){
+            if(spielfeld.spielfeld[x][i].getFigur()==null && (i==0 || i==1 || i==4 || i==5 || i==8 || i==9)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 
