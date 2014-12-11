@@ -24,42 +24,42 @@ public abstract class KI {
 
     /** Liste aller Figuren */
      static ArrayList<Figur> figurenSatzKI = new ArrayList<Figur>(){{
-        add(new Fahne(2));
+        add(new Fahne(2));    // 0
+        add(new Bombe(2));    //1
         add(new Bombe(2));
         add(new Bombe(2));
         add(new Bombe(2));
-        add(new Bombe(2));
-        add(new Bombe(2));
+        add(new Bombe(2));    //5
         add(new Bombe(2));
         add(new Ninja(2));
         add(new Feldmarschall(2));
         add(new Aufklaerer(2));
+        add(new Aufklaerer(2)); // 10
         add(new Aufklaerer(2));
         add(new Aufklaerer(2));
         add(new Aufklaerer(2));
         add(new Aufklaerer(2));
-        add(new Aufklaerer(2));
-        add(new Aufklaerer(2));
+        add(new Aufklaerer(2)); // 15
         add(new Aufklaerer(2));
         add(new Mineur(2));
         add(new Mineur(2));
         add(new Mineur(2));
-        add(new Mineur(2));
+        add(new Mineur(2));     // 20
         add(new Mineur(2));
         add(new Unteroffizier(2));
         add(new Unteroffizier(2));
         add(new Unteroffizier(2));
-        add(new Unteroffizier(2));
+        add(new Unteroffizier(2));  //25
         add(new Leutnant(2));
         add(new Leutnant(2));
         add(new Leutnant(2));
         add(new Leutnant(2));
-        add(new Hauptmann(2));
+        add(new Hauptmann(2));      //30
         add(new Hauptmann(2));
         add(new Hauptmann(2));
         add(new Hauptmann(2));
         add(new Major(2));
-        add(new Major(2));
+        add(new Major(2));          //35
         add(new Major(2));
         add(new Oberst(2));
         add(new Oberst(2));
