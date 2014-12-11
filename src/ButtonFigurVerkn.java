@@ -73,7 +73,7 @@ public class ButtonFigurVerkn {
      * @param count Nummer des Buttons
      */
     public ButtonFigurVerkn(Figur figur, int count) {
-        this.button = new JButton(new ImageIcon(figur.getBild()));
+        this.button = new JButton(new ImageIcon(getClass().getResource(figur.getBild())));
         this.button.setActionCommand(Integer.toString(count));
         this.figur = figur;
     }
@@ -98,7 +98,7 @@ public class ButtonFigurVerkn {
      * @param figur Figur, die neu gesetzt wird
      */
     public void setFigur(Figur figur) {
-        this.button = new JButton(new ImageIcon(figur.getBild()));
+        this.button = new JButton(new ImageIcon(getClass().getResource(figur.getBild())));
         this.button.setActionCommand(Integer.toString(figur.getPosition().getX() * 10 + figur.getPosition().getY()));
         this.figur=figur;
     }

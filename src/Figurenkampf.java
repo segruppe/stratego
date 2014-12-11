@@ -56,11 +56,11 @@ public class Figurenkampf extends JFrame{
 
         // Bilder erzeugen...Figur vom Spieler soll immer links stehen
         if (figur1.getTeam()==1) {
-            bild1 = new JLabel(new ImageIcon(figur1.getBild()));
-            bild2 = new JLabel(new ImageIcon(figur2.getBild()));
+            bild1 = new JLabel(new ImageIcon(getClass().getResource(figur1.getBild())));
+            bild2 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
         } else {
-            bild1 = new JLabel(new ImageIcon(figur2.getBild()));
-            bild2 = new JLabel(new ImageIcon(figur1.getBild()));
+            bild1 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
+            bild2 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
         }
         //Text festlegen
         this.vergleicheStaerke();
