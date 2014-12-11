@@ -5,6 +5,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
+/**
+ * GUI-Klasse, die das Spielfeld darstellt und alle Aktionen des Benutzers verarbeitet
+ *
+ * @see ButtonFigurVerkn
+ * @see SpeichernLaden
+ * @see Position
+ * @see Figur
+ */
 public class Spielfeld extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -24,11 +32,16 @@ public class Spielfeld extends JFrame implements ActionListener {
 	private static boolean warteAufSetzen = false;
 	private static Figur wartendeFigur = null;
 
+    /**
+     * Setter um den Spielstart zu setzen
+     *
+     * @param bool Wurde ein neues Spiel gestartet (Hat der Benutzer schon alle Figuren gesetzt)
+     */
 	public void setSpielstart(boolean bool) {
 		this.spielstart = bool;
 	}
 
-	// Hinzufuegen aller Figuren in eine Liste // Team 1
+    /** Alle Figuren, die der Spieler zur Verfügung hat */
 	static ArrayList<Figur> figurenSatzSpieler = new ArrayList<Figur>(){{
 		add(new Fahne(1));
 		add(new Bombe(1));
@@ -72,8 +85,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 		add(new Feldmarschall(1));
 	}};
 
+    /** Kopie der Liste, die alle Figuren des Spielers enthaelt */
 	static ArrayList<Figur> figurenSatzSpieler_clone = new ArrayList<Figur>(figurenSatzSpieler);
 
+    /**
+     * Erzeugen des Fensters, auf dem das Spielfeld liegt
+     */
     public Spielfeld() {
         super("Stratego - Spiel");
         // Groesse des Fensters
@@ -117,8 +134,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
 		panelButton.setBackground(new Color(207, 4, 0));
-        // Buttons auf panel packen
-
 
 		// Listener fuer Buttons
 		for(ButtonFigurVerkn[] i:spielfeld) {
@@ -139,10 +154,12 @@ public class Spielfeld extends JFrame implements ActionListener {
     }
 
 
-
-	/*
-	Setzt Spielfiguren um, reagiert auf Mausklick
-	 */
+    /**
+     * Startaufstellung des Spielers setzen. Waehrend des Spiels umsetzen der Spieler Figuren.
+     * Die Methode reagiert bei einem Mausklick auf die Figur eines Spielers
+     *
+     * @param e ActionEvent, welches durch den Mausklick gesendet wird
+     */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("abbrechen")) {
 			// Damit count wieder auf 0 gesetzt wird
@@ -186,7 +203,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 					}
 				}
 			} else if (Spielablauf.kiGezogen){
-
+                // Spieler zieht
 				int number = Integer.parseInt(e.getActionCommand());
 
 				if (wasser.contains(number)) {
@@ -213,8 +230,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 									figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
 									//Spielablauf.kiGezogen = false;
 
-									// macheZug aufrufen direkt wenn man selber einen Zug gemacht hat, ist das besser so? Wenn man selber angreift und der Gegner auch
-									// hat man 2mal Figurenkampf offen..
+									// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
 									if(!figurenkampfOffen) {
 										Spielablauf.gegner.macheZug();
 									}
@@ -243,14 +259,15 @@ public class Spielfeld extends JFrame implements ActionListener {
 						}
 					}
 				}
-			} //else if (!Spielablauf.kiGezogen) {
-                //Spielablauf.gegner.macheZug();
-           // }
+			}
 		}// ende Else vom abbrechen Button
 	}
 
-	// Aktualisiert das gesamte Panel (die Buttons)
-	private void panelAktualisieren() {
+    /**
+     * Aktualisieren des gesammten Panels. Alten Buttons und Textfeld werden vom Panel geloescht und dann
+     * die neuen hinzugefuegt
+     */
+	public void panelAktualisieren() {
 		panelButton.removeAll();
 		panelBottom.removeAll();
 
@@ -271,12 +288,17 @@ public class Spielfeld extends JFrame implements ActionListener {
 		spielfeld[pos.getX()][pos.getY()].getButton().addActionListener(this);
 	}
 
-	// x und y sind Koordinaten der neuen Position
+    /**
+     * Figur auf eine neue Position setzen
+     *
+     * @param a Figur, deren Position gesetzt wird
+     * @param x neue xKoordinate der Figur
+     * @param y neue yKoordinate der Figur
+     */
     public void figurSetzen(Figur a, int x, int y) {
 		ButtonFigurVerkn tmp = spielfeld[a.getPosition().getX()][a.getPosition().getY()];
 		tmp.getButton().setActionCommand(Integer.toString(x*10+y));
 		feldZuruecksetzen(a.getPosition());
-		//spielfeld[a.getPosition().getX()][a.getPosition().getY()] = new ButtonFigurVerkn("green", a.getPosition().getX()*10+a.getPosition().getY());
 		a.setPosition(new Position(x, y));
 
 		int sieger = -1;
@@ -292,7 +314,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			if(sieger == 0) {
 				// Unentschieden
 				feldZuruecksetzen(new Position(x, y));
-				//spielfeld[x][y] = new ButtonFigurVerkn("green", x*10+y);
 			} else if(sieger == 1) {
 				// KI gewinnt
 				spielfeld[x][y] = new ButtonFigurVerkn(a, "red");
@@ -310,7 +331,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			if(sieger == 0) {
 				// Unentschieden
 				feldZuruecksetzen(new Position(x, y));
-				//spielfeld[x][y] = new ButtonFigurVerkn("green", x*10+y);
 			} else if(sieger == 1) {
 				// Spieler gewinnt
 				spielfeld[x][y] = tmp;
@@ -321,12 +341,27 @@ public class Spielfeld extends JFrame implements ActionListener {
 		panelAktualisieren();
 	}
 
+    /**
+     * Figur auf eine neue Position setzen
+     *
+     * @param a Figur, deren Position gesetzt wird
+     * @param pos Neue Position der Figur
+     */
 	public void figurSetzen(Figur a, Position pos) {
 		figurSetzen(a, pos.getX(), pos.getY());
     }
 
 	// Methode zum initialisieren eines Feldes mit einer Figur
+
+    /**
+     * Initialisieren eines Feldes mit einer Figur
+     *
+     * @param a Figur, die zum ersten mal gesetzt werden soll
+     * @param x xKoordinate der Figur
+     * @param y yKoordinate der Figur
+     */
 	public void figurInit(Figur a, int x, int y) {
+        // Setzt die Position der Figur
 		a.setPosition(new Position(x, y));
 		// Setzt eine Figur und gibt ihr direkt die richtige Nummer
 		if(a.getTeam() == 2) {
@@ -335,7 +370,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			spielfeld[x][y] = new ButtonFigurVerkn(a, x * 10 + y);
 		}
 		spielfeld[x][y].getButton().addActionListener(this);
-		// Setzt die Position der Figur
 		panelAktualisieren();
 	}
 
@@ -423,6 +457,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 	}
 
 
+    /**
+     * Vergleich, ob ein Spielfeld schonmal vorhanden war
+     *
+     * @param spielfeld2 Altes Spielfeld
+     * @return false - Spielfeld gab es so noch nicht
+     *          true - Spielfeld gab es so schon einmal
+     */
 	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
 		int length = this.spielfeld.length;
 		for(int i=0; i<length; i++){
@@ -437,9 +478,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 		return true;
 	}
 
-
-    // Gibt Figur auf der Position zurueck
-    // wenn Position auf Spielfeld, sonst null
+    /**
+     * Liefert die Figur, die auf der Position liegt (null, wenn keine)
+     * @param x xKoordinate
+     * @param y yKoordinate
+     * @return Figur auf der Position
+     */
     public Figur getFigur(int x, int y) {
             return spielfeld[x][y].getFigur();
     }

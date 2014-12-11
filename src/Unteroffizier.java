@@ -1,5 +1,18 @@
 /**
  * Klasse fuer den Unteroffizier
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
  */
 public class Unteroffizier extends Figur {
     /**

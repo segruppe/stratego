@@ -1,5 +1,18 @@
 /**
  * Klasse fuer den Mineur
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public class Mineur extends Figur {
     /**

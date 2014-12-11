@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
 /**
- * Created by Dennis on 25.11.2014.
+ * GUI-Klasse fuer die mittlere KI. Erbt von KI
+ *
+ * @see Figur
+ * @see Spielfeld
  */
 public class MittlereKI extends KI {
 
@@ -9,6 +12,11 @@ public class MittlereKI extends KI {
     Spielfeld spielfeld;
     ArrayList<Figur> listTmp;
 
+    /**
+     * Erzeugen der Mittleren KI
+     *
+     * @param spielfeld Spielfeld auf dem die Figuren gesetzt werden
+     */
     public MittlereKI(Spielfeld spielfeld) {
         listTmp = new ArrayList<Figur>(figurenSatzKI);
         this.spielfeld=spielfeld;
@@ -16,6 +24,9 @@ public class MittlereKI extends KI {
     }
 
     @Override
+    /**
+     * Setzen einer Startaufstellung
+     */
     public void setzeStartAufstellung() {
        int index=0;
         spielfeld.panelButton.removeAll();
@@ -25,14 +36,13 @@ public class MittlereKI extends KI {
                 spielfeld.figurInit(figur,i,j);
             }
         }
-        spielfeld.panelAktualisieren();
-    }
-
-    public Figur holeFigur(){
-        return null;
+       // spielfeld.panelAktualisieren();
     }
 
     @Override
+    /**
+     * KI macht einen Zug
+     */
     public void macheZug() {}
 
 }

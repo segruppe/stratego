@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * GUI-Klasse die das Menue darstellt. Stellt den Start des Spiels dar
+ *
+ * @see HilfeAnzeigen
+ * @see SpielStarten
+ */
 public class Menue extends JFrame {
 
     private JButton spielStartenButton;
@@ -10,6 +16,9 @@ public class Menue extends JFrame {
     private JButton beendenButton;
     private JPanel panelButton;
 
+    /**
+     * Erzeugen des Menue Fensters
+     */
     public Menue() {
         super("Stratego");
         // Groesse des Fensters
@@ -50,8 +59,13 @@ public class Menue extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Startpunkt des Spiels
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        Menue gui = new Menue();
+        new Menue();
     }
 
     private void addButtonListener(JButton b) {

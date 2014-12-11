@@ -5,13 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Dennis on 19.11.2014.
+ * GUI-Klasse um den Figurenkampf darzustellen
+ *
+ * @see Figur
+ * @see Spielfeld
  */
 public class Figurenkampf extends JFrame{
 
-    // TODO: Graphische Oberflaeche
-    Figur figur1;
-    Figur figur2;
+    private Figur figur1;
+    private Figur figur2;
     private JButton okButton;
     private JLabel ausgabeFigur;
     private JPanel panel;
@@ -20,10 +22,23 @@ public class Figurenkampf extends JFrame{
     private Spielfeld spielfeld;
     private int sieger;
 
+    /**
+     * Getter fuer den Sieger
+     *
+     * @return Sieger des Figurenkampfs
+     */
     public int getSieger() {
         return sieger;
     }
 
+    /**
+     * Konstruktor zur Erzeugung des GUI-Fensters.
+     * Anzeige der beiden kaempfenden Figuren und Ausgabe welche gewonnen hat
+     *
+     * @param figurA angreifende Figur
+     * @param figurB angegriffene Figur
+     * @param spielfeld Spielfeld, auf dem das Spiel laeuft
+     */
     public Figurenkampf(Figur figurA, Figur figurB, Spielfeld spielfeld) {
         super("Figurenkampf");
         spielfeld.figurenkampfOffen = true;

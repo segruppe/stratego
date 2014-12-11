@@ -4,7 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Dennis on 25.11.2014.
+ * GUI-Klasse zum Starten eines Spiels. Der Spieler hat die Auswahl ein neues Spiel zu beginnen, ein altes zu laden
+ * oder zum Menue zurueck zu kehren
+ *
+ * @see SpielLaden
+ * @see SchwierigkeitWaehlen
+ * @see Menue
  */
 public class SpielStarten extends JFrame {
     private JButton neuesSpiel;
@@ -12,6 +17,9 @@ public class SpielStarten extends JFrame {
     private JButton zurueck;
     private JPanel panel;
 
+    /**
+     * Konstruktor, um das Fenster zu erzeugen, ob der Spieler ein Spiel starten/ laden will oder zum Menue zurueckkehren will
+     */
     public SpielStarten() {
         super("Spiel starten");
         // Groesse des Fensters

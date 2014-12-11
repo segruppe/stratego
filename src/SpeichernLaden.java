@@ -1,16 +1,28 @@
 import java.io.*;
 
+/**
+ * Klasse, um den Spielstand zu Speichern oder zu Laden
+ *
+ * @see Spielfeld
+ * @see Spielablauf
+ */
 public class SpeichernLaden {
     static String dateiname = "SAVEGAME.DAT";
     Spielfeld spielfeld;
     Spielablauf ablauf;
 
-
+    /**
+     * Konstruktor, um das Spielfeld zu setzen
+     *
+     * @param spielfeld Spielfeld auf dem Figuren liegen
+     */
     public SpeichernLaden(Spielfeld spielfeld) {
         this.spielfeld = spielfeld;
     }
 
-
+    /**
+     * Speichern des aktuellen Spielfeldes in einer Datei
+     */
     public void spielfeldSpeichern() {
         try {
             FileWriter fw = new FileWriter(new File(dateiname));
@@ -41,11 +53,9 @@ public class SpeichernLaden {
         }
     }
 
-    public static void main(String[] args) {
-        SpeichernLaden x = new SpeichernLaden(new Spielfeld());
-        x.spielfeldLaden();
-    }
-
+    /**
+     * Laden eines gespeicherten Spielstandes aus der Datei und setzen der Figuren auf das Spielfeld
+     */
     public void spielfeldLaden() {
         // Beide Teams muessen noch jeweils eine Fahne haben, sonst ist das Spiel bereits beendet
         boolean fahneTeam1 = false;
@@ -93,8 +103,6 @@ public class SpeichernLaden {
                             spielfeld.figurInit(new Unteroffizier(Integer.parseInt(figur[1])), i, j);
                         } else if (figur[0].equals("Feldmarschall")) {
                             spielfeld.figurInit(new Feldmarschall(Integer.parseInt(figur[1])), i, j);
-                        } else {
-                            //System.out.println(figuren[j]);
                         }
                     }
                 }
@@ -137,7 +145,5 @@ public class SpeichernLaden {
             System.out.println("Fehler beim Laden");
             e.printStackTrace();
         }
-
     }
-
 }

@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 /**
  * Abstrakte Klasse fuer alle KIs
+ *
+ * @see EinfacheKI
+ * @see MittlereKI
+ * @see SchwereKI
  */
 public abstract class KI {
 /**

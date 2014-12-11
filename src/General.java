@@ -1,5 +1,18 @@
 /**
  * Klasse fuer den General
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public class General extends Figur {
     /**

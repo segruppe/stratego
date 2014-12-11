@@ -3,12 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * GUI-Klasse um das Ende eines Spiels anzuzeigen
+ */
 public class SpielBeendet extends JFrame{
     int sieger;
     private JLabel ausgabeSieger;
     private JButton beenden;
     private JPanel panel;
 
+    /**
+     * Konstruktor, um das Fenster fuer das Spielende anzuzeigen
+     *
+     * @param sieger Spieler, der die Fahne des anderen besiegt hat
+     */
     public SpielBeendet(int sieger){
         super("Spiel Beendet");
         this.sieger = sieger;

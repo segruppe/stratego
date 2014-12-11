@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * GUI-Klasse fuer die schwere KI. Erbt von KI
+ *
+ * @see Figur
+ * @see Spielfeld
+ */
 public class SchwereKI extends KI {
 
     Figur figur;
@@ -7,7 +13,11 @@ public class SchwereKI extends KI {
     ArrayList<Figur> listTmp;
     ArrayList<Figur> figuren;
 
-
+    /**
+     * Erzeugen der Schweren KI
+     *
+     * @param spielfeld Spielfeld auf dem die Figuren gesetzt werden
+     */
     public SchwereKI(Spielfeld spielfeld) {
         listTmp = new ArrayList<Figur>(figurenSatzKI); // leichter zu pruefen welche figuren gesetzt sind
         figuren= new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
@@ -15,8 +25,10 @@ public class SchwereKI extends KI {
         //setzeStartAufstellung();
     }
 
-
     @Override
+    /**
+     * Setzen einer Startaufstellung
+     */
     public void setzeStartAufstellung() {
         // zuerst Fahne setzen:
         int r=(int)(Math.random()*4);
@@ -61,6 +73,9 @@ public class SchwereKI extends KI {
     }
 
     @Override
+    /**
+     * KI macht einen Zug
+     */
     public void macheZug() {}
 
     // setze Bomben, an bestimmte Positionen

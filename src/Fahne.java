@@ -1,5 +1,18 @@
 /**
  * Klasse fuer die Fahne
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public class Fahne extends Figur{
 

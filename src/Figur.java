@@ -1,5 +1,18 @@
 /**
  * Abstrakte Klasse von der alle Figuren erben
+ *
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public abstract class Figur {
     /** Zaehlt die Anzahl der Figuren vom Spieler hoch */

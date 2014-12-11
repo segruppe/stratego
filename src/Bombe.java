@@ -1,5 +1,18 @@
 /**
  * Klasse fuer Bombe
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public class Bombe extends Figur {
 

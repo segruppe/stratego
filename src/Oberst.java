@@ -1,5 +1,18 @@
 /**
  * Klasse fuer den Oberst
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Leutnant
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Unteroffizier
  */
 public class Oberst extends Figur {
     /**

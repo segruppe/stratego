@@ -1,5 +1,18 @@
 /**
  * Klasse fuer den Leutnant
+ *
+ * @see Figur
+ * @see Aufklaerer
+ * @see Bombe
+ * @see Fahne
+ * @see Feldmarschall
+ * @see General
+ * @see Hauptmann
+ * @see Major
+ * @see Mineur
+ * @see Ninja
+ * @see Oberst
+ * @see Unteroffizier
  */
 public class Leutnant extends Figur {
     /**

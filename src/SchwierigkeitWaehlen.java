@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Dennis on 27.11.2014.
+ * GUI-Klasse zum Auswaehlen der KI Schwierigkeit
+ *
+ * @see Spielablauf
  */
 public class SchwierigkeitWaehlen extends JFrame {
     private JLabel anweisung;
@@ -13,6 +15,9 @@ public class SchwierigkeitWaehlen extends JFrame {
     private JButton schwerButton;
     private JPanel panel;
 
+    /**
+     * Erzeugung des Fensters um die Schwierigkeit auszuwaehlen
+     */
     public SchwierigkeitWaehlen() {
         super("Schwierigkeit auswaehlen");
         // Groesse des Fensters

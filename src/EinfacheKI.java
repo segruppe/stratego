@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 /**
  * GUI-Klasse fuer die einfache KI. Erbt von KI
+ *
+ * @see Figur
+ * @see Spielfeld
  */
 public class EinfacheKI extends KI {
     private Figur figur;
@@ -57,7 +60,7 @@ public class EinfacheKI extends KI {
     }
 
     // Funktion gibt eine zufaellige Figur, die noch nicht gesetzt wurde, zurueck
-    public Figur holeFigur() {
+    private Figur holeFigur() {
         Figur figur;
         int zahl = (int) (Math.random() * listTmp.size());
         figur = listTmp.get(zahl);

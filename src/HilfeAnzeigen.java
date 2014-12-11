@@ -4,13 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Dennis on 08.11.2014.
+ * GUI-Klasse um die Spielanleitung anzuzeigen
+ *
+ * @see Menue
  */
 public class HilfeAnzeigen extends JFrame {
     private JLabel textFieldHilfeAusgabe;
     private JButton zurueckButton;
     private JPanel panel;
 
+    /**
+     * Erzeugen des Fensters mit der Spielanleitung
+     */
     public HilfeAnzeigen() {
         super("Stratego-Anleitung");
         // Groesse des Fensters
