@@ -66,4 +66,14 @@ public abstract class KI {
         add(new General(2));
 
     }};
+
+    /**
+     * setzt die Position jeder Figur auf Null, damit beim Neustart wieder die Anfangssituation
+     * existiert
+     */
+    public void setzePositionNull(){
+        for(Figur i:figurenSatzKI){
+            i.setPosition(null);
+        }
+    }
 }

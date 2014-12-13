@@ -8,10 +8,11 @@ import java.util.ArrayList;
  */
 public class SchwereKI extends KI {
 
-    Figur figur;
-    Spielfeld spielfeld;
-    ArrayList<Figur> listTmp;
-    ArrayList<Figur> figuren;
+    private Spielfeld spielfeld;
+    private ArrayList<Figur> listTmp;
+    private ArrayList<Figur> figuren;
+    private ArrayList<Figur> gegnerischeFiguren;
+    private ArrayList<Figur> entfernteFigurenGegner;
 
     /**
      * Erzeugen der Schweren KI
@@ -22,7 +23,8 @@ public class SchwereKI extends KI {
         listTmp = new ArrayList<Figur>(figurenSatzKI); // leichter zu pruefen welche figuren gesetzt sind
         figuren= new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
         this.spielfeld=spielfeld;
-        //setzeStartAufstellung();
+        gegnerischeFiguren=new ArrayList<Figur>();
+        entfernteFigurenGegner=new ArrayList<Figur>();
     }
 
     @Override
@@ -30,7 +32,7 @@ public class SchwereKI extends KI {
      * Setzen einer Startaufstellung
      */
     public void setzeStartAufstellung() {
-        // zuerst Fahne setzen:
+        // zuerst Fahne setzen: Fahne an Position 0 in Liste
         int r=(int)(Math.random()*4);
         switch (r){
             case 0:
@@ -48,19 +50,24 @@ public class SchwereKI extends KI {
         }
         listTmp.remove(0);
         setzeBomben();
-        setzeNinFM();
+        setzeNinjaFeldmarschall();
         setzeAufklaerer();
 
-        // restliche Figuren setzen
-        // TODO: pruefen ob in figuren Figuren enthalten sind die bereits gesetzt wurden ueber die aber iteriert wird -> IndexoutofBoundsException
-        int i=16;
+        // restliche Figuren setzen, ab Position 17 in der ArrayList
+        int i=17;
         while(listTmp.size()>0){
             boolean figurGesetzt=false;
+
+            // Probe ob Figur schon gesetzt ist
+            if(figuren.get(i).getPosition()!=null) {
+                figurGesetzt = true;
+            }
+            // solange nicht gesetzt, freie Position suchen
             while(!figurGesetzt){
                 int x=(int)(Math.random()*4);
                 int y=(int)(Math.random()*10);
                 if(spielfeld.spielfeld[x][y].getFigur()==null){
-                    spielfeld.figurInit(figuren.get(i+1),x,y);
+                    spielfeld.figurInit(figuren.get(i), x, y);
                     listTmp.remove(0);
                     figurGesetzt=true;
                 }
@@ -79,7 +86,7 @@ public class SchwereKI extends KI {
      */
     public void macheZug() {}
 
-    // setze Bomben, an bestimmte Positionen
+    // setze Bomben, an bestimmte Positionen, in Liste von Position 1-6
     private void setzeBomben(){
         int z=(int)(Math.random()*3);
         Position fahne=figuren.get(0).getPosition(); // Position der Fahne
@@ -140,11 +147,11 @@ public class SchwereKI extends KI {
                         spielfeld.figurInit(figuren.get(5), 1, 2);
                         // zuvor zufaellig bestimmte Figuren setzen und aus Liste loeschen
                         spielfeld.figurInit(figuren.get(z1),1,0);
-                        listTmp.remove(z1 - 2);
+                        listTmp.remove(z1 - 1);
                         spielfeld.figurInit(figuren.get(z2), 1, 1);
-                        listTmp.remove(z2-3);
+                        listTmp.remove(z2-2);
                         spielfeld.figurInit(figuren.get(z3),0,1);
-                        listTmp.remove(z3-4);
+                        listTmp.remove(z3-3);
 
 
                     // Fahne in rechter Ecke
@@ -156,11 +163,11 @@ public class SchwereKI extends KI {
                         spielfeld.figurInit(figuren.get(5), 1, 7);
                         // zuvor zufaellig bestimmte Figuren setzen und aus Liste loeschen
                         spielfeld.figurInit(figuren.get(z1), 1, 8);
-                        listTmp.remove(z1 - 2);
+                        listTmp.remove(z1 - 1);
                         spielfeld.figurInit(figuren.get(z2), 1, 9);
-                        listTmp.remove(z2 - 3);
+                        listTmp.remove(z2 - 2);
                         spielfeld.figurInit(figuren.get(z3), 0, 8);
-                        listTmp.remove(z3 - 4);
+                        listTmp.remove(z3 - 3);
                     }
                     anzahlBomben+=5;
                     break;
@@ -174,20 +181,17 @@ public class SchwereKI extends KI {
                     spielfeld.figurInit(figuren.get(1), fahneX + 1, fahneY);
                     //Fahne steht nicht am Rand
                     if(fahneY>0 && fahneY<9){
-                        System.out.println("recht links davor bombe");
                         // rechts und links daneben eine Bombe
                         spielfeld.figurInit(figuren.get(2),fahneX,fahneY-1);
                         spielfeld.figurInit(figuren.get(3), fahneX, fahneY + 1);
                         anzahlBomben+=3;
                     // Fahne steht am linken Rand
                     } else if(fahneY==0){
-                        System.out.println("bombe davor und rechts");
                         // Bombe rechts setzen
                         spielfeld.figurInit(figuren.get(2), fahneX, fahneY + 1);
                         anzahlBomben+=2;
                     // Fahne steht am rechten Rand
                     } else {
-                        System.out.println("bombe links und davor");
                         // Bombe links setzen
                         spielfeld.figurInit(figuren.get(2), fahneX, fahneY - 1);
                         anzahlBomben+=2;
@@ -198,23 +202,21 @@ public class SchwereKI extends KI {
                     spielfeld.figurInit(figuren.get(1), fahneX + 2, fahneY);
                     //Fahne steht nicht am Rand
                     if(fahneY>1 && fahneY<8){
-                        System.out.println("Figuren und Bomben davor und neben");
                         // rechts und links daneben eine Bombe
                         spielfeld.figurInit(figuren.get(2),fahneX,fahneY-2);
                         spielfeld.figurInit(figuren.get(3), fahneX, fahneY + 2);
                         anzahlBomben+=3;
                         // Fahne steht am linken Rand
-                    } else if(fahneY==0){
+                    } else if(fahneY<8){
                         // Bombe rechts setzen
-                        System.out.println("Figuren und Bomben davor und rechts");
                         spielfeld.figurInit(figuren.get(2), fahneX, fahneY + 2);
                         anzahlBomben+=2;
                         // Fahne steht am rechten Rand
-                    } else {
+                    } else if(fahneY>1) {
                         // Bombe links setzen
-                        System.out.println("Figuren und Bomben davor und links");
                         spielfeld.figurInit(figuren.get(2), fahneX, fahneY - 2);
-                        anzahlBomben+=2;
+                        anzahlBomben += 2;
+                        // gilt keiner der Faelle werden alle Bomben zufaellig gesetzt
                     }
                     break;
                 case 2:
@@ -242,49 +244,48 @@ public class SchwereKI extends KI {
         for(int i=0; i<6; i++){
             listTmp.remove(i);
         }
-        System.out.println("Nach bomben setzen vorhandene Figuren: " + listTmp.size());
     }
 
     // Ninja und Feldmarschall sollen nebeneinander/hintereinander stehen
-    private void setzeNinFM() {
-        boolean ninjaGesetzt=false;
+    private void setzeNinjaFeldmarschall() {
         int xNinja=0;
         int yNinja=0;
-        // Ninja zufaellig setzen
-        while(!ninjaGesetzt) {
-            xNinja = (int) (Math.random() * 2);
-            yNinja = (int) (Math.random() * 10);
-            if (spielfeld.spielfeld[xNinja][yNinja].getFigur() == null) {
-                spielfeld.figurInit(figuren.get(7), xNinja, yNinja);
-                listTmp.remove(0);
-                ninjaGesetzt=true;
-            }
-        }
-        // Position Feldmarschall
-
         // speichern der moeglichen Positionen fuer Feldmarschall
         ArrayList<Position> freiesFeld = new ArrayList<Position>();
-        // Feld liegt auf dem Spielfeld und ist frei
-        if(spielfeld.spielfeld[xNinja+1][yNinja].getFigur()==null){
-            freiesFeld.add(new Position(xNinja+1,yNinja));
-        }
-        if(xNinja-1>=0 && spielfeld.spielfeld[xNinja-1][yNinja].getFigur()==null){
-            freiesFeld.add(new Position(xNinja-1,yNinja));
-        }
-        if(yNinja+1<=9 && spielfeld.spielfeld[xNinja][yNinja+1].getFigur()==null){
-            freiesFeld.add(new Position(xNinja,yNinja+1));
-        }
-        if(yNinja-1>=0 &&spielfeld.spielfeld[xNinja][yNinja-1].getFigur()==null){
-            freiesFeld.add(new Position(xNinja,yNinja-1));
-        }
 
+        // Ninja zufaellig setzen und pruefen ob mind. ein freies Feld neben/vor oder hinter Ninja fuer Feldmarschall
+        while(true) {
+            xNinja = (int) (Math.random() * 2);
+            yNinja = (int) (Math.random() * 10);
+            // zufaellige Position ist noch frei
+            if (spielfeld.spielfeld[xNinja][yNinja].getFigur() == null) {
+                // Position fuer Feldmarschall suchen
+                // Feld liegt auf dem Spielfeld und ist frei
+                if(spielfeld.spielfeld[xNinja+1][yNinja].getFigur()==null){
+                    freiesFeld.add(new Position(xNinja+1,yNinja));
+                }
+                if(xNinja-1>=0 && spielfeld.spielfeld[xNinja-1][yNinja].getFigur()==null){
+                    freiesFeld.add(new Position(xNinja-1,yNinja));
+                }
+                if(yNinja+1<=9 && spielfeld.spielfeld[xNinja][yNinja+1].getFigur()==null){
+                    freiesFeld.add(new Position(xNinja,yNinja+1));
+                }
+                if(yNinja-1>=0 &&spielfeld.spielfeld[xNinja][yNinja-1].getFigur()==null){
+                    freiesFeld.add(new Position(xNinja,yNinja-1));
+                }
+                if(freiesFeld.size()!=0) {
+                    break;
+                }
+            }
+        }
+        // Ninja setzen
+        spielfeld.figurInit(figuren.get(7), xNinja, yNinja);
+        listTmp.remove(0);
         // zufaellige Position aus ArrayList auswaehlen
         int zufall=(int)(Math.random()*freiesFeld.size());
         // Feldmarschall an Position setzen und Liste leeren
-        spielfeld.figurInit(figuren.get(8),freiesFeld.get(zufall).getX(),freiesFeld.get(zufall).getY());
-        freiesFeld.clear();
+        spielfeld.figurInit(figuren.get(8), freiesFeld.get(zufall).getX(), freiesFeld.get(zufall).getY());
         listTmp.remove(0);
-        System.out.println(listTmp.size() + " noch vorhandene Figurne");
     }
 
     // Aufklaerer moeglichst nicht auf einer hoehe mit Wasser, damit
@@ -298,36 +299,34 @@ public class SchwereKI extends KI {
             int x;
             if (anzAufklaerer < 4) {
                 x = anzAufklaerer;
-                anzAufklaerer++;
             } else {
                 x = (int) (Math.random() * 4);
 
             }
-            if(reiheBelegt(x)){
+            while(reiheBelegt(x)){
                 if(x<3) {
                     x++;
                 } else {
                     x--;
                 }
             }
-            anzAufklaerer++;
+
             // y-Koordinate bestimmen aus 0,1,4,5,8,9
             while (!yGefunden) {
                 int y = (int) (Math.random() * 6);
-                System.out.println(y);
                 if (y == 2 || y == 3) {
                     y += 2;
                 } else if (y == 4 || y == 5) {
                     y += 4;
                 }
                 if (spielfeld.spielfeld[x][y].getFigur() == null) {
-                    spielfeld.figurInit(figuren.get(8 + anzAufklaerer), x, y);
+                    spielfeld.figurInit(figuren.get(8 + anzAufklaerer+1), x, y);
                     listTmp.remove(0);
                     yGefunden = true;
                 }
             }
+            anzAufklaerer++;
         }
-        System.out.println("nach Aufklaerer noch vorhandene Figuren: " + listTmp.size());
     }
 
     // prueft ob gesamte Reihe belegt
