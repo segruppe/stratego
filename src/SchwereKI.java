@@ -11,6 +11,7 @@ public class SchwereKI extends KI {
     private Spielfeld spielfeld;
     private ArrayList<Figur> listTmp;
     private ArrayList<Figur> figuren;
+    private ArrayList<Figur> zugMoeglich;
     private ArrayList<Figur> gegnerischeFiguren;
     private ArrayList<Figur> entfernteFigurenGegner;
 
@@ -23,6 +24,7 @@ public class SchwereKI extends KI {
         listTmp = new ArrayList<Figur>(figurenSatzKI); // leichter zu pruefen welche figuren gesetzt sind
         figuren= new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
         this.spielfeld=spielfeld;
+        zugMoeglich=new ArrayList<Figur>();
         gegnerischeFiguren=new ArrayList<Figur>();
         entfernteFigurenGegner=new ArrayList<Figur>();
     }
@@ -76,7 +78,7 @@ public class SchwereKI extends KI {
         }
     }
 
-    public Figur holeFigur(){
+    private Figur holeFigur(){
         return null;
     }
 
@@ -84,7 +86,33 @@ public class SchwereKI extends KI {
     /**
      * KI macht einen Zug
      */
-    public void macheZug() {}
+    public void macheZug() {
+        moeglicheZuege();
+    }
+
+    private void moeglicheZuege(){
+        for(Figur i: figuren){
+            if(i.getIstBewegbar() ){
+                int x=i.getPosition().getX();
+                System.out.println(x);
+                int y=i.getPosition().getY();
+                if(x<9 && (spielfeld.getFigur(x+1,y)==null &&  !spielfeld.wasser.contains(10*(x+1)+y)) || spielfeld.getFigur(x+1,y).getTeam()==1){
+                    zugMoeglich.add(i);
+                }
+                System.out.println(x);
+                if(x>0 &&(spielfeld.getFigur(x-1,y)==null &&  !spielfeld.wasser.contains(10*(x-1)+y)) || spielfeld.getFigur(x-1,y).getTeam()==1){
+                    zugMoeglich.add(i);
+                }
+                if(y<9 && (spielfeld.getFigur(x,y+1)==null &&  !spielfeld.wasser.contains(10*x+y+1)) || spielfeld.getFigur(x,y+1).getTeam()==1){
+                    zugMoeglich.add(i);
+                }
+                if(y>0 && (spielfeld.getFigur(x,y-1)==null &&  !spielfeld.wasser.contains(10*x+y-1)) || spielfeld.getFigur(x,y-1).getTeam()==1){
+                    zugMoeglich.add(i);
+                }
+            }
+        }
+        System.out.println("Moegliche Zuege: " + zugMoeglich.size());
+    }
 
     // setze Bomben, an bestimmte Positionen, in Liste von Position 1-6
     private void setzeBomben(){
