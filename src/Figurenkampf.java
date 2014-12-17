@@ -58,9 +58,13 @@ public class Figurenkampf extends JFrame{
         if (figur1.getTeam()==1) {
             bild1 = new JLabel(new ImageIcon(getClass().getResource(figur1.getBild())));
             bild2 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
+            // Spieler Figur ist der KI bekannt
+            figur1.setIstBekannt(true);
         } else {
             bild1 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
             bild2 = new JLabel(new ImageIcon(getClass().getResource(figur1.getBild())));
+            // Spieler Figur ist der KI bekannt
+            figur2.setIstBekannt(true);
         }
         //Text festlegen
         this.vergleicheStaerke();
@@ -68,7 +72,7 @@ public class Figurenkampf extends JFrame{
         String ausgabe;
         if(ergebnis==0){
             ausgabe="<html>Unentschieden. <br> Beide Figuren werden entfernt!</html>";
-        } else if(ergebnis==1){ // Figur1 gewint
+        } else if(ergebnis==1){ // Figur1 gewinnt
             if (figur1.getTeam()==1) {
                 ausgabe = "<html> Deine Figur hat gewonnen </html>";
                 bild1.setBorder(new LineBorder(Color.red));

@@ -105,6 +105,9 @@ public class SpeichernLaden {
                             spielfeld.figurInit(new Feldmarschall(Integer.parseInt(figur[1])), i, j);
                         }
                     }
+
+                    // InfoKI Figuren bekannt machen
+                    spielfeld.infoKi.schreibeFigur(spielfeld.spielfeld[i][j].getFigur(), spielfeld.spielfeld[i][j].getFigur().getPosition());
                 }
             }
 

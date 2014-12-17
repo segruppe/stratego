@@ -27,6 +27,7 @@ public abstract class Figur {
 	private String bild;
 	private String name;
 	private boolean istBewegbar; // Fahnen und Bomben nicht bewegbar
+    private boolean istBekannt; // Kennt die KI die Spieler Figur
 
     /* Stärken der Figuren
         12: Bombe  (wingdings M)
@@ -121,6 +122,14 @@ public abstract class Figur {
      * @param bewegbar ist die Figur bewegbar
      */
     public void setIstBewegbar(boolean bewegbar) { this.istBewegbar = bewegbar; }
+
+    public boolean istBekannt() {
+        return istBekannt;
+    }
+
+    public void setIstBekannt(boolean bool) {
+        istBekannt = bool;
+    }
 
     /**
      * @return Name der Figur

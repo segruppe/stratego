@@ -96,17 +96,17 @@ public class SchwereKI extends KI {
                 int x=i.getPosition().getX();
                 System.out.println(x);
                 int y=i.getPosition().getY();
-                if(x<9 && (spielfeld.getFigur(x+1,y)==null &&  !spielfeld.wasser.contains(10*(x+1)+y)) || spielfeld.getFigur(x+1,y).getTeam()==1){
+                if(x<9 && ((spielfeld.getFigur(x+1,y)==null &&  !spielfeld.wasser.contains(10*(x+1)+y)) || spielfeld.getFigur(x+1,y).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
                 System.out.println(x);
-                if(x>0 &&(spielfeld.getFigur(x-1,y)==null &&  !spielfeld.wasser.contains(10*(x-1)+y)) || spielfeld.getFigur(x-1,y).getTeam()==1){
+                if(x>0 &&((spielfeld.getFigur(x-1,y)==null &&  !spielfeld.wasser.contains(10*(x-1)+y)) || spielfeld.getFigur(x-1,y).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
-                if(y<9 && (spielfeld.getFigur(x,y+1)==null &&  !spielfeld.wasser.contains(10*x+y+1)) || spielfeld.getFigur(x,y+1).getTeam()==1){
+                if(y<9 && ((spielfeld.getFigur(x,y+1)==null &&  !spielfeld.wasser.contains(10*x+y+1)) || spielfeld.getFigur(x,y+1).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
-                if(y>0 && (spielfeld.getFigur(x,y-1)==null &&  !spielfeld.wasser.contains(10*x+y-1)) || spielfeld.getFigur(x,y-1).getTeam()==1){
+                if(y>0 && ((spielfeld.getFigur(x,y-1)==null &&  !spielfeld.wasser.contains(10*x+y-1)) || spielfeld.getFigur(x,y-1).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
             }
