@@ -60,7 +60,7 @@ public class Figurenkampf extends JFrame{
             bild2 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
         } else {
             bild1 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
-            bild2 = new JLabel(new ImageIcon(getClass().getResource(figur2.getBild())));
+            bild2 = new JLabel(new ImageIcon(getClass().getResource(figur1.getBild())));
         }
         //Text festlegen
         this.vergleicheStaerke();
