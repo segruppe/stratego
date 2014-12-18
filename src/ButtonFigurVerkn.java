@@ -103,20 +103,4 @@ public class ButtonFigurVerkn {
         this.figur=figur;
     }
 
-    @Override
-    public boolean equals(Object other){
-        if (other == null) return false;
-        if (other == this) return true;
-        if (!(other instanceof ButtonFigurVerkn))return false;
-        ButtonFigurVerkn otherVerkn = (ButtonFigurVerkn)other;
-
-        if(this.getFigur() == null && otherVerkn.getFigur() != null) return false;
-        if(this.getFigur() != null && otherVerkn.getFigur() == null) return false;
-
-        if(this.getFigur() != otherVerkn.getFigur()) return false;
-        if(this.getButton() != otherVerkn.getButton()) return false;
-
-        return true;
-    }
-
 }
