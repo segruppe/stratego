@@ -22,7 +22,7 @@ public class InfoKI {
         }
         // alte Position loeschen
         //spielerFiguren[altePosition.getX()][altePosition.getY()] = null;
-        ausgabe();
+        //ausgabe();
     }
 
     // Vor dem eigentlichen figurSetzen aufrufen !!!

@@ -25,6 +25,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 	private JButton button = new JButton("abbrechen");
 	private SpeichernLaden save = new SpeichernLaden(this);
 	protected boolean figurenkampfOffen = false;
+	protected SpeichernLaden alteFelder = new SpeichernLaden();
 
 	// Variablen fuer das setzen von Figuren
 	private static boolean firstClickPerformed = false; //wenn erster Klick getaetigt wurde
@@ -88,6 +89,15 @@ public class Spielfeld extends JFrame implements ActionListener {
 
     /** Kopie der Liste, die alle Figuren des Spielers enthaelt */
 	static ArrayList<Figur> figurenSatzSpieler_clone = new ArrayList<Figur>(figurenSatzSpieler);
+
+	/**
+	 * Hilfskontruktor fuer ein temporaeres Spielfeld zum Vergleichen
+	 *
+	 * @param spielfeld ButtonFigurVerkn[][] spielfeld zum Vergleichen
+	 */
+	public Spielfeld(ButtonFigurVerkn[][] spielfeld) {
+		this.spielfeld = spielfeld;
+	}
 
     /**
      * Erzeugen des Fensters, auf dem das Spielfeld liegt
@@ -204,13 +214,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 						warteAufSetzen = false;
 					}
 				}
-			} else if (Spielablauf.kiGezogen){
-                // Spieler zieht
+			} else if (Spielablauf.kiGezogen) {
+				// Spieler zieht
 				int number = Integer.parseInt(e.getActionCommand());
 
 				if (wasser.contains(number)) {
 					System.out.println("das ist wasser");
-					if(firstClickPerformed) {
+					if (firstClickPerformed) {
 						firstClickPerformed = false;
 						infoMessage.setText("Ihre Figuren koennen nicht schwimmen. Bitte eine Figur auswaehlen.");
 					}
@@ -218,53 +228,68 @@ public class Spielfeld extends JFrame implements ActionListener {
 					if (firstClickPerformed) {
 						if (!(number / 10 == firstClickPosition.getX() && number % 10 == firstClickPosition.getY())) {
 							// Abstaende der Positionen darf nicht groesser als 1 sein und beim Aufklaerer muss es auf der gleichen Gerade sein
-							if( ((Math.abs(firstClickPosition.getX()-number/10) == 1 && firstClickPosition.getY() == number%10) || (Math.abs(firstClickPosition.getY()-number%10) == 1) && firstClickPosition.getX()==number/10) || /* Aufklaerer */ (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && (firstClickPosition.getX() == number/10 || firstClickPosition.getY() == number%10)) ) {
+							if (((Math.abs(firstClickPosition.getX() - number / 10) == 1 && firstClickPosition.getY() == number % 10) || (Math.abs(firstClickPosition.getY() - number % 10) == 1) && firstClickPosition.getX() == number / 10) || /* Aufklaerer */ (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && (firstClickPosition.getX() == number / 10 || firstClickPosition.getY() == number % 10))) {
 								// Wenn nicht der gleiche Button gedrueckt wird und keine eigene Figur dort liegt
-								if(spielfeld[number/10][number%10].getFigur() == null || spielfeld[number/10][number%10].getFigur().getTeam() != 1) {
-									if(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && wegBelegt(firstClickPosition, new Position(number / 10, number % 10))) {
+								if (spielfeld[number / 10][number % 10].getFigur() == null || spielfeld[number / 10][number % 10].getFigur().getTeam() != 1) {
+									if (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && wegBelegt(firstClickPosition, new Position(number / 10, number % 10))) {
 
 										infoMessage.setText("Der Aufklaerer kann nicht ueber Wasser oder andere Figuren ziehen. Bitte erneut Figur ausawehlen.");
 										firstClickPerformed = false;
 										return;
 									}
 
-									// Zug durchfuehren
-									figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-									//Spielablauf.kiGezogen = false;
+									// Gewollten Zug auf temporaeren Spielfeld durchfuehren
 
-                                    // TODO: Uebergabe an KI. Welche Figur und Position
-                                    //infoKi.schreibeFigur(spielfeld[number/10][number%10].getFigur(), firstClickPosition);
 
-									// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
-									if(!figurenkampfOffen) {
-										Spielablauf.gegner.macheZug();
+									// Pruefen ob das gewollte Feld schonmal existiert hat, wenn nicht ..
+
+									// Vor dem eigenen Zug das Spielfeld in die ArrayList legen
+									//vorherigeSpielfelder.add(this);
+									//alteFelder.alteFelderSpeichern(this.spielfeld);
+
+										if(alteFelder.contains(this.spielfeld, firstClickPosition, new Position(number/10, number%10))) {
+											// Gib dem Spieler eine Meldung dass der Zug ungueltig ist
+											infoMessage.setText("Die Spielfeld-Aufstellung ist schonmal vorgekommen. Bitte einen anderen Zug machen.");
+											System.out.println("Spielfeld ist enthalten");
+										} else {
+											// fuehre den Zug durch
+											figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+
+											// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
+											if (!figurenkampfOffen) {
+												//Spielablauf.gegner.macheZug();
+											}
+
+											infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+										}
+
+
+
+									} else {
+										infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 									}
-
-									infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
 								} else {
-									infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
+									infoMessage.setText("So weit kann die Figur nicht laufen. Nur maximal 1 Feld.");
 								}
 							} else {
-								infoMessage.setText("So weit kann die Figur nicht laufen. Nur maximal 1 Feld.");
+								infoMessage.setText("Zurueckgesetzt. Bitte eine Figur auswaehlen.");
 							}
+							firstClickPerformed = false;
 						} else {
-							infoMessage.setText("Zurueckgesetzt. Bitte eine Figur auswaehlen.");
-						}
-						firstClickPerformed = false;
-					} else {
-						firstClickPosition = new Position(number / 10, number % 10);
-						// Wenn auf dem angeklickten Feld eine eigene Figur steht
-						if (!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null) && spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getTeam() == 1) {
-							if(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getIstBewegbar()){
-								infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
-								firstClickPerformed = true;
-							} else {
-								infoMessage.setText("Diese Figur kann sich nicht bewegen");
+							firstClickPosition = new Position(number / 10, number % 10);
+							// Wenn auf dem angeklickten Feld eine eigene Figur steht
+							if (!(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() == null) && spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getTeam() == 1) {
+								if (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().getIstBewegbar()) {
+									infoMessage.setText(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur().toString() + " ausgewahlt. Wohin soll die Figur gesetzt werden?");
+									firstClickPerformed = true;
+								} else {
+									infoMessage.setText("Diese Figur kann sich nicht bewegen");
+								}
 							}
 						}
 					}
 				}
-			}
+
 		}// ende Else vom abbrechen Button
 	}
 
@@ -314,7 +339,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 				Figurenkampf fk = new Figurenkampf(figur, spielfeld[x][y].getFigur(), this);
 				sieger = fk.getSieger();
 			} else if(spielfeld[x][y].getFigur() == null) {
-                // KI zieht auf leeres Feld
 				spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
 			}
@@ -322,18 +346,28 @@ public class Spielfeld extends JFrame implements ActionListener {
 				// Unentschieden
                 //infoKi.loescheFigur(spielfeld[x][y].getFigur());
 				feldZuruecksetzen(new Position(x, y));
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
 			} else if(sieger == 1) {
 				// KI gewinnt
+				this.spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
+				this.spielfeld[x][y].getButton().addActionListener(this);
+
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
                // infoKi.loescheFigur(spielfeld[x][y].getFigur());
 				spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
 			}
 		} else {
 			// Spieler greift an
-			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 2) {
+			if(this.spielfeld[x][y].getFigur() != null && this.spielfeld[x][y].getFigur().getTeam() == 2) {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(figur, spielfeld[x][y].getFigur(), this);
 				sieger = fk.getSieger();
+			} else if(this.spielfeld[x][y].getFigur() == null) {
+				// Spieler zieht auf leeres Feld
+				this.spielfeld[x][y] = tmp;
 			} else if(spielfeld[x][y].getFigur() == null) {
                 // Spieler zieht auf leeres Feld
                 infoKi.schreibeFigur(tmp.getFigur(), new Position(x,y));
@@ -343,13 +377,21 @@ public class Spielfeld extends JFrame implements ActionListener {
 				// Unentschieden
                 //infoKi.loescheFigur(spielfeld[x][y].getFigur());
 				feldZuruecksetzen(new Position(x, y));
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
 			} else if(sieger == 1) {
 				// Spieler gewinnt
+				this.spielfeld[x][y] = tmp;
+
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
                 infoKi.schreibeFigur(tmp.getFigur(), new Position(x,y));
 				spielfeld[x][y] = tmp;
 			}
 		}
 
+		// aktuelles Feld den alten Feldern hinzufuegen
+		alteFelder.alteFelderSpeichern(this.spielfeld);
 		save.spielfeldSpeichern();
 		panelAktualisieren();
 	}
@@ -488,6 +530,28 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 		}
 		// Ansonsten true
+		return true;
+	}
+
+	@Override
+	public boolean equals(Object other){
+		if (other == null) return false;
+		//if (other == this) return true;
+		if (!(other instanceof Spielfeld))return false;
+		Spielfeld otherFeld = (Spielfeld)other;
+
+		for(int i=0; i<this.spielfeld.length; i++) {
+			for(int j=0; j < this.spielfeld[0].length; j++) {
+				if(this.spielfeld[i][j].getFigur() == null && otherFeld.spielfeld[i][j].getFigur() != null) return false;
+				if(this.spielfeld[i][j].getFigur() != null && otherFeld.spielfeld[i][j].getFigur() == null) return false;
+				if(this.spielfeld[i][j].getFigur() == null && otherFeld.spielfeld[i][j].getFigur() == null) continue;
+				//System.out.println("this FigurId: "+this.spielfeld[i][j].getFigur().getId()+ " other: "+otherFeld.spielfeld[i][j].getFigur().getId());
+				//if(this.spielfeld[i][j].getFigur().getId() != otherFeld.spielfeld[i][j].getFigur().getId()) {
+					// Wenn eine ButtonFigurVerkn anders ist, ist das Spielfeld unterschiedlich
+				//	return false;
+				//}
+			}
+		}
 		return true;
 	}
 
