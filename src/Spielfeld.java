@@ -18,11 +18,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	protected JPanel panelButton;
 	private JPanel panelBottom;
+    private JPanel panelText;
 	JTextPane infoMessage = new JTextPane();
     protected ButtonFigurVerkn spielfeld[][];
     protected InfoKI infoKi = new InfoKI();
 	protected ArrayList<Integer> wasser = new ArrayList<Integer>(){{add(42); add(43); add(46); add(47); add(52); add(53); add(56); add(57);}}; //Wasserfelder zum einfachen ueberpruefen
 	private JButton button = new JButton("abbrechen");
+    private JButton kiZiehenButton = new JButton("KI ziehen");
 	private SpeichernLaden save = new SpeichernLaden(this);
 	protected boolean figurenkampfOffen = false;
 	protected SpeichernLaden alteFelder = new SpeichernLaden();
@@ -135,13 +137,15 @@ public class Spielfeld extends JFrame implements ActionListener {
 
         // Panels auf GridLayout erzeugen
         panelButton = new JPanel(new GridLayout(10, 10));
-		panelBottom = new JPanel(new GridLayout(2,1));
+		panelBottom = new JPanel(new GridLayout(1,2));
+        panelText = new JPanel(new GridLayout(1,1));
 
 
 		// Textfeld dem BottomPanel hinzufuegen, beschriften und uneditable machen
-		panelBottom.add(infoMessage);
+		panelText.add(infoMessage);
 		infoMessage.setText("Beliebigen Button druecken um zu starten");
 		infoMessage.setEditable(false);
+
 
 		// Roten Hintergrund für das Panel setzen, damit unsichtbare Figuren-Felder nicht grau sind
 		panelButton.setBackground(new Color(207, 4, 0));
@@ -153,11 +157,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 			}
 		}
 		// abbrechen Button hinzufuegen
+        kiZiehenButton.addActionListener(this);
 		button.addActionListener(this);
-
 
         //Panels auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panelButton);
+        getContentPane().add(BorderLayout.NORTH, panelText);
 		getContentPane().add(BorderLayout.PAGE_END, panelBottom);
         // sichtbar machen
         setVisible(true);
@@ -179,12 +184,23 @@ public class Spielfeld extends JFrame implements ActionListener {
 			spielstart = true;
 			warteAufSetzen = false;
 			figurenSatzSpieler = new ArrayList<Figur>(figurenSatzSpieler_clone);
-			Spielablauf.gegner.setzePositionNull();
+//			Spielablauf.gegner.setzePositionNull();
 			// Fenster schliessen
 			dispose();
 			// Menue wieder aufrufen
 			new Menue();
-		} else {
+		} else if (e.getActionCommand().equals("KI ziehen")) {
+            if (!Spielablauf.kiGezogen && !figurenkampfOffen) {
+                Spielablauf.gegner.macheZug();
+                Spielablauf.kiGezogen = true;
+                kiZiehenButton.doClick();
+            } else {
+               infoMessage.setText("Du bist dran mit ziehen");
+            }
+        }  else if (e.getActionCommand().equals("53")) {
+            System.out.println("SIMUL");
+
+        } else {
 
 			// Figuren setzen des Spielers
 			if(spielstart && !warteAufSetzen) {
@@ -254,14 +270,17 @@ public class Spielfeld extends JFrame implements ActionListener {
 										} else {
 											// fuehre den Zug durch
 											figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-
+                                            Spielablauf.kiGezogen = false;
 											// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
-											if (!figurenkampfOffen) {
+											//if (!figurenkampfOffen) {
                                                 // TODO: KI wieder ziehen lassen
 												//Spielablauf.gegner.macheZug();
-											}
-
-											infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+											//}
+                                            if (Spielablauf.kiGezogen) {
+                                                infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+                                            } else {
+                                                infoMessage.setText("KI ziehen lassen");
+                                            }
 										}
 
 
@@ -289,7 +308,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 							}
 						}
 					}
-				}
+				} else {
+                infoMessage.setText("Die KI muss zuerst ziehen");
+            }
 
 		}// ende Else vom abbrechen Button
 	}
@@ -299,6 +320,7 @@ public class Spielfeld extends JFrame implements ActionListener {
      * die neuen hinzugefuegt
      */
 	public void panelAktualisieren() {
+        panelText.removeAll();
 		panelButton.removeAll();
 		panelBottom.removeAll();
 
@@ -309,8 +331,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 				panelButton.add(j.getButton());
 			}
 		}
-		panelBottom.add(infoMessage);
-		panelBottom.add(button, BorderLayout.PAGE_END);
+        panelText.add(infoMessage);
+        panelBottom.add(kiZiehenButton, BorderLayout.EAST);
+		panelBottom.add(button, BorderLayout.WEST);
 	}
 
 	// Feld wieder zu einem gruenen Feld machen

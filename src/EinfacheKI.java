@@ -1,3 +1,6 @@
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -85,6 +88,17 @@ public class EinfacheKI extends KI {
 
         int y = figur.getPosition().getY();
         int x = figur.getPosition().getX();
+
+        // Rahmen um die Figur die zieht setzen
+        spielfeld.spielfeld[x][y].getButton().setBackground(new Color(206, 70, 62));
+
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            System.exit(-1);
+        }
+
+
         int i=1;
 
         // Neue Position muss auf Feld liegen, Kein Wasser sein, Feld leer, Feld von Gegner besetzt
@@ -121,7 +135,7 @@ public class EinfacheKI extends KI {
         }
         // Liste wieder leeren
         zugMoeglich.clear();
-        Spielablauf.kiGezogen = true;
+        //Spielablauf.kiGezogen = true;
     }
 
     // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen

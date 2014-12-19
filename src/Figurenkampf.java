@@ -121,10 +121,10 @@ public class Figurenkampf extends JFrame{
                     spielfeld.setEnabled(true);
                     dispose();
                     spielfeld.figurenkampfOffen = false;
-                    if(figur1.getTeam() == 1) {
-                        // KI zieht nachdem das Figurenkampf-Fenster geschlossen wurde wenn der Spieler angegriffen hat
-                        Spielablauf.gegner.macheZug();
-                    }
+//                    if(figur1.getTeam() == 1) {
+//                        // KI zieht nachdem das Figurenkampf-Fenster geschlossen wurde wenn der Spieler angegriffen hat
+//                        Spielablauf.gegner.macheZug();
+//                    }
                 }
             });
         }
