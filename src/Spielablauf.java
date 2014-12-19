@@ -31,6 +31,7 @@ public class Spielablauf {
         }
         // Beim Start des Spiels soll die KI ihre Figuren setzen
         gegner.setzeStartAufstellung();
+
     }
 
     /**

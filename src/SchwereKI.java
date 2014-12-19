@@ -12,8 +12,6 @@ public class SchwereKI extends KI {
     private ArrayList<Figur> listTmp;
     private ArrayList<Figur> figuren;
     private ArrayList<Figur> zugMoeglich;
-    private ArrayList<Figur> gegnerischeFiguren;
-    private ArrayList<Figur> entfernteFigurenGegner;
 
     /**
      * Erzeugen der Schweren KI
@@ -25,8 +23,6 @@ public class SchwereKI extends KI {
         figuren= new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
         this.spielfeld=spielfeld;
         zugMoeglich=new ArrayList<Figur>();
-        gegnerischeFiguren=new ArrayList<Figur>();
-        entfernteFigurenGegner=new ArrayList<Figur>();
     }
 
     @Override
@@ -87,26 +83,31 @@ public class SchwereKI extends KI {
      * KI macht einen Zug
      */
     public void macheZug() {
+
         moeglicheZuege();
+        zugMoeglich.clear();
     }
 
+    // sammelt die moeglichen Zuege der KI
     private void moeglicheZuege(){
+        // iteriert ueber Liste der aktuellen Figuren
         for(Figur i: figuren){
+            // ueberpruefung ob aktuelle Figur bewegt werden darf
             if(i.getIstBewegbar() ){
+                // Position der Figur
                 int x=i.getPosition().getX();
-                System.out.println(x);
                 int y=i.getPosition().getY();
-                if(x<9 && ((spielfeld.getFigur(x+1,y)==null &&  !spielfeld.wasser.contains(10*(x+1)+y)) || spielfeld.getFigur(x+1,y).getTeam()==1)){
+                // benachbartes Feld entweder frei oder von gegnerischer Figur belegt, darf nicht in Wasser liegen
+                if(x<9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1,y)==null || spielfeld.getFigur(x+1,y).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
-                System.out.println(x);
-                if(x>0 &&((spielfeld.getFigur(x-1,y)==null &&  !spielfeld.wasser.contains(10*(x-1)+y)) || spielfeld.getFigur(x-1,y).getTeam()==1)){
+                if(x>0 && !spielfeld.wasser.contains(10*(x-1)+y) && (spielfeld.getFigur(x-1,y)==null || spielfeld.getFigur(x-1,y).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
-                if(y<9 && ((spielfeld.getFigur(x,y+1)==null &&  !spielfeld.wasser.contains(10*x+y+1)) || spielfeld.getFigur(x,y+1).getTeam()==1)){
+                if(y<9  &&  !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x,y+1)==null || spielfeld.getFigur(x,y+1).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
-                if(y>0 && ((spielfeld.getFigur(x,y-1)==null &&  !spielfeld.wasser.contains(10*x+y-1)) || spielfeld.getFigur(x,y-1).getTeam()==1)){
+                if(y>0  &&  !spielfeld.wasser.contains(10*x+y-1)&& (spielfeld.getFigur(x,y-1)==null || spielfeld.getFigur(x,y-1).getTeam()==1)){
                     zugMoeglich.add(i);
                 }
             }
@@ -276,6 +277,7 @@ public class SchwereKI extends KI {
 
     // Ninja und Feldmarschall sollen nebeneinander/hintereinander stehen
     private void setzeNinjaFeldmarschall() {
+
         int xNinja=0;
         int yNinja=0;
         // speichern der moeglichen Positionen fuer Feldmarschall

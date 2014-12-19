@@ -351,9 +351,10 @@ public class Spielfeld extends JFrame implements ActionListener {
      */
     public void figurSetzen(Figur figur, int x, int y) {
 		ButtonFigurVerkn tmp = spielfeld[figur.getPosition().getX()][figur.getPosition().getY()];
-		tmp.getButton().setActionCommand(Integer.toString(x*10+y));
-        infoKi.loescheFigur(figur);
+		tmp.getButton().setActionCommand(Integer.toString(x * 10 + y));
 		feldZuruecksetzen(figur.getPosition());
+
+		Position altePosition=figur.getPosition();
         figur.setPosition(new Position(x, y));
 
 		int sieger = -1;
@@ -368,7 +369,10 @@ public class Spielfeld extends JFrame implements ActionListener {
 			}
 			if(sieger == 0) {
 				// Unentschieden
-                //infoKi.loescheFigur(spielfeld[x][y].getFigur());
+				// Position der Figur auf alte Position zuruecksetzen, damit in String-Array
+				// von InfoKI richtig geloescht wird
+				figur.setPosition(altePosition);
+                infoKi.loescheFigur(figur);
 				feldZuruecksetzen(new Position(x, y));
 				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
 				alteFelder.clear();
@@ -379,7 +383,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
 				alteFelder.clear();
-               // infoKi.loescheFigur(spielfeld[x][y].getFigur());
+				figur.setPosition(altePosition);
+                infoKi.loescheFigur(figur);
 				spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
 			}
@@ -389,27 +394,26 @@ public class Spielfeld extends JFrame implements ActionListener {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(figur, spielfeld[x][y].getFigur(), this);
 				sieger = fk.getSieger();
-			} else if(this.spielfeld[x][y].getFigur() == null) {
-				// Spieler zieht auf leeres Feld
-				this.spielfeld[x][y] = tmp;
 			} else if(spielfeld[x][y].getFigur() == null) {
                 // Spieler zieht auf leeres Feld
-                infoKi.schreibeFigur(tmp.getFigur(), new Position(x,y));
+                infoKi.schreibeFigur(tmp.getFigur(), altePosition);
 				spielfeld[x][y] = tmp;
 			}
 			if(sieger == 0) {
 				// Unentschieden
-                //infoKi.loescheFigur(spielfeld[x][y].getFigur());
+				// Position der Figur auf alte Position zuruecksetzen, damit in String-Array
+				// von InfoKI richtig geloescht wird
+				figur.setPosition(altePosition);
+                infoKi.loescheFigur(figur);
 				feldZuruecksetzen(new Position(x, y));
 				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
 				alteFelder.clear();
 			} else if(sieger == 1) {
 				// Spieler gewinnt
 				this.spielfeld[x][y] = tmp;
-
 				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
 				alteFelder.clear();
-                infoKi.schreibeFigur(tmp.getFigur(), new Position(x,y));
+                infoKi.schreibeFigur(tmp.getFigur(), altePosition);
 				spielfeld[x][y] = tmp;
 			}
 		}
@@ -429,6 +433,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 	public void figurSetzen(Figur a, Position pos) {
 		figurSetzen(a, pos.getX(), pos.getY());
     }
+
+	// Methode zum initialisieren eines Feldes mit einer Figur
 
     /**
      * Initialisieren eines Feldes mit einer Figur

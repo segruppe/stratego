@@ -36,7 +36,7 @@ public class MittlereKI extends KI {
                 spielfeld.figurInit(figur,i,j);
             }
         }
-       // spielfeld.panelAktualisieren();
+        spielfeld.panelAktualisieren();
     }
 
     @Override
@@ -44,5 +44,6 @@ public class MittlereKI extends KI {
      * KI macht einen Zug
      */
     public void macheZug() {}
+
 
 }

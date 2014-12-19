@@ -61,6 +61,7 @@ public class ButtonFigurVerkn {
             this.button.setBackground(green);
         } else if (farbe.contains("red") || farbe.contains("rot")) {
             // Figuren vom Gegner fuer den Spieler als rot darstellen
+            //this.button = new JButton(new ImageIcon(getClass().getResource(figur.getBild())));
             this.button.setBackground(red);
         }
         this.figur = figur;

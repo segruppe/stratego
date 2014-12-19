@@ -32,7 +32,7 @@ public class EinfacheKI extends KI {
      * Setzen einer zufaelligen Startaufstellung
      */
     public void setzeStartAufstellung() {
-        spielfeld.panelButton.removeAll();
+
 
         // Fahne soll in einer der beiden vorderen Reihen stehen
         // Zufaellige Auswahl von 2 oder 3 (Zeile)
@@ -137,6 +137,7 @@ public class EinfacheKI extends KI {
         zugMoeglich.clear();
         //Spielablauf.kiGezogen = true;
     }
+
 
     // Erstellen einer Liste mit Figuren, die im Zug bewegt werden koennen
     private void figurenZugMoeglich() {
