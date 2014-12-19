@@ -29,6 +29,7 @@ public class InfoKI {
             } else {
                 spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = "bewegt";
             }
+
         } else {
             spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.toString();
         }
