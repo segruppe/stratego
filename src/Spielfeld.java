@@ -257,6 +257,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 											// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
 											if (!figurenkampfOffen) {
+                                                // TODO: KI wieder ziehen lassen
 												//Spielablauf.gegner.macheZug();
 											}
 
@@ -406,8 +407,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		figurSetzen(a, pos.getX(), pos.getY());
     }
 
-	// Methode zum initialisieren eines Feldes mit einer Figur
-
     /**
      * Initialisieren eines Feldes mit einer Figur
      *
@@ -425,6 +424,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 			spielfeld[x][y] = new ButtonFigurVerkn(figur, x * 10 + y);
 		}
 		spielfeld[x][y].getButton().addActionListener(this);
+        alteFelder.alteFelderSpeichern(this.spielfeld);
+        save.spielfeldSpeichern();
 		panelAktualisieren();
 	}
 
