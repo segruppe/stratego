@@ -57,7 +57,7 @@ public class SchwereKI extends KI {
             boolean figurGesetzt=false;
 
             // Probe ob Figur schon gesetzt ist
-            if(figuren.get(i).getPosition()!=null) {
+            if(listTmp.get(0).getId()!=figuren.get(i).getId()) {
                 figurGesetzt = true;
             }
             // solange nicht gesetzt, freie Position suchen

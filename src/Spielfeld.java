@@ -184,7 +184,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			spielstart = true;
 			warteAufSetzen = false;
 			figurenSatzSpieler = new ArrayList<Figur>(figurenSatzSpieler_clone);
-//			Spielablauf.gegner.setzePositionNull();
 			// Fenster schliessen
 			dispose();
 			// Menue wieder aufrufen

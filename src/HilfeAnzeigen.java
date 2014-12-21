@@ -34,23 +34,23 @@ public class HilfeAnzeigen extends JFrame {
         anleitung = "<html><body><h1> Anleitung </h1><br>" +
                 "<p>Der Spieler spielt gegen eine auszuwaehlende KI.<br>" +
                 "Ziel des Spiels ist es die Fahne des Gegners zu zerstoeren.<br>" +
-                "Beide Spieler ziehen abwechselnd eine ihrer Figuren auf ein freies oder" +
-                "vom Gegner besetztes Feld(Nur ein Feld pro Zug, Ausnahmen siehe unten).<br>" +
+                "Beide Spieler ziehen abwechselnd (KI ueber Button-Klick) eine ihrer Figuren auf ein freies oder " +
+                "vom Gegner besetztes Feld (Nur ein Feld pro Zug, Ausnahmen siehe unten).<br>" +
                 "Beim zweiten Fall kommt es zum Kampf zwischen den beiden Figuren.<br>" +
                 "Die Figur mit der geringeren Staerke wird vom Feld genommen (Bei Unentschieden beide).<br><br>" +
                 "Die verschiedenen Figuren(hierachisch nach Staerke sortiert) sind:<br>" +
-                "  12: 6x Bombe (Unbeweglich, schlaegt jeden Gegner außer Mineure)<br>" +
-                "  11: 1x Feldmarschall (Nur durch Bomben und Spion schlagbar) <br>" +
-                "  10: 1x General<br>" +
-                "  9: 2x Oberst<br>" +
-                "  8: 3x Major<br>" +
-                "  7: 4x Hauptmann<br>" +
-                "  6: 4x Leutnant<br>" +
-                "  5: 4x Unteroffizier<br>" +
-                "  4: 5x Mineur<br>" +
-                "  3: 8x Aufklaerer (Koennen ueber mehrere Felder bewegt werden, jedoch nicht ueber andere Figuren oder Seen)<br>" +
-                "  2: 1x Ninja (Schlaegt Feldmarschall, wenn er selber angreift<br>" +
-                "  1: 1x Fahne (Unbeweglich)</p></body></html>";
+                "  6x Bombe (Unbeweglich, schlaegt jeden Gegner außer Mineure)<br>" +
+                "  1x Feldmarschall (Nur durch Bomben und Spion schlagbar) <br>" +
+                "  1x General<br>" +
+                "  2x Oberst<br>" +
+                "  3x Major<br>" +
+                "  4x Hauptmann<br>" +
+                "  4x Leutnant<br>" +
+                "  4x Unteroffizier<br>" +
+                "  5x Mineur<br>" +
+                "  8x Aufklaerer (Koennen ueber mehrere Felder bewegt werden, jedoch nicht ueber andere Figuren oder Seen)<br>" +
+                "  1x Ninja (Schlaegt Feldmarschall, wenn er selber angreift)<br>" +
+                "  1x Fahne (Unbeweglich)</p></body></html>";
 
         // Textfeld erstellen und fuellen
         textFieldHilfeAusgabe = new JLabel(anleitung);
