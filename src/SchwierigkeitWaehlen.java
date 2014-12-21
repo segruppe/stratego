@@ -13,6 +13,7 @@ public class SchwierigkeitWaehlen extends JFrame {
     private JButton einfachButton;
     private JButton mittelButton;
     private JButton schwerButton;
+    private JButton zurueck;
     private JPanel panel;
 
     /**
@@ -29,7 +30,7 @@ public class SchwierigkeitWaehlen extends JFrame {
         // Programm beim Schliessen des Fensters beenden
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().setLayout(new BorderLayout(4, 1));
+        getContentPane().setLayout(new BorderLayout(5, 1));
 
         String anweisungText="";
         // Damit Text in Mitte steht
@@ -57,19 +58,26 @@ public class SchwierigkeitWaehlen extends JFrame {
         schwerButton.setText("Schwer");
         schwerButton.setPreferredSize(new Dimension(100,50));
 
+        zurueck = new JButton();
+        zurueck.setName("zurueck");
+        zurueck.setText("Zurueck");
+        zurueck.setPreferredSize(new Dimension(100,50));
+
         // Panel erzeugen
-        panel = new JPanel(new GridLayout(4,1));
+        panel = new JPanel(new GridLayout(5,1));
 
         // Panel bepacken
         panel.add(anweisung, BorderLayout.PAGE_START);
         panel.add(einfachButton);
         panel.add(mittelButton);
         panel.add(schwerButton);
+        panel.add(zurueck);
 
         // Listener
         addButtonListener(einfachButton);
         addButtonListener(mittelButton);
         addButtonListener(schwerButton);
+        addButtonListener(zurueck);
 
         // Panel auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panel);
@@ -99,6 +107,14 @@ public class SchwierigkeitWaehlen extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     dispose();
                     new Spielablauf("schwer");
+                }
+            });
+        }else if (b.getName().equals("zurueck")) {
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    new SpielStarten();
                 }
             });
         }

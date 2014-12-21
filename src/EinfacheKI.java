@@ -1,3 +1,4 @@
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -89,11 +90,15 @@ public class EinfacheKI extends KI {
         int y = figur.getPosition().getY();
         int x = figur.getPosition().getX();
 
+        // TODO: Background oder Border setzen
         // Rahmen um die Figur die zieht setzen
-        spielfeld.spielfeld[x][y].getButton().setBackground(new Color(206, 70, 62));
+       // spielfeld.spielfeld[x][y].getButton().setBorder(BorderFactory.createLineBorder(Color.yellow, 5));
+       // spielfeld.panelAktualisieren();
+        //System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
 
         try {
             Thread.sleep(1000);
+            System.out.println("SLEEP");
         } catch (Exception e) {
             System.exit(-1);
         }

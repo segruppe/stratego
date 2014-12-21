@@ -197,8 +197,8 @@ public class Spielfeld extends JFrame implements ActionListener {
             } else {
                infoMessage.setText("Du bist dran mit ziehen");
             }
-        }  else if (e.getActionCommand().equals("53")) {
-            System.out.println("SIMUL");
+        //}  else if (e.getActionCommand().equals("53")) {
+           // System.out.println("SIMUL");
 
         } else {
 
