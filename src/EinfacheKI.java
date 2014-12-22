@@ -193,6 +193,7 @@ public class EinfacheKI extends KI {
                 felder++;
             }
             // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
+            // TODO: OutOfBounds(-1) umgehen
             if (spielfeld.getFigur(x,y-felder).getTeam()==1) {
                 felder++;
             }

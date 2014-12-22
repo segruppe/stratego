@@ -192,13 +192,11 @@ public class Spielfeld extends JFrame implements ActionListener {
             if (!Spielablauf.kiGezogen && !figurenkampfOffen) {
                 Spielablauf.gegner.macheZug();
                 Spielablauf.kiGezogen = true;
+                // KLick simulieren, damit Spieler als naechstes dran ist
                 kiZiehenButton.doClick();
             } else {
                infoMessage.setText("Du bist dran mit ziehen");
             }
-        //}  else if (e.getActionCommand().equals("53")) {
-           // System.out.println("SIMUL");
-
         } else {
 
 			// Figuren setzen des Spielers

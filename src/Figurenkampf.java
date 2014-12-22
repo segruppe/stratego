@@ -21,6 +21,7 @@ public class Figurenkampf extends JFrame{
     private JLabel bild2;
     private Spielfeld spielfeld;
     private int sieger;
+    private boolean spielBeendet;
 
     /**
      * Getter fuer den Sieger
@@ -45,6 +46,24 @@ public class Figurenkampf extends JFrame{
         figur1 = figurA;
         figur2 = figurB;
         this.spielfeld = spielfeld;
+
+        // Wenn Fahne besiegt
+        if (figur1.toString().equals("Fahne")) {
+            if (figur1.getTeam()==1) {
+                new SpielBeendet(2);
+            } else {
+                new SpielBeendet(1);
+            }
+            spielBeendet=true;
+        } else if (figur2.toString().equals("Fahne")) {
+            if (figur2.getTeam()==2) {
+                new SpielBeendet(1);
+            } else {
+                new SpielBeendet(2);
+            }
+            spielBeendet=true;
+        }
+
         // Groesse des Fensters
         setSize(300, 300);
         // Position des Fensters. Wird immer in die Mitte gesetzt
@@ -110,7 +129,9 @@ public class Figurenkampf extends JFrame{
         panel.add(bild2, BorderLayout.EAST);
 
         getContentPane().add(panel, BorderLayout.CENTER);
-        setVisible(true);
+        if (!spielBeendet) {
+            setVisible(true);
+        }
     }
 
     private void addButtonListener(JButton b) {
@@ -139,7 +160,8 @@ public class Figurenkampf extends JFrame{
         if (figur2.getStaerke()==1) {
             dispose();
             spielfeld.dispose();
-            new SpielBeendet(figur1.getTeam()); // Spieler von Figur1 hat gewonnen
+            //new SpielBeendet(figur1.getTeam()); // Spieler von Figur1 hat gewonnen
+            this.sieger=-1;
         }
         if (figur1.getStaerke() == figur2.getStaerke()) {
             this.sieger=0;

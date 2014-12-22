@@ -132,7 +132,11 @@ public class SpeichernLaden {
                         j.getButton().removeActionListener(spielfeld);
                     }
                 }
-                spielfeld.infoMessage.setText("Spiel wurde bereits gewonnen");
+                if (!fahneTeam2) {
+                    spielfeld.infoMessage.setText("Spiel wurde bereits gewonnen");
+                } else {
+                    spielfeld.infoMessage.setText("Spiel wurde bereits verloren");
+                }
                 return;
             }
 
