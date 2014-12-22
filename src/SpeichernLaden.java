@@ -151,9 +151,9 @@ public class SpeichernLaden {
 
             String zug = br.readLine();
             if(zug.contains("true")) {
-                ablauf.kiGezogen = true;
+                Spielablauf.kiGezogen = false;
             } else {
-                ablauf.kiGezogen = false;
+                Spielablauf.kiGezogen = true;
             }
 
             spielfeld.panelAktualisieren();
