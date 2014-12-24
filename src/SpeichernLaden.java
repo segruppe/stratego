@@ -29,6 +29,7 @@ public class SpeichernLaden {
     /**
      * Konstruktor um alte Spielfelder in einer Datei zu speichern
      */
+    // TODO: Kann raus oder???
     public SpeichernLaden() {
         this.dateiname = "alteFelder.sav";
     }
@@ -44,7 +45,7 @@ public class SpeichernLaden {
                     for(ButtonFigurVerkn[] i: spielfeld.spielfeld) {
                         for(ButtonFigurVerkn j: i) {
                             if(j.getFigur() != null) {
-                                bw.append(j.getFigur().toString()+","+j.getFigur().getTeam() + ";");
+                                bw.append(j.getFigur().toString()+","+j.getFigur().getTeam() +","+j.getFigur().getId()+ ";");
                             } else {
                                 if (j.getButton().getBackground() == j.blue)
                                     bw.append("w;");
@@ -57,6 +58,13 @@ public class SpeichernLaden {
 
                     bw.append("KI: "+Spielablauf.gegner+"\n");
                     bw.append("Spieler ist dran: "+Spielablauf.kiGezogen+"\n");
+                    // Daten fuer die 2-Felder-Regel in Datei schreiben
+                    bw.append(Spielfeld.letzteFigurKi+"\n");
+                    bw.append(Spielfeld.letzteKiRichtung+"\n");
+                    bw.append(Spielfeld.anzahlKi+"\n");
+                    bw.append(Spielfeld.letzteFigurSpieler+"\n");
+                    bw.append(Spielfeld.letzteSpielerRichtung+"\n");
+                    bw.append(Spielfeld.anzahlSpieler+"\n");
 
                     bw.close();
                     fw.close();
@@ -83,14 +91,16 @@ public class SpeichernLaden {
                 String[] figuren = br.readLine().split(";");
                 for(int j=0; j<spielfeld.spielfeld[0].length; j++) {
 
-                    // figur[0] = Figurname, figur[1] = Team der Figur
+                    // figur[0] = Figurname, figur[1] = Team der Figur, figur[2] = ID der Figur
                     String[] figur = figuren[j].split(",");
 
-                    if(figur.length == 2) {
+                    if(figur.length == 3) {
                         if (figur[0].equals("Aufklaerer")) {
                             spielfeld.figurInit(new Aufklaerer(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Bombe")) {
                             spielfeld.figurInit(new Bombe(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Fahne")) {
                             spielfeld.figurInit(new Fahne(Integer.parseInt(figur[1])), i, j);
                             if(Integer.parseInt(figur[1]) == 1) {
@@ -98,24 +108,34 @@ public class SpeichernLaden {
                             } else {
                                 fahneTeam2 = true;
                             }
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("General")) {
                             spielfeld.figurInit(new General(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Hauptmann")) {
                             spielfeld.figurInit(new Hauptmann(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Leutnant")) {
                             spielfeld.figurInit(new Leutnant(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Major")) {
                             spielfeld.figurInit(new Major(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Mineur")) {
                             spielfeld.figurInit(new Mineur(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Ninja")) {
                             spielfeld.figurInit(new Ninja(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Oberst")) {
                             spielfeld.figurInit(new Oberst(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Unteroffizier")) {
                             spielfeld.figurInit(new Unteroffizier(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         } else if (figur[0].equals("Feldmarschall")) {
                             spielfeld.figurInit(new Feldmarschall(Integer.parseInt(figur[1])), i, j);
+                            spielfeld.spielfeld[i][j].getFigur().setId(Integer.parseInt(figur[2]));
                         }
                     }
 
@@ -155,9 +175,16 @@ public class SpeichernLaden {
             } else {
                 Spielablauf.kiGezogen = true;
             }
+                // Daten fuer die 2-Felder-Regel einlesen
+                Spielfeld.letzteFigurKi = Integer.parseInt(br.readLine());
+                Spielfeld.letzteKiRichtung = Integer.parseInt(br.readLine());
+                Spielfeld.anzahlKi = Integer.parseInt(br.readLine());
+                Spielfeld.letzteFigurSpieler = Integer.parseInt(br.readLine());
+                Spielfeld.letzteSpielerRichtung = Integer.parseInt(br.readLine());
+                Spielfeld.anzahlSpieler = Integer.parseInt(br.readLine());
 
-            spielfeld.panelAktualisieren();
-            spielfeld.setSpielstart(false);
+                spielfeld.panelAktualisieren();
+                spielfeld.setSpielstart(false);
             br.close();
             fr.close();
         } catch (FileNotFoundException e) {

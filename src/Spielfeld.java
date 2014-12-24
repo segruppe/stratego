@@ -35,6 +35,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 	private boolean spielstart = true;
 	private static boolean warteAufSetzen = false;
 	private static Figur wartendeFigur = null;
+    protected static int letzteFigurSpieler;
+    protected static int letzteFigurKi;
+    protected static int anzahlSpieler;
+    protected static int anzahlKi;
+    protected static int letzteKiRichtung;
+    protected static int letzteSpielerRichtung;
 
     /**
      * Setter um den Spielstart zu setzen
@@ -261,10 +267,14 @@ public class Spielfeld extends JFrame implements ActionListener {
 									//alteFelder.alteFelderSpeichern(this.spielfeld);
 
 										if(alteFelder.contains(this.spielfeld, firstClickPosition, new Position(number/10, number%10))) {
-											// Gib dem Spieler eine Meldung dass der Zug ungueltig ist
-											infoMessage.setText("Die Spielfeld-Aufstellung ist schonmal vorgekommen. Bitte einen anderen Zug machen.");
-											System.out.println("Spielfeld ist enthalten");
-										} else {
+                                            // Gib dem Spieler eine Meldung dass der Zug ungueltig ist
+                                            infoMessage.setText("Die Spielfeld-Aufstellung ist schonmal vorgekommen. Bitte einen anderen Zug machen.");
+                                            System.out.println("Spielfeld ist enthalten");
+                                        }
+                                        if (zweiFelderRegel(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), richtungBestimmen(new Position(firstClickPosition.getX(),firstClickPosition.getY()), new Position(number/10,number%10)))) {
+                                            infoMessage.setText("Zwei Felder Regel verletzt");
+                                        }
+                                        else {
 											// fuehre den Zug durch
 											figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
                                             Spielablauf.kiGezogen = false;
@@ -592,5 +602,73 @@ public class Spielfeld extends JFrame implements ActionListener {
             return spielfeld[x][y].getFigur();
     }
 
+    // Ueberpruefen der 2-Felder Regel
+    public boolean zweiFelderRegel(Figur figur, int richtung) {
+        if (figur.getTeam()==1) { // Spieler
+            if (letzteFigurSpieler==0) {
+                letzteFigurSpieler = figur.getId();
+                letzteSpielerRichtung = richtung;
+                return false;
+            }
+            if (letzteFigurSpieler==figur.getId()) {
+                if ((letzteSpielerRichtung==0 && richtung==2) ||
+                        (letzteSpielerRichtung==2 && richtung==0) ||
+                        (letzteSpielerRichtung==1 && richtung==3) ||
+                        (letzteSpielerRichtung==3 && richtung==1) ) {
+                    anzahlSpieler++;
+                    System.out.println("!!"+anzahlSpieler+"!!");
+                    letzteSpielerRichtung = richtung;
+                    // Ist Regel verletzt (Anzahl Zuege >3) ?
+                    //return anzahlSpieler>=3;
+                    if (anzahlSpieler>=3) {
+                        letzteSpielerRichtung = Math.abs(letzteSpielerRichtung-2);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    anzahlSpieler=0;
+                    letzteSpielerRichtung = richtung;
+                    return false; // nicht verletzt
+                }
+            }
+            letzteFigurSpieler = figur.getId();
+            letzteSpielerRichtung = richtung;
+            anzahlSpieler = 0;
+            return false; // nicht verletzt
+
+        } else { // KI
+            if (letzteFigurKi==0) {
+                letzteFigurKi = figur.getId();
+                letzteKiRichtung = richtung;
+                return false;
+            }
+            if (letzteFigurKi==figur.getId()) {
+                if ((letzteKiRichtung==0 && richtung==2) ||
+                        (letzteKiRichtung==2 && richtung==0) ||
+                        (letzteKiRichtung==1 && richtung==3) ||
+                        (letzteKiRichtung==3 && richtung==1) ) {
+                    anzahlKi++;
+                    letzteKiRichtung = richtung;
+                    // Ist Regel verletzt (Anzahl Zuege >3) ?
+                    //return anzahlKi>=3;
+                    if (anzahlKi>=3) {
+                        letzteKiRichtung = Math.abs(letzteKiRichtung-2);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    anzahlKi=0;
+                    letzteKiRichtung = richtung;
+                    return false; // nicht verletzt
+                }
+            }
+            letzteFigurKi = figur.getId();
+            letzteKiRichtung = richtung;
+            anzahlKi = 0;
+            return false; // nicht verletzt
+        }
+    }
 
 }

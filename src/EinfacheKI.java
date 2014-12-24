@@ -72,10 +72,48 @@ public class EinfacheKI extends KI {
         return figur;
     }
 
+    int i=0;
     @Override
     /**
      * KI macht einen zufaelligen Zug
      */
+/*
+    public void macheZug() {
+        Figur figur;
+        if (i==0) {
+           figur = spielfeld.spielfeld[3][0].getFigur();
+            if (!spielfeld.zweiFelderRegel(figur,2)) {
+                spielfeld.figurSetzen(figur, new Position(4,0));
+                i++;
+            } else {
+                System.out.println("i=" + i);
+            }
+        } else if (i==1) {
+            figur = spielfeld.spielfeld[4][0].getFigur();
+            if (!spielfeld.zweiFelderRegel(figur,0)) {
+                spielfeld.figurSetzen(figur, new Position(3, 0));
+                i++;
+            } else {
+                System.out.println("i=" + i);
+            }
+        } else if (i==2) {
+            figur = spielfeld.spielfeld[3][0].getFigur();
+            if (!spielfeld.zweiFelderRegel(figur,2)) {
+                spielfeld.figurSetzen(figur, new Position(4, 0));
+                i++;
+            } else {
+                System.out.println("i=" + i);
+            }
+        } else if (i==3) {
+            figur = spielfeld.spielfeld[4][0].getFigur();
+            if (!spielfeld.zweiFelderRegel(figur,0)) {
+                spielfeld.figurSetzen(figur, new Position(3, 0));
+                i++;
+            } else {
+                System.out.println("i=" + i);
+            }
+        }
+    }*/
     public void macheZug() {
         figurenZugMoeglich();
         System.out.println("Anzahl möglicher Züge: " + zugMoeglich.size());
@@ -97,7 +135,7 @@ public class EinfacheKI extends KI {
         //System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
             System.out.println("SLEEP");
         } catch (Exception e) {
             System.exit(-1);
@@ -108,21 +146,21 @@ public class EinfacheKI extends KI {
 
         // Neue Position muss auf Feld liegen, Kein Wasser sein, Feld leer, Feld von Gegner besetzt
         // nach unten
-        if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1)) {
+        if (x+1<=9 && !spielfeld.wasser.contains(10*(x+1)+y) && (spielfeld.getFigur(x+1, y) == null || spielfeld.getFigur(x+1, y).getTeam() == 1) && !spielfeld.zweiFelderRegel(figur,2)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
                 i = felderZiehenAufklaerer(x, y, "unten");
             }
             spielfeld.figurSetzen(figur, new Position(x+i, y));
         // nach links
-        } else if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y-1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1)) {
+        } else if (y-1>=0 && !spielfeld.wasser.contains(10*x+y-1) && (spielfeld.getFigur(x, y-1) == null || spielfeld.getFigur(x, y-1).getTeam() == 1) && !spielfeld.zweiFelderRegel(figur,3)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
                 i = felderZiehenAufklaerer(x, y, "links");
             }
             spielfeld.figurSetzen(figur, new Position(x, y-i));
         // nach rechts
-        } else if (y+1<=9 && !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x, y+1) == null || spielfeld.getFigur(x, y+1).getTeam() == 1)) {
+        } else if (y+1<=9 && !spielfeld.wasser.contains(10*x+y+1) && (spielfeld.getFigur(x, y+1) == null || spielfeld.getFigur(x, y+1).getTeam() == 1) && !spielfeld.zweiFelderRegel(figur,1)) {
             // Figur auf dem Spielfeld auf neue Position setzen
             if (figur.getStaerke()==3) {
                 i = felderZiehenAufklaerer(x, y, "rechts");
@@ -130,7 +168,7 @@ public class EinfacheKI extends KI {
             spielfeld.figurSetzen(figur, new Position(x, y+i));
         // nach oben
         } else {
-            if (x-1>=0 && !spielfeld.wasser.contains(10*(x-1)+y) ) {
+            if (x-1>=0 && !spielfeld.wasser.contains(10*(x-1)+y) && !spielfeld.zweiFelderRegel(figur,0) ) {
                 // Figur auf dem Spielfeld auf neue Position setzen
                 if (figur.getStaerke()==3) {
                     i = felderZiehenAufklaerer(x, y, "oben");
@@ -181,7 +219,7 @@ public class EinfacheKI extends KI {
                 felder++;
             }
             // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
-            if (spielfeld.getFigur(x+felder,y).getTeam()==1) {
+            if (x+felder<=9 && spielfeld.getFigur(x+felder,y).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
@@ -193,8 +231,7 @@ public class EinfacheKI extends KI {
                 felder++;
             }
             // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
-            // TODO: OutOfBounds(-1) umgehen
-            if (spielfeld.getFigur(x,y-felder).getTeam()==1) {
+            if (y-felder>=0 && spielfeld.getFigur(x,y-felder).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
@@ -206,7 +243,7 @@ public class EinfacheKI extends KI {
                 felder++;
             }
             // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
-            if (spielfeld.getFigur(x,y+felder).getTeam()==1) {
+            if (y+felder<=9 && spielfeld.getFigur(x,y+felder).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
@@ -218,7 +255,7 @@ public class EinfacheKI extends KI {
                 felder++;
             }
             // Aufklaerer koennte gegnerische Figur schlagen, die auf der Position liegt
-            if (spielfeld.getFigur(x-felder,y).getTeam()==1) {
+            if (x-felder>=0 && spielfeld.getFigur(x-felder,y).getTeam()==1) {
                 felder++;
             }
             // Zufallszahl zwischen >=1 und <=felder
