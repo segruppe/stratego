@@ -16,6 +16,7 @@ public class SpeichernLaden {
     Spielfeld spielfeld;
     Spielablauf ablauf;
     ArrayList<Integer[][]> alteFelder = new ArrayList<Integer[][]>();
+    static boolean spielBeendet = false;
 
     /**
      * Konstruktor, um das Spielfeld zu setzen
@@ -57,7 +58,7 @@ public class SpeichernLaden {
                     }
 
                     bw.append("KI: "+Spielablauf.gegner+"\n");
-                    bw.append("Spieler ist dran: "+Spielablauf.kiGezogen+"\n");
+                    bw.append("KI ist dran: "+Spielablauf.kiGezogen+"\n");
                     // Daten fuer die 2-Felder-Regel in Datei schreiben
                     bw.append(Spielfeld.letzteFigurKi+"\n");
                     bw.append(Spielfeld.letzteKiRichtung+"\n");
@@ -147,6 +148,7 @@ public class SpeichernLaden {
             }
 
             if(!fahneTeam1 || !fahneTeam2) {
+                spielBeendet = true;
                 for(ButtonFigurVerkn[] i : spielfeld.spielfeld) {
                     for(ButtonFigurVerkn j : i) {
                         j.getButton().removeActionListener(spielfeld);

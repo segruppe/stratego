@@ -128,11 +128,11 @@ public class EinfacheKI extends KI {
         int y = figur.getPosition().getY();
         int x = figur.getPosition().getX();
 
-        // TODO: Background oder Border setzen
-        // Rahmen um die Figur die zieht setzen
-       // spielfeld.spielfeld[x][y].getButton().setBorder(BorderFactory.createLineBorder(Color.yellow, 5));
-       // spielfeld.panelAktualisieren();
-        //System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
+        // TODO: Background oder Border setzen. klappt noch nicht so
+        spielfeld.spielfeld[x][y] = new ButtonFigurVerkn(figur, "blau");
+        System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
+        spielfeld.panelAktualisieren();
+        System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
 
         try {
             Thread.sleep(500);
@@ -140,7 +140,6 @@ public class EinfacheKI extends KI {
         } catch (Exception e) {
             System.exit(-1);
         }
-
 
         int i=1;
 

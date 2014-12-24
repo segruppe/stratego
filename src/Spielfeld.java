@@ -201,7 +201,9 @@ public class Spielfeld extends JFrame implements ActionListener {
                 // KLick simulieren, damit Spieler als naechstes dran ist
                 kiZiehenButton.doClick();
             } else {
-               infoMessage.setText("Du bist dran mit ziehen");
+               if (!SpeichernLaden.spielBeendet) {
+                   infoMessage.setText("Du bist dran mit ziehen");
+               }
             }
         } else {
 
@@ -278,20 +280,12 @@ public class Spielfeld extends JFrame implements ActionListener {
 											// fuehre den Zug durch
 											figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
                                             Spielablauf.kiGezogen = false;
-											// Wenn kein Fenster vom Figurenkampf geoeffnet ist, kann die KI ziehen
-											//if (!figurenkampfOffen) {
-                                                // TODO: KI wieder ziehen lassen
-												//Spielablauf.gegner.macheZug();
-											//}
                                             if (Spielablauf.kiGezogen) {
                                                 infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
                                             } else {
                                                 infoMessage.setText("KI ziehen lassen");
                                             }
 										}
-
-
-
 									} else {
 										infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
 									}
