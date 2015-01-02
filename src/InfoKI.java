@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class InfoKI {
     private String[][] spielerFiguren = new String[10][10];
     private ArrayList<String> geschlageneSpielerFiguren = new ArrayList<String>();
+    private ArrayList<Integer> geschlageneKiFiguren = new ArrayList<Integer>();
 
     public InfoKI() {
         for(int i=6; i<10; i++){
@@ -23,7 +24,7 @@ public class InfoKI {
             // wenn Figur mehr als 1 Feld gezogen wurde, muss es sich um einen Aufklaerer handeln
             if(Math.abs(figur.getPosition().getX()-altePosition.getX())>1 || Math.abs(figur.getPosition().getY()-altePosition.getY())>1){
                 System.out.println("Aufklaerer");
-                spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.toString();
+                spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.getStaerke()+"";
                 // jetzt ist die Figur bekannt
                 figur.setIstBekannt(true);
             } else {
@@ -31,7 +32,7 @@ public class InfoKI {
             }
 
         } else {
-            spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.toString();
+            spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.getStaerke()+"";
         }
         // alte Position loeschen
         spielerFiguren[altePosition.getX()][altePosition.getY()] = null;
@@ -40,14 +41,20 @@ public class InfoKI {
 
     // Vor dem eigentlichen figurSetzen aufrufen !!!
 
-    // Geschlagene Figuren
+    // Geschlagene des Spielers
     public void loescheFigur(Figur figur) {
         // Alte Position der Figur auf null setzen. KI muss diese nicht mehr kennen
         System.out.println("x,y:" + figur.getPosition().getX() + " , " + figur.getPosition().getY());
         spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = null;
         // Hinzufuegen zur Liste, der geschlagenen Figuren
-        geschlageneSpielerFiguren.add(figur.toString());
+        geschlageneSpielerFiguren.add(figur.getStaerke()+"");
         //ausgabe();
+    }
+
+    // geschlagene Figuren der KI
+    public void loescheKiFigur(Figur figur){
+        System.out.println(figur.toString() + "  " + figur.getId());
+        getGeschlageneKiFiguren().add(figur.getId());
     }
 
     public void ausgabe() {
@@ -67,4 +74,5 @@ public class InfoKI {
     public ArrayList<String> getGeschlageneSpielerFiguren () {
         return geschlageneSpielerFiguren;
     }
+    public ArrayList<Integer> getGeschlageneKiFiguren() { return geschlageneKiFiguren;}
 }

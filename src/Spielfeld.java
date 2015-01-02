@@ -360,10 +360,13 @@ public class Spielfeld extends JFrame implements ActionListener {
 
 		int sieger = -1;
 		if(figur.getTeam() == 2) {
+			// KI greift an
 			if(spielfeld[x][y].getFigur() != null && spielfeld[x][y].getFigur().getTeam() == 1) {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(figur, spielfeld[x][y].getFigur(), this);
 				sieger = fk.getSieger();
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
 			} else if(spielfeld[x][y].getFigur() == null) {
 				spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
@@ -373,21 +376,21 @@ public class Spielfeld extends JFrame implements ActionListener {
 				// Position der Figur auf alte Position zuruecksetzen, damit in String-Array
 				// von InfoKI richtig geloescht wird
 				figur.setPosition(altePosition);
-                infoKi.loescheFigur(figur);
+                infoKi.loescheFigur(spielfeld[x][y].getFigur());
+				infoKi.loescheKiFigur(figur);
 				feldZuruecksetzen(new Position(x, y));
-				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
-				alteFelder.clear();
 			} else if(sieger == 1) {
 				// KI gewinnt
-				this.spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
-				this.spielfeld[x][y].getButton().addActionListener(this);
-
-				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
-				alteFelder.clear();
 				figur.setPosition(altePosition);
-                infoKi.loescheFigur(figur);
+                infoKi.loescheFigur(spielfeld[x][y].getFigur());
+				figur.setPosition(new Position(x,y));
 				spielfeld[x][y] = new ButtonFigurVerkn(figur, "red");
 				spielfeld[x][y].getButton().addActionListener(this);
+			} else if(sieger==2){
+				// KI verliert
+				// Information in infoKi speichern
+				System.out.println("Spielfeld: " + figur.toString() + "  " + figur.getId());
+				infoKi.loescheKiFigur(figur);
 			}
 		} else {
 			// Spieler greift an
@@ -395,6 +398,8 @@ public class Spielfeld extends JFrame implements ActionListener {
 				setEnabled(false);
 				Figurenkampf fk = new Figurenkampf(figur, spielfeld[x][y].getFigur(), this);
 				sieger = fk.getSieger();
+				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
+				alteFelder.clear();
 			} else if(spielfeld[x][y].getFigur() == null) {
                 // Spieler zieht auf leeres Feld
                 infoKi.schreibeFigur(tmp.getFigur(), altePosition);
@@ -406,16 +411,16 @@ public class Spielfeld extends JFrame implements ActionListener {
 				// von InfoKI richtig geloescht wird
 				figur.setPosition(altePosition);
                 infoKi.loescheFigur(figur);
+				infoKi.loescheKiFigur(spielfeld[x][y].getFigur());
 				feldZuruecksetzen(new Position(x, y));
-				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
-				alteFelder.clear();
 			} else if(sieger == 1) {
-				// Spieler gewinnt
-				this.spielfeld[x][y] = tmp;
-				// Alle bisherigen Spielfelder koennen nicht mehr auftreten
-				alteFelder.clear();
+			// Spieler gewinnt
+				infoKi.loescheKiFigur(spielfeld[x][y].getFigur());
                 infoKi.schreibeFigur(tmp.getFigur(), altePosition);
 				spielfeld[x][y] = tmp;
+			} else if(sieger==2){
+				// KI gewinnt
+				infoKi.loescheFigur(figur);
 			}
 		}
 
