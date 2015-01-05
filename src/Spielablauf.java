@@ -27,7 +27,7 @@ public class Spielablauf {
         } else if (schwierigkeit.equals("mittel")) {
             gegner = new MittlereKI(spielfeld);
         } else if (schwierigkeit.equals("schwer")) {
-            gegner = new SchwereKI(spielfeld);
+            gegner = new SchwereKI(spielfeld,false);
         }
         // Beim Start des Spiels soll die KI ihre Figuren setzen
         gegner.setzeStartAufstellung();

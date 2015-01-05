@@ -18,11 +18,22 @@ public class SchwereKI extends KI {
      *
      * @param spielfeld Spielfeld auf dem die Figuren gesetzt werden
      */
-    public SchwereKI(Spielfeld spielfeld) {
+    public SchwereKI(Spielfeld spielfeld,boolean laden) {
         listTmp = new ArrayList<Figur>(figurenSatzKI); // leichter zu pruefen welche figuren gesetzt sind
-        figuren= new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
-        this.spielfeld=spielfeld;
-        zugMoeglich=new ArrayList<Zug>();
+
+        this.spielfeld = spielfeld;
+        zugMoeglich = new ArrayList<Zug>();
+        if(laden) {
+            figuren=new ArrayList<Figur>();
+            for(int zeile=0; zeile<4; zeile++){
+                for(int spalte=0; spalte<10; spalte++){
+                    figuren.add(spielfeld.spielfeld[zeile][spalte].getFigur());
+                }
+            }
+        } else {
+            figuren = new ArrayList<Figur>(figurenSatzKI);  // Zugriff auf jede Figur und deren Position
+        }
+
     }
 
     @Override

@@ -168,7 +168,7 @@ public class SpeichernLaden {
             } else if(ki.contains("Mittel")) {
                 ablauf = new Spielablauf(spielfeld, new MittlereKI(spielfeld));
             } else if(ki.contains("Schwer")) {
-                ablauf = new Spielablauf(spielfeld, new SchwereKI(spielfeld));
+                ablauf = new Spielablauf(spielfeld, new SchwereKI(spielfeld,true));
             }
 
             String zug = br.readLine();
