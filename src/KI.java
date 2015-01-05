@@ -8,11 +8,6 @@ import java.util.ArrayList;
  * @see SchwereKI
  */
 public abstract class KI {
-/**
- *
- * Link: http://www.brettspiele-report.de/stratego/
- *
- */
     /** Grenze fuer Anzahl der Zeilen */
     static int grenzeX = 4;
     /** Grenze fuer Anzahl der Spalten */

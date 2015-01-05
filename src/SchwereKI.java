@@ -218,7 +218,7 @@ public class SchwereKI extends KI {
             boolean bombeGesetzt=false;
             while(!bombeGesetzt) {
                 // zufaellige Position bestimmen
-                int x = (int) (Math.random() * 3);
+                int x = (int) (Math.random() * 4);
                 int y = (int) (Math.random() * 10);
                 // Test ob Feld belegt
                 if (spielfeld.spielfeld[x][y].getFigur() == null) {
@@ -281,7 +281,7 @@ public class SchwereKI extends KI {
     // sprungweite ausgenutzt werden kann
     private void setzeAufklaerer(){
         // mind. ein Aufklärer in jeder Zeile
-        boolean yGefunden=false;
+        boolean yGefunden;
         int anzAufklaerer=0;
         while(anzAufklaerer<8) {
             yGefunden = false;
