@@ -25,9 +25,11 @@ public class SchwereKI extends KI {
         zugMoeglich = new ArrayList<Zug>();
         if(laden) {
             figuren=new ArrayList<Figur>();
-            for(int zeile=0; zeile<4; zeile++){
+            for(int zeile=0; zeile<10; zeile++){
                 for(int spalte=0; spalte<10; spalte++){
-                    figuren.add(spielfeld.spielfeld[zeile][spalte].getFigur());
+                    if(spielfeld.spielfeld[zeile][spalte].getFigur()!=null && spielfeld.getFigur(zeile,spalte).getTeam()==2) {
+                        figuren.add(spielfeld.spielfeld[zeile][spalte].getFigur());
+                    }
                 }
             }
         } else {
@@ -105,7 +107,7 @@ public class SchwereKI extends KI {
                     // andere Ecke zur Tarnung einkesseln
                     spielfeld.figurInit(figuren.get(3),0,8);
                     spielfeld.figurInit(figuren.get(4), 1, 9);
-                    // in diese Ecke einen Unteroffizier, Leutnant oder Hauptmann (Liste 22 - 33)
+                    // in diese Ecke einen Unteroffizier, Leutnant oder Hauptmann (Liste 21 - 32)
                     int zufall=(int)(Math.random()* (32-21)+21);
 
                     // Fahne in linker Ecke
@@ -136,7 +138,7 @@ public class SchwereKI extends KI {
                     // Figuren zum Schutz
                     int z1=(int)(Math.random()*(32-21)+21);
                     int z2=(int)(Math.random()*(31-21)+21);
-                    int z3=(int)(Math.random()*(30-22)+21);
+                    int z3=(int)(Math.random()*(30-21)+21);
                     // Fahne in linker Ecke
                     if (fahneY==0) {
                         spielfeld.figurInit(figuren.get(1), 2, 0);
@@ -351,13 +353,17 @@ public class SchwereKI extends KI {
             System.exit(-1);
         }
         Zug besterZug=waehleBestenZug();
-        // wenn ein bester Zug existiert
-        if(besterZug!=null){
-            spielfeld.figurSetzen(besterZug.getFigur(),besterZug.getPosition());
-        } else {
+        // wenn kein bester Zug existiert, wird zufaellig ein Zug ausgewaehlt
+        if(besterZug==null){
             int zufall = (int) (Math.random() * zugMoeglich.size());
-            Zug aktZug = zugMoeglich.get(zufall);
-            spielfeld.figurSetzen(aktZug.getFigur(), aktZug.getPosition());
+            besterZug = zugMoeglich.get(zufall);
+        }
+        // betroffene Figur in ArrayList suchen und an die entsprechende Stelle setzen
+        for(int i=0; i<figuren.size(); i++){
+                if(figuren.get(i).getId()==besterZug.getFigur().getId()){
+                    spielfeld.figurSetzen(figuren.get(i),besterZug.getPosition());
+                    break;
+                }
         }
         zugMoeglich.clear();
     }

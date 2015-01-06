@@ -60,11 +60,22 @@ public class InfoKI {
     public void ausgabe() {
         for (int i=0 ; i<=9; i++) {
             for (int j=0; j<=9 ; j++) {
-                System.out.print(spielerFiguren[i][j] + " | ");
+                System.out.print(spielerFiguren[i][j] + "|");
             }
             System.out.println();
         }
         System.out.println("--------------------------------------------------");
+    }
+
+    public String toString(){
+        String s="";
+          for (int i=0 ; i<=9; i++) {
+            for (int j=0; j<=9 ; j++) {
+                s+=spielerFiguren[i][j] + "|";
+            }
+            s+="\n";
+        }
+        return s;
     }
 
     public String[][] getSpielerFiguren () {
