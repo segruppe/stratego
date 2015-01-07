@@ -28,14 +28,6 @@ public class SpeichernLaden {
     }
 
     /**
-     * Konstruktor um alte Spielfelder in einer Datei zu speichern
-     */
-    // TODO: Kann raus oder???
-    public SpeichernLaden() {
-        this.dateiname = "alteFelder.sav";
-    }
-
-    /**
      * Speichern des aktuellen Spielfeldes in einer Datei
      */
     public void spielfeldSpeichern() {
@@ -196,8 +188,9 @@ public class SpeichernLaden {
                 Spielfeld.letzteSpielerRichtung = Integer.parseInt(br.readLine());
                 Spielfeld.anzahlSpieler = Integer.parseInt(br.readLine());
 
-                spielfeld.panelAktualisieren();
-                spielfeld.setSpielstart(false);
+            spielfeld.alteFelder.alteFelderSpeichern(spielfeld.spielfeld);
+            spielfeld.panelAktualisieren();
+            spielfeld.setSpielstart(false);
             br.close();
             fr.close();
         } catch (FileNotFoundException e) {

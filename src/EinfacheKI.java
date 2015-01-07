@@ -178,6 +178,7 @@ public class EinfacheKI extends KI {
         // Liste wieder leeren
         zugMoeglich.clear();
         //Spielablauf.kiGezogen = true;
+
     }
 
 

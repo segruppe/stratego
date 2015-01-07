@@ -231,6 +231,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 						infoMessage.setText(wartendeFigur.toString()+ " wird als naechstes gesetzt. Bitte das gewuenschte Feld anklicken");
 					} else {
 						infoMessage.setText("Alle Figuren gesetzt. Spielstart!");
+						alteFelder.alteFelderSpeichern(this.spielfeld);
 						spielstart = false;
 						warteAufSetzen = false;
 					}
@@ -268,23 +269,23 @@ public class Spielfeld extends JFrame implements ActionListener {
 									//vorherigeSpielfelder.add(this);
 									//alteFelder.alteFelderSpeichern(this.spielfeld);
 
-										if(alteFelder.contains(this.spielfeld, firstClickPosition, new Position(number/10, number%10))) {
+										if(alteFelder.contains(this.spielfeld, firstClickPosition, new Position(number / 10, number % 10))) {
                                             // Gib dem Spieler eine Meldung dass der Zug ungueltig ist
                                             infoMessage.setText("Die Spielfeld-Aufstellung ist schonmal vorgekommen. Bitte einen anderen Zug machen.");
                                             System.out.println("Spielfeld ist enthalten");
-                                        }
-                                        if (zweiFelderRegel(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), richtungBestimmen(new Position(firstClickPosition.getX(),firstClickPosition.getY()), new Position(number/10,number%10)))) {
-                                            infoMessage.setText("Zwei Felder Regel verletzt");
-                                        }
-                                        else {
-											// fuehre den Zug durch
-											figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
-                                            Spielablauf.kiGezogen = false;
-                                            if (Spielablauf.kiGezogen) {
-                                                infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
-                                            } else {
-                                                infoMessage.setText("KI ziehen lassen");
-                                            }
+                                        } else {
+											if (zweiFelderRegel(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), richtungBestimmen(new Position(firstClickPosition.getX(),firstClickPosition.getY()), new Position(number/10,number%10)))) {
+												infoMessage.setText("Zwei Felder Regel verletzt");
+											} else {
+												// fuehre den Zug durch
+												figurSetzen(spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur(), number / 10, number % 10);
+												Spielablauf.kiGezogen = false;
+												if (Spielablauf.kiGezogen) {
+													infoMessage.setText("Bitte Figur auswaehlen mit der Sie ziehen wollen");
+												} else {
+													infoMessage.setText("KI ziehen lassen");
+												}
+											}
 										}
 									} else {
 										infoMessage.setText("Zielfeld ist von einer eigenen Figur belegt");
