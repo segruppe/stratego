@@ -41,7 +41,7 @@ public class Figurenkampf extends JFrame{
      * @param spielfeld Spielfeld, auf dem das Spiel laeuft
      */
     public Figurenkampf(Figur figurA, Figur figurB, Spielfeld spielfeld) {
-        super("Figurenkampf");
+        super("Figurenkampf auf Feld " + figurA.getPosition().getX()+figurA.getPosition().getY());
         spielfeld.figurenkampfOffen = true;
         figur1 = figurA;
         figur2 = figurB;
