@@ -28,6 +28,11 @@ public class SpeichernLaden {
     }
 
     /**
+     * Konstruktor um alteFelder in Spielfeld zu initalisieren
+     */
+    public SpeichernLaden() {}
+
+    /**
      * Speichern des aktuellen Spielfeldes in einer Datei
      */
     public void spielfeldSpeichern() {
