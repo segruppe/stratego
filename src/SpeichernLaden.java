@@ -48,17 +48,8 @@ public class SpeichernLaden {
                         }
                         bw.append("\n");
                     }
-                    bw.append("\n");
-                    // speichert werte der InfoKI fuer schwere und mittlere KI
-                    bw.append(spielfeld.infoKi.toString());
-                    // geschlagene Figuren des Spielers
-                    for(String i: spielfeld.infoKi.getGeschlageneSpielerFiguren()){
-                        bw.append(i);
-                    }
-                    // geschlagene Figuren der KI
-                    for(Integer j: spielfeld.infoKi.getGeschlageneKiFiguren()){
-                        bw.append(j+"");
-                    }
+                    //bw.append("\n");
+
 
                     bw.append("KI: "+Spielablauf.gegner+"\n");
                     bw.append("KI ist dran: "+Spielablauf.kiGezogen+"\n");
@@ -70,6 +61,18 @@ public class SpeichernLaden {
                     bw.append(Spielfeld.letzteSpielerRichtung+"\n");
                     bw.append(Spielfeld.anzahlSpieler+"\n");
 
+                    // speichert werte der InfoKI fuer schwere und mittlere KI
+                    bw.append(spielfeld.infoKi.toString());
+                    // geschlagene Figuren des Spielers
+                    for(String i: spielfeld.infoKi.getGeschlageneSpielerFiguren()){
+                        bw.append(i+";");
+                    }
+                    bw.append("\n");
+                    // geschlagene Figuren der KI
+                    for(Integer j: spielfeld.infoKi.getGeschlageneKiFiguren()){
+                        bw.append(j+";");
+                    }
+                    bw.append("\n");
                     bw.close();
                     fw.close();
                 } catch (IOException e) {
