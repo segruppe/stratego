@@ -43,8 +43,8 @@ public class SpielBeendet extends JFrame{
 
         // Button erzeugen
         beenden = new JButton();
-        beenden.setName("beenden");
-        beenden.setText("Spiel beenden");
+        beenden.setName("menue");
+        beenden.setText("Zurueck zum Menue");
         beenden.setPreferredSize(new Dimension(100,50));
 
         // Panels erzeugen
@@ -59,19 +59,18 @@ public class SpielBeendet extends JFrame{
 
         //Panel auf Frame packen
         getContentPane().add(BorderLayout.CENTER, panel);
-        // Fenster nicht verschiebbar
-        //setUndecorated(true);
         // sichtbar machen
         setVisible(true);
     }
 
     private void addButtonListener(JButton b) {
-        if (b.getName().equals("beenden")) {
+        if (b.getName().equals("menue")) {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Spiel beenden
-                    System.exit(0);
+                    dispose();
+                    // Zurueck zum Menue
+                    new Menue();
                 }
             });
         }

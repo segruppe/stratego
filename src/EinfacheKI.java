@@ -37,9 +37,13 @@ public class EinfacheKI extends KI {
 
         // Fahne soll in einer der beiden vorderen Reihen stehen
         // Zufaellige Auswahl von 2 oder 3 (Zeile)
-        int fahneX = (int) Math.floor(Math.random() * (3 - 2 + 1)) + 2;
+        //int fahneX = (int) Math.floor(Math.random() * (3 - 2 + 1)) + 2;
         // Zufaellige Auswahl von 0-9 (Spalte)
-        int fahneY = (int) (Math.random() * 10);
+        //int fahneY = (int) (Math.random() * 10);
+
+        // Fuer die Praesentation soll Fahne einmal auf 3,0 stehen
+        int fahneX = 3;
+        int fahneY = 0;
         figur = listTmp.get(0); // Fahne
         listTmp.remove(0);
         spielfeld.figurInit(figur, fahneX, fahneY); // Fahne setzen
@@ -53,13 +57,6 @@ public class EinfacheKI extends KI {
                 }
             }
         }
-        /*
-        spielfeld.figurInit(new Aufklaerer(2),6,5);
-        spielfeld.figurInit(new Aufklaerer(2),7,5);
-        spielfeld.figurInit(new Aufklaerer(2),8,5);
-        spielfeld.figurInit(new Aufklaerer(2),9,5);
-        */
-        //spielfeld.panelAktualisieren();
         System.out.println("Position Fahne: " + fahneX + " " +fahneY );
     }
 
@@ -77,43 +74,6 @@ public class EinfacheKI extends KI {
     /**
      * KI macht einen zufaelligen Zug
      */
-/*
-    public void macheZug() {
-        Figur figur;
-        if (i==0) {
-           figur = spielfeld.spielfeld[3][0].getFigur();
-            if (!spielfeld.zweiFelderRegel(figur,2)) {
-                spielfeld.figurSetzen(figur, new Position(4,0));
-                i++;
-            } else {
-                System.out.println("i=" + i);
-            }
-        } else if (i==1) {
-            figur = spielfeld.spielfeld[4][0].getFigur();
-            if (!spielfeld.zweiFelderRegel(figur,0)) {
-                spielfeld.figurSetzen(figur, new Position(3, 0));
-                i++;
-            } else {
-                System.out.println("i=" + i);
-            }
-        } else if (i==2) {
-            figur = spielfeld.spielfeld[3][0].getFigur();
-            if (!spielfeld.zweiFelderRegel(figur,2)) {
-                spielfeld.figurSetzen(figur, new Position(4, 0));
-                i++;
-            } else {
-                System.out.println("i=" + i);
-            }
-        } else if (i==3) {
-            figur = spielfeld.spielfeld[4][0].getFigur();
-            if (!spielfeld.zweiFelderRegel(figur,0)) {
-                spielfeld.figurSetzen(figur, new Position(3, 0));
-                i++;
-            } else {
-                System.out.println("i=" + i);
-            }
-        }
-    }*/
     public void macheZug() {
         figurenZugMoeglich();
         System.out.println("Anzahl möglicher Züge: " + zugMoeglich.size());
