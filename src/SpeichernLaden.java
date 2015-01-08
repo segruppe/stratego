@@ -74,12 +74,14 @@ public class SpeichernLaden {
             // speichert werte der InfoKI fuer schwere und mittlere KI
             bw.append(spielfeld.infoKi.toString());
             // geschlagene Figuren des Spielers
+            bw.append(spielfeld.infoKi.getGeschlageneSpielerFiguren().size()+";");
             for (String i : spielfeld.infoKi.getGeschlageneSpielerFiguren()) {
                 string = i + ";";
                 bw.append(string);
             }
             bw.append("\n");
             // geschlagene Figuren der KI
+            bw.append(spielfeld.infoKi.getGeschlageneKiFiguren().size() + ";");
             for (Integer j : spielfeld.infoKi.getGeschlageneKiFiguren()) {
                 string = j + ";";
                 bw.append(string);
@@ -159,9 +161,9 @@ public class SpeichernLaden {
                     }
 
                     // InfoKI Figuren bekannt machen
-                    if (spielfeld.spielfeld[i][j].getFigur() != null && Integer.parseInt(figur[1]) == 1) {
-                        spielfeld.infoKi.schreibeFigur(spielfeld.spielfeld[i][j].getFigur(), spielfeld.spielfeld[i][j].getFigur().getPosition());
-                    }
+                    //if (spielfeld.spielfeld[i][j].getFigur() != null && Integer.parseInt(figur[1]) == 1) {
+                      //  spielfeld.infoKi.schreibeFigur(spielfeld.spielfeld[i][j].getFigur(), spielfeld.spielfeld[i][j].getFigur().getPosition());
+                    //}
                 }
             }
 
@@ -206,6 +208,25 @@ public class SpeichernLaden {
             spielfeld.alteFelder.alteFelderSpeichern(spielfeld.spielfeld);
             spielfeld.panelAktualisieren();
             spielfeld.setSpielstart(false);
+
+            // String Array der InfoKi wieder fuellen
+            String infoKi[][]=new String[10][10];
+            for(int i=0; i<10; i++){
+                String zeile[]=br.readLine().split(";");
+                System.arraycopy(zeile, 0, infoKi[i], 0, zeile.length);
+            }
+            spielfeld.infoKi.setSpielerFiguren(infoKi);
+            // Liste der geschlagenen Spielerfiguren eventuell fuellen
+            String spielerFiguren[]=br.readLine().split(";");
+            for(int i=1; i<spielerFiguren.length; i++){
+                spielfeld.infoKi.setGeloeschteFiguren(Integer.parseInt(spielerFiguren[i]),'s');
+            }
+            // Liste der geschlagenen KI-Figuren eventuell fuellen
+            String kiFiguren[]=br.readLine().split(";");
+            for(int j=1; j<kiFiguren.length; j++){
+                spielfeld.infoKi.setGeloeschteFiguren(Integer.parseInt(kiFiguren[j]),'k');
+            }
+
             br.close();
             fr.close();
         } catch (FileNotFoundException e) {

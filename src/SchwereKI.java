@@ -44,7 +44,7 @@ public class SchwereKI extends KI {
      */
     public void setzeStartAufstellung() {
         // zuerst Fahne setzen: Fahne an Position 0 in Liste
-        int r=(int)(Math.random()*4);
+        int r=(int)(Math.random()*2);
         switch (r){
             case 0:
                 spielfeld.figurInit(figuren.get(0), 0, 0);// linke Ecke
@@ -108,7 +108,7 @@ public class SchwereKI extends KI {
                     spielfeld.figurInit(figuren.get(3),0,8);
                     spielfeld.figurInit(figuren.get(4), 1, 9);
                     // in diese Ecke einen Unteroffizier, Leutnant oder Hauptmann (Liste 21 - 32)
-                    int zufall=(int)(Math.random()* (32-21)+21);
+                    int zufall=(int)(Math.random()* (33-22)+22);
 
                     // Fahne in linker Ecke
                     if(fahneY==0) {
@@ -136,9 +136,18 @@ public class SchwereKI extends KI {
                 // Fahne wird von Unteroffizieren und aehnlichen geschuetzt, davor Bomben
                 case 2:
                     // Figuren zum Schutz
-                    int z1=(int)(Math.random()*(32-21)+21);
-                    int z2=(int)(Math.random()*(31-21)+21);
-                    int z3=(int)(Math.random()*(30-21)+21);
+                    int z1=(int)(Math.random()*(33-22)+22);
+                    int z2=(int)(Math.random()*(33-22)+22);
+                    // falls z1=z2, wird z2 neu erzeugt
+                    while(z1==z2){
+                        z2=(int)(Math.random()*(33-22)+22);
+                    }
+                    // falls z1=z3 oder z2=z3 wird z3 neu erzeugt
+                    int z3=(int)(Math.random()*(33-22)+22);
+                    while(z1==z3 || z2==z3 ) {
+                        z3 = (int) (Math.random() * (33 - 22) + 22);
+                    }
+
                     // Fahne in linker Ecke
                     if (fahneY==0) {
                         spielfeld.figurInit(figuren.get(1), 2, 0);
@@ -150,9 +159,21 @@ public class SchwereKI extends KI {
                         spielfeld.figurInit(figuren.get(z1),1,0);
                         listTmp.remove(z1 - 1);
                         spielfeld.figurInit(figuren.get(z2), 1, 1);
-                        listTmp.remove(z2-2);
+                        // wenn z1>z2 muss nur -1 gerechnet werden(index in Liste), sonst -2 ...
+                        if(z1>z2){
+                            listTmp.remove(z2-1);
+                        } else {
+                            listTmp.remove(z2 - 2);
+                        }
                         spielfeld.figurInit(figuren.get(z3),0,1);
-                        listTmp.remove(z3-3);
+                        if(z1>z2 && z2>z3){
+                            listTmp.remove(z3-1);
+                        } else if((z1>z3 && z2<z3) || (z1<z3 && z2>z3)){
+                            listTmp.remove(z3-2);
+                        } else {
+                            listTmp.remove(z3 - 3);
+                        }
+
 
 
                         // Fahne in rechter Ecke
@@ -166,9 +187,19 @@ public class SchwereKI extends KI {
                         spielfeld.figurInit(figuren.get(z1), 1, 8);
                         listTmp.remove(z1 - 1);
                         spielfeld.figurInit(figuren.get(z2), 1, 9);
-                        listTmp.remove(z2 - 2);
+                        if(z1>z2){
+                            listTmp.remove(z2-1);
+                        } else {
+                            listTmp.remove(z2 - 2);
+                        }
                         spielfeld.figurInit(figuren.get(z3), 0, 8);
-                        listTmp.remove(z3 - 3);
+                        if(z1>z2 && z2>z3){
+                            listTmp.remove(z3-1);
+                        } else if((z1>z3 && z2<z3) || (z1<z3 && z2>z3)){
+                            listTmp.remove(z3-2);
+                        } else {
+                            listTmp.remove(z3 - 3);
+                        }
                     }
                     anzahlBomben+=5;
                     break;

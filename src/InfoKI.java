@@ -21,10 +21,13 @@ public class InfoKI {
         // Figur auf neue Position schreiben
         if (!figur.istBekannt()) {
             // wenn Figur mehr als 1 Feld gezogen wurde, muss es sich um einen Aufklaerer handeln
-            if(Math.abs(figur.getPosition().getX()-altePosition.getX())>1 || Math.abs(figur.getPosition().getY()-altePosition.getY())>1){
+            if(Math.abs(figur.getPosition().getX()-altePosition.getX())>1 || Math.abs(figur.getPosition().getY()-altePosition.getY())>1) {
                 System.out.println("Aufklaerer");
-                spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.getStaerke()+"";
+                spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.getStaerke() + "";
                 // jetzt ist die Figur bekannt
+                figur.setIstBekannt(true);
+            } else if(Character.isDigit(spielerFiguren[altePosition.getX()][altePosition.getY()].charAt(0))){
+                spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()]=figur.getStaerke()+"";
                 figur.setIstBekannt(true);
             } else {
                 spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = "bewegt";
@@ -70,7 +73,7 @@ public class InfoKI {
         String s="";
           for (int i=0 ; i<=9; i++) {
             for (int j=0; j<=9 ; j++) {
-                s+=spielerFiguren[i][j] + "|";
+                s+=spielerFiguren[i][j] + ";";
             }
             s+="\n";
         }
@@ -79,6 +82,19 @@ public class InfoKI {
     // TODO: JavaDoc
     public String[][] getSpielerFiguren () {
         return spielerFiguren;
+    }
+    public void setSpielerFiguren(String [][]s){
+        spielerFiguren=s;
+    }
+    // Schreibt geloeschte Figur in entsprechende Liste
+    // Character k: KI figur int i: id der Figur
+    // sonst: Spieler figur; int i: staerke
+    public void setGeloeschteFiguren(int i, char c){
+        if(c=='k'){
+            geschlageneKiFiguren.add(i);
+        } else {
+            geschlageneSpielerFiguren.add(i+"");
+        }
     }
     // TODO: JavaDoc
     public ArrayList<String> getGeschlageneSpielerFiguren () {
