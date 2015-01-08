@@ -10,12 +10,6 @@ import java.awt.event.ActionListener;
  * @see SpielStarten
  */
 public class Menue extends JFrame {
-
-    private JButton spielStartenButton;
-    private JButton hilfeButton;
-    private JButton beendenButton;
-    private JPanel panelButton;
-
     /**
      * Erzeugen des Menue Fensters
      */
@@ -28,20 +22,20 @@ public class Menue extends JFrame {
         // Fenstergroesse darf nicht geaendert werden
         setResizable(false);
         // Programm beim Schliessen des Fensters beenden
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout(5, 5));
 
         // Buttons erzeugen
-        spielStartenButton = new JButton("Spiel starten");
+        JButton spielStartenButton = new JButton("Spiel starten");
         spielStartenButton.setName("spielStartenButton");
-        hilfeButton  = new JButton("Spielanleitung");
+        JButton hilfeButton  = new JButton("Spielanleitung");
         hilfeButton.setName("hilfeButton");
-        beendenButton  = new JButton("Beenden");
+        JButton beendenButton  = new JButton("Beenden");
         beendenButton.setName("beendenButton");
 
         // Panels auf GridLayout erzeugen
-        panelButton = new JPanel(new GridLayout(3, 1));
+        JPanel panelButton = new JPanel(new GridLayout(3, 1));
 
         // Buttons auf panel packen
         panelButton.add(spielStartenButton );
@@ -62,7 +56,7 @@ public class Menue extends JFrame {
     /**
      * Startpunkt des Spiels
      *
-     * @param args
+     * @param args keine Uebergabe
      */
     public static void main(String[] args) {
         new Menue();

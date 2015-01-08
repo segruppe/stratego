@@ -9,10 +9,6 @@ import java.awt.event.ActionListener;
  * @see Menue
  */
 public class HilfeAnzeigen extends JFrame {
-    private JLabel textFieldHilfeAusgabe;
-    private JButton zurueckButton;
-    private JPanel panel;
-
     /**
      * Erzeugen des Fensters mit der Spielanleitung
      */
@@ -25,7 +21,7 @@ public class HilfeAnzeigen extends JFrame {
         // Fenstergroesse darf nicht geaendert werden
         setResizable(false);
         // Programm beim Schliessen des Fensters beenden
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout(4, 1));
 
@@ -53,16 +49,16 @@ public class HilfeAnzeigen extends JFrame {
                 "  1x Fahne (Unbeweglich)</p></body></html>";
 
         // Textfeld erstellen und fuellen
-        textFieldHilfeAusgabe = new JLabel(anleitung);
+        JLabel textFieldHilfeAusgabe = new JLabel(anleitung);
 
         // Buttons erzeugen
-        zurueckButton = new JButton();
+        JButton zurueckButton = new JButton();
         zurueckButton.setName("zurueckButton");
         zurueckButton.setText("Zurueck");
         zurueckButton.setPreferredSize(new Dimension(100,50));
 
         // Panels auf BorderLayout erzeugen
-        panel = new JPanel(new BorderLayout(4, 1));
+        JPanel panel = new JPanel(new BorderLayout(4, 1));
 
         // Buttons auf panel packen
         panel.add(textFieldHilfeAusgabe,BorderLayout.PAGE_START);

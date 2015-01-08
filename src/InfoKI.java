@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.ArrayList;
 
 public class InfoKI {
@@ -17,6 +15,7 @@ public class InfoKI {
 
     // Nach figurSetzen ausfuehren!!!!!
 
+    // TODO: JavaDoc
     // Umschreiben des Feldes, nach jedem Zug der KI
     public void schreibeFigur (Figur figur, Position altePosition) {
         // Figur auf neue Position schreiben
@@ -40,7 +39,7 @@ public class InfoKI {
     }
 
     // Vor dem eigentlichen figurSetzen aufrufen !!!
-
+// TODO: JavaDoc
     // Geschlagene des Spielers
     public void loescheFigur(Figur figur) {
         // Alte Position der Figur auf null setzen. KI muss diese nicht mehr kennen
@@ -50,13 +49,13 @@ public class InfoKI {
         geschlageneSpielerFiguren.add(figur.getStaerke()+"");
         //ausgabe();
     }
-
+    // TODO: JavaDoc
     // geschlagene Figuren der KI
     public void loescheKiFigur(Figur figur){
         System.out.println(figur.toString() + "  " + figur.getId());
         getGeschlageneKiFiguren().add(figur.getId());
     }
-
+    // TODO: loeschen
     public void ausgabe() {
         for (int i=0 ; i<=9; i++) {
             for (int j=0; j<=9 ; j++) {
@@ -66,7 +65,7 @@ public class InfoKI {
         }
         System.out.println("--------------------------------------------------");
     }
-
+    // TODO: JavaDoc
     public String toString(){
         String s="";
           for (int i=0 ; i<=9; i++) {
@@ -77,13 +76,14 @@ public class InfoKI {
         }
         return s;
     }
-
+    // TODO: JavaDoc
     public String[][] getSpielerFiguren () {
         return spielerFiguren;
     }
-
+    // TODO: JavaDoc
     public ArrayList<String> getGeschlageneSpielerFiguren () {
         return geschlageneSpielerFiguren;
     }
+    // TODO: JavaDoc
     public ArrayList<Integer> getGeschlageneKiFiguren() { return geschlageneKiFiguren;}
 }

@@ -25,7 +25,6 @@ public abstract class Figur {
 	private int team;
 	private int staerke;
 	private String bild;
-	private String name;
 	private boolean istBewegbar; // Fahnen und Bomben nicht bewegbar
     private boolean istBekannt; // Kennt die KI die Spieler Figur
 
@@ -39,7 +38,7 @@ public abstract class Figur {
         6: Leutnant
         5: Unteroffizier
         4: Mineur
-        3: Aufklaerer (Mehr als ein Feld bewegbar) TODO: Bei Position setzen beachten
+        3: Aufklaerer (Mehr als ein Feld bewegbar)
         2: Ninja
         1: Fahne
 	*/
@@ -130,10 +129,5 @@ public abstract class Figur {
     public void setIstBekannt(boolean bool) {
         istBekannt = bool;
     }
-
-    /**
-     * @return Name der Figur
-     */
-	public String toString() { return name; };
 }
 

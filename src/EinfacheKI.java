@@ -1,7 +1,3 @@
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +7,6 @@ import java.util.ArrayList;
  * @see Spielfeld
  */
 public class EinfacheKI extends KI {
-    private Figur figur;
     private Spielfeld spielfeld;
     private ArrayList<Figur> listTmp;
     private ArrayList<Figur> zugMoeglich = new ArrayList<Figur>();
@@ -33,18 +28,16 @@ public class EinfacheKI extends KI {
      * Setzen einer zufaelligen Startaufstellung
      */
     public void setzeStartAufstellung() {
-
-
         // Fahne soll in einer der beiden vorderen Reihen stehen
         // Zufaellige Auswahl von 2 oder 3 (Zeile)
-        //int fahneX = (int) Math.floor(Math.random() * (3 - 2 + 1)) + 2;
+        int fahneX = (int) Math.floor(Math.random() * (3 - 2 + 1)) + 2;
         // Zufaellige Auswahl von 0-9 (Spalte)
-        //int fahneY = (int) (Math.random() * 10);
+        int fahneY = (int) (Math.random() * 10);
 
         // Fuer die Praesentation soll Fahne einmal auf 3,0 stehen
-        int fahneX = 3;
-        int fahneY = 0;
-        figur = listTmp.get(0); // Fahne
+        //int fahneX = 3;
+        //int fahneY = 0;
+        Figur figur = listTmp.get(0); // Fahne
         listTmp.remove(0);
         spielfeld.figurInit(figur, fahneX, fahneY); // Fahne setzen
 
@@ -57,7 +50,6 @@ public class EinfacheKI extends KI {
                 }
             }
         }
-        System.out.println("Position Fahne: " + fahneX + " " +fahneY );
     }
 
     // Funktion gibt eine zufaellige Figur, die noch nicht gesetzt wurde, zurueck
@@ -69,14 +61,12 @@ public class EinfacheKI extends KI {
         return figur;
     }
 
-    int i=0;
     @Override
     /**
      * KI macht einen zufaelligen Zug
      */
     public void macheZug() {
         figurenZugMoeglich();
-        System.out.println("Anzahl möglicher Züge: " + zugMoeglich.size());
         // wenn kein Zug moeglich ist, Spieler hat gewonnen
         if (zugMoeglich.isEmpty()) {
             new SpielBeendet(1); // Spieler hat gewonnen
@@ -87,12 +77,6 @@ public class EinfacheKI extends KI {
 
         int y = figur.getPosition().getY();
         int x = figur.getPosition().getX();
-
-        // TODO: Background oder Border setzen. klappt noch nicht so
-        spielfeld.spielfeld[x][y] = new ButtonFigurVerkn(figur, "blau");
-        System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
-        spielfeld.panelAktualisieren();
-        System.out.println(spielfeld.spielfeld[x][y].getButton().getBackground());
 
         try {
             Thread.sleep(500);
@@ -137,8 +121,6 @@ public class EinfacheKI extends KI {
         }
         // Liste wieder leeren
         zugMoeglich.clear();
-        //Spielablauf.kiGezogen = true;
-
     }
 
 
@@ -184,7 +166,6 @@ public class EinfacheKI extends KI {
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
-            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach UNTEN");
         } else if (richtung.equals("links")) {
             // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while(y-felder>=0 && !spielfeld.wasser.contains(10*x+(y-felder)) && spielfeld.getFigur(x,y-felder)==null) {
@@ -196,7 +177,6 @@ public class EinfacheKI extends KI {
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
-            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach LINKS");
         } else if (richtung.equals("rechts")) {
             // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while(y+felder<=9 && !spielfeld.wasser.contains(10*x+(y+felder)) && spielfeld.getFigur(x,y+felder)==null) {
@@ -208,7 +188,6 @@ public class EinfacheKI extends KI {
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
-            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach RECHTS");
         } else { // oben
             // Feld muss auf Brett liegen, kein Wasser sein und darf nicht belegt sein
             while (x-felder>=0 && !spielfeld.wasser.contains(10 * (x - felder) + y) && spielfeld.getFigur(x - felder, y) == null) {
@@ -220,7 +199,6 @@ public class EinfacheKI extends KI {
             }
             // Zufallszahl zwischen >=1 und <=felder
             wieVieleZiehen = (int) (Math.random() * (felder-1)+1);
-            System.out.println("aufklärer zieht "+wieVieleZiehen+" Felder nach OBEN");
         }
         return wieVieleZiehen;
     }

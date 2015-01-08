@@ -8,9 +8,6 @@ import java.awt.event.ActionListener;
  */
 public class SpielBeendet extends JFrame{
     int sieger;
-    private JLabel ausgabeSieger;
-    private JButton beenden;
-    private JPanel panel;
 
     /**
      * Konstruktor, um das Fenster fuer das Spielende anzuzeigen
@@ -27,7 +24,7 @@ public class SpielBeendet extends JFrame{
         // Fenstergroesse darf nicht geaendert werden
         setResizable(false);
         // Programm beim Schliessen des Fensters beenden
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout(4, 1));
 
@@ -38,17 +35,17 @@ public class SpielBeendet extends JFrame{
             ausgabe = "<html><h1>Schade! Du hast leider verloren</h1></html>";
         }
 
-        // textfeld erstellen und fuellen
-        ausgabeSieger = new JLabel(ausgabe);
+        // Textfeld erstellen und fuellen
+        JLabel ausgabeSieger = new JLabel(ausgabe);
 
         // Button erzeugen
-        beenden = new JButton();
+        JButton beenden = new JButton();
         beenden.setName("menue");
         beenden.setText("Zurueck zum Menue");
         beenden.setPreferredSize(new Dimension(100,50));
 
         // Panels erzeugen
-        panel = new JPanel(new BorderLayout(4,1));
+        JPanel panel = new JPanel(new BorderLayout(4,1));
 
         // Button und Textfeld auf panel packen
         panel.add(ausgabeSieger,BorderLayout.PAGE_START);

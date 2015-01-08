@@ -9,12 +9,6 @@ import java.awt.event.ActionListener;
  * @see Spielablauf
  */
 public class SchwierigkeitWaehlen extends JFrame {
-    private JLabel anweisung;
-    private JButton einfachButton;
-    private JButton mittelButton;
-    private JButton schwerButton;
-    private JButton zurueck;
-    private JPanel panel;
 
     /**
      * Erzeugung des Fensters um die Schwierigkeit auszuwaehlen
@@ -40,31 +34,31 @@ public class SchwierigkeitWaehlen extends JFrame {
         anweisungText += "Waehle die Schwierigkeit der KI aus";
 
         // Textfeld erstellen und fuellen
-        anweisung = new JLabel(anweisungText);
+        JLabel anweisung = new JLabel(anweisungText);
 
         // Buttons erzeugen
-        einfachButton = new JButton();
+        JButton einfachButton = new JButton();
         einfachButton.setName("einfach");
         einfachButton.setText("Einfach");
         einfachButton.setPreferredSize(new Dimension(100,50));
 
-        mittelButton = new JButton();
+        JButton mittelButton = new JButton();
         mittelButton.setName("mittel");
         mittelButton.setText("Mittel");
         mittelButton.setPreferredSize(new Dimension(100,50));
 
-        schwerButton = new JButton();
+        JButton schwerButton = new JButton();
         schwerButton.setName("schwer");
         schwerButton.setText("Schwer");
         schwerButton.setPreferredSize(new Dimension(100,50));
 
-        zurueck = new JButton();
+        JButton zurueck = new JButton();
         zurueck.setName("zurueck");
         zurueck.setText("Zurueck");
         zurueck.setPreferredSize(new Dimension(100,50));
 
         // Panel erzeugen
-        panel = new JPanel(new GridLayout(5,1));
+        JPanel panel = new JPanel(new GridLayout(5,1));
 
         // Panel bepacken
         panel.add(anweisung, BorderLayout.PAGE_START);

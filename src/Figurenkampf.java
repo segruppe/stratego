@@ -14,11 +14,6 @@ public class Figurenkampf extends JFrame{
 
     private Figur figur1;
     private Figur figur2;
-    private JButton okButton;
-    private JLabel ausgabeFigur;
-    private JPanel panel;
-    private JLabel bild1;
-    private JLabel bild2;
     private Spielfeld spielfeld;
     private int sieger;
     private boolean spielBeendet;
@@ -73,6 +68,8 @@ public class Figurenkampf extends JFrame{
 
         getContentPane().setLayout(new BorderLayout(1,1));
 
+        JLabel bild1;
+        JLabel bild2;
         // Bilder erzeugen...Figur vom Spieler soll immer links stehen
         if (figur1.getTeam()==1) {
             bild1 = new JLabel(new ImageIcon(getClass().getResource(figur1.getBild())));
@@ -110,11 +107,11 @@ public class Figurenkampf extends JFrame{
         }
 
         //Textfeld erzeugen
-        ausgabeFigur=new JLabel(ausgabe);
+        JLabel ausgabeFigur=new JLabel(ausgabe);
 
 
         //Button erzeugen
-        okButton = new JButton();
+        JButton okButton = new JButton();
         okButton.setName("okay");
         okButton.setText("OK, weiter");
         okButton.setPreferredSize(new Dimension(75,50));
@@ -122,7 +119,7 @@ public class Figurenkampf extends JFrame{
         addButtonListener(okButton);
 
         // Panel erzeugen und Elemente hinzufuegen
-        panel=new JPanel(new BorderLayout(5,1));
+        JPanel panel=new JPanel(new BorderLayout(5,1));
         panel.add(ausgabeFigur, BorderLayout.CENTER);
         panel.add(okButton, BorderLayout.SOUTH);
         panel.add(bild1, BorderLayout.WEST);
@@ -142,15 +139,10 @@ public class Figurenkampf extends JFrame{
                     spielfeld.setEnabled(true);
                     dispose();
                     spielfeld.figurenkampfOffen = false;
-//                    if(figur1.getTeam() == 1) {
-//                        // KI zieht nachdem das Figurenkampf-Fenster geschlossen wurde wenn der Spieler angegriffen hat
-//                        Spielablauf.gegner.macheZug();
-//                    }
                 }
             });
         }
     }
-
 
     // Vergleicht die Staerken der beiden Figuren
     // 0: Unentschieden, 1: Figur1 gewinnt, 2: Figur2 gewinnt
@@ -160,10 +152,11 @@ public class Figurenkampf extends JFrame{
         if (figur2.getStaerke()==1) {
             dispose();
             spielfeld.dispose();
-            //new SpielBeendet(figur1.getTeam()); // Spieler von Figur1 hat gewonnen
+            // Figur 1 hat gewonnen
             this.sieger=-1;
         }
         if (figur1.getStaerke() == figur2.getStaerke()) {
+            // Unentschieden
             this.sieger=0;
         } else if (figur1.getStaerke() == 12 && figur2.getStaerke() == 4) {
             // Mineur schlaegt Bombe

@@ -12,11 +12,6 @@ import java.awt.event.ActionListener;
  * @see Menue
  */
 public class SpielStarten extends JFrame {
-    private JButton neuesSpiel;
-    private JButton ladeSpiel;
-    private JButton zurueck;
-    private JPanel panel;
-
     /**
      * Konstruktor, um das Fenster zu erzeugen, ob der Spieler ein Spiel starten/ laden will oder zum Menue zurueckkehren will
      */
@@ -29,25 +24,25 @@ public class SpielStarten extends JFrame {
         // Fenstergroesse darf nicht geaendert werden
         setResizable(false);
         // Programm beim Schliessen des Fensters beenden
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout(2, 1));
 
         // Buttons erzeugen
-        neuesSpiel = new JButton();
+        JButton neuesSpiel = new JButton();
         neuesSpiel.setName("neuesSpiel");
         neuesSpiel.setText("Neues Spiel");
 
-        ladeSpiel = new JButton();
+        JButton ladeSpiel = new JButton();
         ladeSpiel.setName("ladeSpiel");
         ladeSpiel.setText("Spiel laden");
 
-        zurueck = new JButton();
+        JButton zurueck = new JButton();
         zurueck.setName("zurueck");
         zurueck.setText("Zurueck");
 
         // Panels auf BorderLayout erzeugen
-        panel = new JPanel(new GridLayout(3,1));
+        JPanel panel = new JPanel(new GridLayout(3,1));
 
         // Button auf Panel packen
         panel.add(neuesSpiel);

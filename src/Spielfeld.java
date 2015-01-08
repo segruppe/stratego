@@ -103,9 +103,9 @@ public class Spielfeld extends JFrame implements ActionListener {
 	 *
 	 * @param spielfeld ButtonFigurVerkn[][] spielfeld zum Vergleichen
 	 */
-	public Spielfeld(ButtonFigurVerkn[][] spielfeld) {
-		this.spielfeld = spielfeld;
-	}
+	//public Spielfeld(ButtonFigurVerkn[][] spielfeld) {
+	//	this.spielfeld = spielfeld;
+	//}
 
     /**
      * Erzeugen des Fensters, auf dem das Spielfeld liegt
@@ -121,7 +121,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 
         // Programm beim Schliessen des Fensters beenden
         // kann nachher weg, ist aber sinnvoll zum testen
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout(5, 5));
 
@@ -255,7 +255,7 @@ public class Spielfeld extends JFrame implements ActionListener {
 								if (spielfeld[number / 10][number % 10].getFigur() == null || spielfeld[number / 10][number % 10].getFigur().getTeam() != 1) {
 									if (spielfeld[firstClickPosition.getX()][firstClickPosition.getY()].getFigur() instanceof Aufklaerer && wegBelegt(firstClickPosition, new Position(number / 10, number % 10))) {
 
-										infoMessage.setText("Der Aufklaerer kann nicht ueber Wasser oder andere Figuren ziehen. Bitte erneut Figur ausawehlen.");
+										infoMessage.setText("Der Aufklaerer kann nicht ueber Wasser oder andere Figuren ziehen. Bitte erneut Figur auswaehlen.");
 										firstClickPerformed = false;
 										return;
 									}
@@ -514,7 +514,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		if(direction == 0) {
 			int it = von.getX()-1;
 			while(it != nach.getX()) {
-		    //it--;
 				// Wenn auf dem Weg nach oben Wasser oder eine andere Figur im Weg ist, return true
 				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) {
                     return true;
@@ -524,7 +523,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		} else if(direction == 1) {
 			int it = von.getY()+1;
 			while(it != nach.getY()) {
-				//it++;
 				// Wenn auf dem Weg nach rechts Wasser oder eine andere Figur im Weg ist, return true
 				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) {
                     return true;
@@ -534,7 +532,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 		} else if(direction == 2) {
 			int it = von.getX()+1;
 			while(it != nach.getX()) {
-				//it++;
 				// Wenn auf dem Weg nach unten Wasser oder eine andere Figur im Weg ist, return true
 				if(wasser.contains(it*10+nach.getY()) || spielfeld[it][nach.getY()].getFigur() != null) {
                     return true;
@@ -544,7 +541,6 @@ public class Spielfeld extends JFrame implements ActionListener {
         } else if(direction == 3) {
 			int it = von.getY()-1;
 			while(it != nach.getY()) {
-				//it--;
 				// Wenn auf dem Weg nach links Wasser oder eine andere Figur im Weg ist, return true
 				if(wasser.contains(it+nach.getX()*10) || spielfeld[nach.getX()][it].getFigur() != null) {
                     return true;
@@ -556,27 +552,26 @@ public class Spielfeld extends JFrame implements ActionListener {
 		return false;
 	}
 
-
-    /**
-     * Vergleich, ob ein Spielfeld schonmal vorhanden war
-     *
-     * @param spielfeld2 Altes Spielfeld
-     * @return false - Spielfeld gab es so noch nicht
-     *          true - Spielfeld gab es so schon einmal
-     */
-	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
-		int length = this.spielfeld.length;
-		for(int i=0; i<length; i++){
-			for(int j=0; j<length; j++){
-				// Wenn ein Element des Spielfeldes unterschiedlich ist, gebe false zurueck
-				if(this.spielfeld[i][j].getFigur().getId() != spielfeld2.spielfeld[i][j].getFigur().getId())
-					return false;
-			}
-
-		}
-		// Ansonsten true
-		return true;
-	}
+//    /**
+//     * Vergleich, ob ein Spielfeld schonmal vorhanden war
+//     *
+//     * @param spielfeld2 Altes Spielfeld
+//     * @return false - Spielfeld gab es so noch nicht
+//     *          true - Spielfeld gab es so schon einmal
+//     */
+//	public boolean spielfeldVergleichen(Spielfeld spielfeld2) {
+//		int length = this.spielfeld.length;
+//		for(int i=0; i<length; i++){
+//			for(int j=0; j<length; j++){
+//				// Wenn ein Element des Spielfeldes unterschiedlich ist, gebe false zurueck
+//				if(this.spielfeld[i][j].getFigur().getId() != spielfeld2.spielfeld[i][j].getFigur().getId())
+//					return false;
+//			}
+//
+//		}
+//		// Ansonsten true
+//		return true;
+//	}
 
 	@Override
 	public boolean equals(Object other){
@@ -589,12 +584,6 @@ public class Spielfeld extends JFrame implements ActionListener {
 			for(int j=0; j < this.spielfeld[0].length; j++) {
 				if(this.spielfeld[i][j].getFigur() == null && otherFeld.spielfeld[i][j].getFigur() != null) return false;
 				if(this.spielfeld[i][j].getFigur() != null && otherFeld.spielfeld[i][j].getFigur() == null) return false;
-				if(this.spielfeld[i][j].getFigur() == null && otherFeld.spielfeld[i][j].getFigur() == null) continue;
-				//System.out.println("this FigurId: "+this.spielfeld[i][j].getFigur().getId()+ " other: "+otherFeld.spielfeld[i][j].getFigur().getId());
-				//if(this.spielfeld[i][j].getFigur().getId() != otherFeld.spielfeld[i][j].getFigur().getId()) {
-					// Wenn eine ButtonFigurVerkn anders ist, ist das Spielfeld unterschiedlich
-				//	return false;
-				//}
 			}
 		}
 		return true;
