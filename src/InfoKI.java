@@ -1,10 +1,16 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InfoKI {
     private String[][] spielerFiguren = new String[10][10];
     private ArrayList<String> geschlageneSpielerFiguren = new ArrayList<String>();
     private ArrayList<Integer> geschlageneKiFiguren = new ArrayList<Integer>();
+    private ArrayList<Position>gegnerischeBomben=new ArrayList<Position>();
 
+    /**
+     * Konstruktor für InfoKI
+     * schreibt für alle Figuren des Spielers "unbewegt" in das String-Array spielerFiguren
+     */
     public InfoKI() {
         for(int i=6; i<10; i++){
             for(int j=0; j<10; j++){
@@ -13,9 +19,13 @@ public class InfoKI {
         }
     }
 
-    // Nach figurSetzen ausfuehren!!!!!
-
-    // TODO: JavaDoc
+    /**
+     * Figur des Spielers wird im String-Array als "bewegt" oder mit ihrer Stärke gespeichert
+     * nach einem Figurenkampf wird die Stärke gespeichert, da die Figur dann der KI bekannt ist
+     * Aufklärer werden mit ihrer Stärke gespeichert sobald sie sich weiter als ein Feld bewegen
+     * @param figur Figur des Spielers, die bewegt wurde
+     * @param altePosition alte Position der bewegten Figur
+     */
     // Umschreiben des Feldes, nach jedem Zug der KI
     public void schreibeFigur (Figur figur, Position altePosition) {
         // Figur auf neue Position schreiben
@@ -28,6 +38,10 @@ public class InfoKI {
                 figur.setIstBekannt(true);
             } else if(Character.isDigit(spielerFiguren[altePosition.getX()][altePosition.getY()].charAt(0))){
                 spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()]=figur.getStaerke()+"";
+                if(figur.getStaerke()==12){
+                    // eine Bombe des Spielers wurde gefunden
+                    gegnerischeBomben.add(figur.getPosition());
+                }
                 figur.setIstBekannt(true);
             } else {
                 spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = "bewegt";
@@ -35,14 +49,19 @@ public class InfoKI {
 
         } else {
             spielerFiguren[figur.getPosition().getX()][figur.getPosition().getY()] = figur.getStaerke()+"";
+            if(figur.getStaerke()==12){
+                // eine Bombe des Spielers wurde gefunden
+                gegnerischeBomben.add(figur.getPosition());
+            }
         }
         // alte Position loeschen
         spielerFiguren[altePosition.getX()][altePosition.getY()] = null;
-        ausgabe();
     }
 
-    // Vor dem eigentlichen figurSetzen aufrufen !!!
-// TODO: JavaDoc
+    /**
+     * Fügt die geschlagene Figur des Spielers zur entsprechenden ArrayList hinzu
+     * @param figur geschlagene Figur des Spielers
+     */
     // Geschlagene des Spielers
     public void loescheFigur(Figur figur) {
         // Alte Position der Figur auf null setzen. KI muss diese nicht mehr kennen
@@ -52,23 +71,22 @@ public class InfoKI {
         geschlageneSpielerFiguren.add(figur.getStaerke()+"");
         //ausgabe();
     }
-    // TODO: JavaDoc
+
+    /**
+     * Figur soll in ArrayList gespeichert werden
+     * @param figur KI-Figur, die geschlagen wurde
+     *
+     */
     // geschlagene Figuren der KI
     public void loescheKiFigur(Figur figur){
         System.out.println(figur.toString() + "  " + figur.getId());
         getGeschlageneKiFiguren().add(figur.getId());
     }
-    // TODO: loeschen
-    public void ausgabe() {
-        for (int i=0 ; i<=9; i++) {
-            for (int j=0; j<=9 ; j++) {
-                System.out.print(spielerFiguren[i][j] + "|");
-            }
-            System.out.println();
-        }
-        System.out.println("--------------------------------------------------");
-    }
-    // TODO: JavaDoc
+
+    /**
+     * ueberschreiben der ToString() Methode
+     * @return String zur Ausgabe des String Arrays
+     */
     public String toString(){
         String s="";
           for (int i=0 ; i<=9; i++) {
@@ -79,16 +97,29 @@ public class InfoKI {
         }
         return s;
     }
-    // TODO: JavaDoc
+
+    /**
+     * gibt das String Array zurück(getter)
+     * @return String Array spielerFiguren
+     */
     public String[][] getSpielerFiguren () {
         return spielerFiguren;
     }
+
+    /**
+     * Speichern eines String-Arrays in spielerFiguren (beim Laden nötig)
+     * @param s String Array welches Daten für spielerFiguren enthält
+     */
     public void setSpielerFiguren(String [][]s){
         spielerFiguren=s;
     }
-    // Schreibt geloeschte Figur in entsprechende Liste
-    // Character k: KI figur int i: id der Figur
-    // sonst: Spieler figur; int i: staerke
+
+    /**
+     * fügt Figuren über ihre Stärke bzw. id zu der entsprechenden ArrayList der gelöschten Figuren hinzu
+     * (entweder geschlageneKIFiguren oder geschlageneSpielerFiguren
+     * @param i wenn KI figur: id der Figur, sonst Stärke
+     * @param c wenn es eine KI Figur ist 'k'
+     */
     public void setGeloeschteFiguren(int i, char c){
         if(c=='k'){
             geschlageneKiFiguren.add(i);
@@ -96,10 +127,24 @@ public class InfoKI {
             geschlageneSpielerFiguren.add(i+"");
         }
     }
-    // TODO: JavaDoc
+
+    /**
+     * getter für ArrayList geschlageneSpielerFiguren
+     * @return ArrayList geschlageneSpielerFiguren
+     */
     public ArrayList<String> getGeschlageneSpielerFiguren () {
         return geschlageneSpielerFiguren;
     }
-    // TODO: JavaDoc
+
+    /**
+     * Getter für ArrayList geschlageneKiFiguren
+     * @return ArrayList geschlageneKiFiguren
+     */
     public ArrayList<Integer> getGeschlageneKiFiguren() { return geschlageneKiFiguren;}
+
+    /**
+     * Getter für ArrayList gegnerischeBomben
+     * @return ArrayList gegnerischeBomben
+     */
+    public ArrayList<Position>getGegnerischeBomben() { return gegnerischeBomben;}
 }

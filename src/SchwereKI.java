@@ -165,7 +165,7 @@ public class SchwereKI extends KI {
                         } else {
                             listTmp.remove(z2 - 2);
                         }
-                        spielfeld.figurInit(figuren.get(z3),0,1);
+                        spielfeld.figurInit(figuren.get(z3), 0, 1);
                         if(z1>z2 && z2>z3){
                             listTmp.remove(z3-1);
                         } else if((z1>z3 && z2<z3) || (z1<z3 && z2>z3)){
@@ -282,7 +282,7 @@ public class SchwereKI extends KI {
     private void setzeNinjaFeldmarschall() {
 
         int xNinja=0;
-        int yNinja=0;
+        int yNinja;
         // speichern der moeglichen Positionen fuer Feldmarschall
         ArrayList<Position> freiesFeld = new ArrayList<Position>();
 
@@ -389,6 +389,8 @@ public class SchwereKI extends KI {
             int zufall = (int) (Math.random() * zugMoeglich.size());
             besterZug = zugMoeglich.get(zufall);
         }
+        System.out.println(besterZug.getFigur().toString()+"  " + besterZug.getPosition().getX() + besterZug.getPosition().getY());
+
         // betroffene Figur in ArrayList suchen und an die entsprechende Stelle setzen
         for(int i=0; i<figuren.size(); i++){
                 if(figuren.get(i).getId()==besterZug.getFigur().getId()){
@@ -413,7 +415,6 @@ public class SchwereKI extends KI {
 
             // ueberpruefung ob aktuelle Figur bewegt werden darf
             if(i.getIstBewegbar() ){
-                System.out.println(i.toString());
                 // Position der Figur
                 int x=i.getPosition().getX();
                 int y=i.getPosition().getY();
@@ -483,7 +484,7 @@ public class SchwereKI extends KI {
 
 
 
-    // prueft ob gesamte Reihe belegt
+    // prueft ob gesamte Reihe belegt(fuer Aufklaerer setzen noetig
     private boolean reiheBelegt(int x){
         for(int i=0; i<10; i++){
             if(spielfeld.spielfeld[x][i].getFigur()==null && (i==0 || i==1 || i==4 || i==5 || i==8 || i==9)){
@@ -558,18 +559,6 @@ public class SchwereKI extends KI {
         }
     }
 
-    // prueft ob Figuren die staerker sind, als eigene Staerke bereits geschlagen wurden
-    // TODO: richtige ueberpruefung
-    private boolean hoehereFigurGeschlagen(int staerke){
-        for(String figur: spielfeld.infoKi.getGeschlageneSpielerFiguren()){
-            int gegnerStaerke=Integer.parseInt(figur);
-            if(gegnerStaerke>staerke){
-                return false;
-            }
-        }
-        return true;
-    }
-
     // sortiert Liste nach bestmoeglichem Zug
     private Zug waehleBestenZug(){
         // vergleicht jeden Zug mit jedem anderen und positioniert den besten Zug an den anfang der Liste
@@ -584,6 +573,7 @@ public class SchwereKI extends KI {
             }
             int aktuellerWert=bewerteZug(aktuellerZug);
             for(int j=i+1; j<zugMoeglich.size();j++){
+                aktuellerZug=zugMoeglich.get(i);
                 Zug vergleichsZug=zugMoeglich.get(j);
                 if(spielfeld.spielfeld[vergleichsZug.getPosition().getX()][vergleichsZug.getPosition().getY()].getFigur()!=null){
                     // Fahne des Gegners wird geschlagen
@@ -594,12 +584,14 @@ public class SchwereKI extends KI {
                 int vergleichsWert=bewerteZug(vergleichsZug);
                 if(aktuellerWert<vergleichsWert){
                     // aktueller Zug schlechter als vergleichsZug, also tauschen...
+                    zugMoeglich.set(i,vergleichsZug);
+                    zugMoeglich.set(j,aktuellerZug);
                 } else {
                     // aktuellerZug besser als vergleichsZug, nichts tun...
                 }
             }
         }
-        return null;
+        return zugMoeglich.get(0);
     }
 
     // bewertet einen Zug von 0 bis 5
@@ -610,10 +602,6 @@ public class SchwereKI extends KI {
         if(spielfeld.spielfeld[neuePos.getX()][neuePos.getY()].getFigur()!=null){
             gegner=spielfeld.getFigur(neuePos.getX(),neuePos.getY());
         }
-        // wenn eine Bombe sicher geschlagen werden kann, dann oberste Prioritaet (5)
-        if(gegner!=null && figurBekannt(neuePos) && gegner.getStaerke()==12 && aktuelleFigur.getStaerke()==4 ){
-            return 5;
-        }
         // der gegnerische Feldmarschall wird geschlagen
         if(gegner!=null && figurBekannt(neuePos) && gegner.getStaerke()==11 && aktuelleFigur.getStaerke()==2){
             return 4;
@@ -622,10 +610,56 @@ public class SchwereKI extends KI {
         if(gegner!=null && figurBekannt(neuePos) && vergleiche(aktuelleFigur,gegner.getStaerke())){
             return 3;
         }
+        if(aktuelleFigur.getStaerke()==4 ){
+            if(gegner!=null && figurBekannt(neuePos) && gegner.getStaerke()==12){
+                // wenn eine Bombe sicher geschlagen werden kann, dann oberste Prioritaet (5)
+                return 5;
+            }
+            Position naechsteBombe=sucheNaechsteBombe(aktuell);
+            if(naechsteBombe!=null){
+                // ist es moeglich einen Mineur naeher zu einer Bombe zu bewegen
+                int differenzX=Math.abs(aktuelleFigur.getPosition().getX() - naechsteBombe.getX());
+                int differenzY=Math.abs(aktuelleFigur.getPosition().getY()-naechsteBombe.getY());
+                if(differenzX>Math.abs(neuePos.getX()-naechsteBombe.getX()) || differenzY>Math.abs(neuePos.getY()-naechsteBombe.getY())){
+                    return 3;
+                }
+            }
+        }
+        if(spielfeld.spielfeld[neuePos.getX()][neuePos.getY()].getFigur()==null && (neuePos.getX()*10+neuePos.getY())>(aktuelleFigur.getPosition().getX()*10-aktuelleFigur.getPosition().getY())){
+             return 2;
+        }
         // Aufklaerer ist die aktuelle Figur und kann sich weit bewegen
-        //if(aktuelleFigur.getStaerke()==3 && )
-        return 0;
+        if(aktuelleFigur.getStaerke()==3 && (Math.abs(aktuelleFigur.getPosition().getX()-neuePos.getX())>2
+                || Math.abs(aktuelleFigur.getPosition().getY()-neuePos.getY())>2)) {
+            return 1;
+        }else {
+            return 1;
+        }
+
     }
+    // sucht zu einem bestimmten Zug die am nahesten stehende gegnerische Bombe
+    private Position sucheNaechsteBombe(Zug aktuellerZug) {
+        if(spielfeld.infoKi.getGegnerischeBomben().size()>0){
+            int kleinsteDifferenz=10;
+            Position naechsteBombe=null;
+            for(Position i: spielfeld.infoKi.getGegnerischeBomben()){
+                int differenzX=Math.abs(aktuellerZug.getPosition().getX()-i.getX());
+                int differenzY=Math.abs(aktuellerZug.getPosition().getY()-i.getY());
+                // Abstand verringert sich durch zug
+                if(differenzX<kleinsteDifferenz){
+                    kleinsteDifferenz=differenzX;
+                }
+                if(differenzY<kleinsteDifferenz){
+                    kleinsteDifferenz=differenzY;
+                }
+                naechsteBombe=i;
+            }
+            return naechsteBombe;
+        }else {
+            return null;
+        }
+    }
+
 }
 
 
