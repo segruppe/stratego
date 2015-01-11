@@ -1,6 +1,8 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Klasse, damit KI sich Infos zum aktuellen Spiel speichern kann
+ */
 public class InfoKI {
     private String[][] spielerFiguren = new String[10][10];
     private ArrayList<String> geschlageneSpielerFiguren = new ArrayList<String>();
@@ -8,8 +10,8 @@ public class InfoKI {
     private ArrayList<Position>gegnerischeBomben=new ArrayList<Position>();
 
     /**
-     * Konstruktor für InfoKI
-     * schreibt für alle Figuren des Spielers "unbewegt" in das String-Array spielerFiguren
+     * Konstruktor fuer InfoKI
+     * schreibt fuer alle Figuren des Spielers "unbewegt" in das String-Array spielerFiguren
      */
     public InfoKI() {
         for(int i=6; i<10; i++){
@@ -20,9 +22,9 @@ public class InfoKI {
     }
 
     /**
-     * Figur des Spielers wird im String-Array als "bewegt" oder mit ihrer Stärke gespeichert
-     * nach einem Figurenkampf wird die Stärke gespeichert, da die Figur dann der KI bekannt ist
-     * Aufklärer werden mit ihrer Stärke gespeichert sobald sie sich weiter als ein Feld bewegen
+     * Figur des Spielers wird im String-Array als "bewegt" oder mit ihrer Staerke gespeichert
+     * nach einem Figurenkampf wird die Staerke gespeichert, da die Figur dann der KI bekannt ist
+     * Aufklaerer werden mit ihrer Stärke gespeichert sobald sie sich weiter als ein Feld bewegen
      * @param figur Figur des Spielers, die bewegt wurde
      * @param altePosition alte Position der bewegten Figur
      */
@@ -59,7 +61,7 @@ public class InfoKI {
     }
 
     /**
-     * Fügt die geschlagene Figur des Spielers zur entsprechenden ArrayList hinzu
+     * Fuegt die geschlagene Figur des Spielers zur entsprechenden ArrayList hinzu
      * @param figur geschlagene Figur des Spielers
      */
     // Geschlagene des Spielers
@@ -99,7 +101,7 @@ public class InfoKI {
     }
 
     /**
-     * gibt das String Array zurück(getter)
+     * gibt das String Array zurueck(getter)
      * @return String Array spielerFiguren
      */
     public String[][] getSpielerFiguren () {
@@ -115,9 +117,9 @@ public class InfoKI {
     }
 
     /**
-     * fügt Figuren über ihre Stärke bzw. id zu der entsprechenden ArrayList der gelöschten Figuren hinzu
+     * fuegt Figuren über ihre Staerke bzw. id zu der entsprechenden ArrayList der geloeschten Figuren hinzu
      * (entweder geschlageneKIFiguren oder geschlageneSpielerFiguren
-     * @param i wenn KI figur: id der Figur, sonst Stärke
+     * @param i wenn KI figur: id der Figur, sonst Staerke
      * @param c wenn es eine KI Figur ist 'k'
      */
     public void setGeloeschteFiguren(int i, char c){
